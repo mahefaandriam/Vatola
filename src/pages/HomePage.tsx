@@ -264,7 +264,7 @@ const HomePage: React.FC = () => {
         </div>        
       </section>
 
-      {/* Promo Section */}
+      {/* Promo Section
       <section className="py-20 relative overflow-hidden">
         
         <div className="container mx-auto px-4 relative z-10">
@@ -319,6 +319,7 @@ const HomePage: React.FC = () => {
           </motion.div>
         </div>
       </section>
+       */}
       
       {/* Booking Section */}
       <section className="py-20 bg-gray-50">
