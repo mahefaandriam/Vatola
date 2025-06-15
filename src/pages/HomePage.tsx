@@ -1,9 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import RoomCard from '../components/RoomCard';
@@ -13,7 +11,6 @@ import BookingForm from '../components/BookingForm';
 import { rooms } from '../data/rooms';
 //import { pubServices, spaServices, nailServices } from '../data/services';
 import { testimonials } from '../data/testimonials';
-import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
   const featuredRooms = rooms.filter(room => room.featured);

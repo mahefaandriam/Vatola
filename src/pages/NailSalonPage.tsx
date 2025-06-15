@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
 import { nailServices } from '../data/services';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 const NailSalonPage: React.FC = () => {
   return (
