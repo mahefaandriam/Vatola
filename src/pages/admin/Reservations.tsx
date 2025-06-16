@@ -1,0 +1,183 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '../../lib/supabaseClient';
+
+type Booking = {
+  id: number;
+  check_in: string;
+  check_out: string;
+  status: string;
+  profiles?: { name?: string } | null;
+  rooms?: { name?: string } | null;
+};
+
+export default function Reservations() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+    useEffect(() => {
+        fetchBookings();
+    }, [statusFilter, searchTerm]);
+
+  const fetchBookings = async () => {
+    setLoading(true);
+
+    let query = supabase
+      .from('bookings')
+      .select(`
+        id,
+        check_in,
+        check_out,
+        status,
+        profiles (name),
+        rooms (name)
+      `);
+      
+    // Apply status filter if not 'all'
+    if (statusFilter !== 'all') {
+        query = query.eq('status', statusFilter);
+    }
+
+    const { data, error } = await query;
+
+    if (data) {
+      const filtered = data.filter(booking =>
+        booking.profiles?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setBookings(filtered);
+    } else {
+      setBookings([]);
+    }
+
+    if (error) {
+      console.error('Erreur chargement des réservations :', error.message);
+    }
+    
+    setLoading(false);
+  };
+
+    const updateStatus = async (id, newStatus) => {
+        const { error } = await supabase
+            .from('bookings')
+            .update({ status: newStatus })
+            .eq('id', id);
+
+        if (error) {
+            alert('Erreur lors de la mise à jour');
+            console.error(error);
+        } else {
+            fetchBookings(); // refresh data
+        }
+    };
+    
+
+  return (
+    <div>
+        <div className="mb-4 flex items-center gap-4">
+             <div className="mb-4">
+                <label htmlFor="statusFilter" className="mr-2 font-medium">Filtrer par statut :</label>
+                <select
+                    id="statusFilter"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="border px-3 py-1 rounded"
+                >
+                    <option value="all">Tous</option>
+                    <option value="pending">En attente</option>
+                    <option value="confirmed">Confirmée</option>
+                    <option value="canceled">Annulée</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor="searchTerm" className="mr-2 font-medium">Rechercher client :</label>
+                <input
+                type="text"
+                id="searchTerm"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Nom du client"
+                className="border px-3 py-1 rounded"
+                />
+            </div>
+        </div>
+   
+      <h2 className="text-2xl font-bold mb-4">Liste des Réservations</h2>
+      {loading ? (
+        <p>Chargement…</p>
+      ) : (
+        <table className="min-w-full border bg-white">
+          <thead>
+            <tr className="bg-gray-100">
+                <th className="p-2 border">Client</th>
+                <th className="p-2 border">Chambre</th>
+                <th className="p-2 border">Début</th>
+                <th className="p-2 border">Fin</th>
+                <th className="p-2 border">Statut</th>
+                <th className="p-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bookings.map(booking => (
+              <tr key={booking.id} className="hover:bg-gray-50">
+                <td className="p-2 border">{booking.profiles?.name || '—'}</td>
+                <td className="p-2 border">{booking.rooms?.name || '—'}</td>
+                <td className="p-2 border">{booking.check_in}</td>
+                <td className="p-2 border">{booking.check_out}</td>
+                <td className="p-2 border">
+                    <span
+                    className={`px-2 py-1 text-sm rounded 
+                        ${
+                        booking.status === 'confirmed'
+                            ? 'bg-green-200 text-green-800'
+                            : booking.status === 'canceled'
+                            ? 'bg-red-200 text-red-800'
+                            : 'bg-yellow-100 text-yellow-700'
+                        }`}
+                    >
+                    {booking.status}
+                    </span>
+                </td><td className="p-2 border">
+                    {booking.status === 'confirmed' && (
+                        <button
+                        onClick={() => {
+                            if (confirm("Es-tu sûr de vouloir annuler cette réservation ?")) {
+                            updateStatus(booking.id, 'canceled');
+                            }
+                        }}
+                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                        >
+                        Annuler
+                        </button>
+                    )}
+
+                    {booking.status === 'pending' && (
+                        <>
+                        <button
+                            onClick={() => updateStatus(booking.id, 'confirmed')}
+                            className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600"
+                        >
+                            Confirmer
+                        </button>
+                        <button
+                            onClick={() => {
+                                if (confirm("Es-tu sûr de vouloir annuler cette réservation ?")) {
+                                updateStatus(booking.id, 'canceled');
+                                }
+                            }}
+                            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                        >
+                            Annuler
+                        </button>
+                        </>
+                    )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}

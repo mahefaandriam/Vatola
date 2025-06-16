@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Hotel, ChevronDown } from 'lucide-react';
 import { useRef } from 'react';
+import LogoutButton from './LogoutButton';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -77,6 +78,9 @@ const Header: React.FC = () => {
               <p className="text-xs md:text-sm tracking-widest">Hôtel & SPA</p>
             </div>
           </Link>
+          <Link to="/profil">Mon Profil</Link>
+          
+          <LogoutButton />
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
