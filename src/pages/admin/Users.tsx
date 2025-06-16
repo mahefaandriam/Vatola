@@ -24,7 +24,7 @@ export default function Users() {
     if (!error) setUsers(data);
   };
 
-  const handleDelete = async (id, email) => {
+  const handleDelete = async (id: string, email: string) => {
     if (!window.confirm(`Supprimer l’utilisateur ${email} ?`)) return;
 
     const { error } = await supabase.rpc('delete_user', { uid: id });

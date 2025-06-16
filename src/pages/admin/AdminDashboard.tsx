@@ -1,5 +1,5 @@
 // pages/admin/AdminDashboard.jsx
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
 import Reservations from './Reservations'; // Adjust the import path as necessary
 import Users from './Users'; // Adjust the import path as necessary

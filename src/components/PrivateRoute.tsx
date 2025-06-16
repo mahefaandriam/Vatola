@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 
-export default function PrivateRoute({ children }) {
+import type { ReactNode } from 'react';
+
+export default function PrivateRoute({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
     const getSession = async () => {

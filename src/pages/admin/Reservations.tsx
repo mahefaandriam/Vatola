@@ -6,7 +6,7 @@ type Booking = {
   check_in: string;
   check_out: string;
   status: string;
-  profiles?: { name?: string } | null;
+  profiles?: { name?: string }[] | null;
   rooms?: { name?: string } | null;
 };
 
@@ -44,7 +44,7 @@ export default function Reservations() {
 
     if (data) {
       const filtered = data.filter(booking =>
-        booking.profiles?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        Array.isArray(booking.profiles) && booking.profiles[0]?.name?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setBookings(filtered);
     } else {
@@ -58,7 +58,7 @@ export default function Reservations() {
     setLoading(false);
   };
 
-    const updateStatus = async (id, newStatus) => {
+    const updateStatus = async (id: number, newStatus: string) => {
         const { error } = await supabase
             .from('bookings')
             .update({ status: newStatus })
@@ -121,7 +121,7 @@ export default function Reservations() {
           <tbody>
             {bookings.map(booking => (
               <tr key={booking.id} className="hover:bg-gray-50">
-                <td className="p-2 border">{booking.profiles?.name || '—'}</td>
+                <td className="p-2 border">{booking.profiles?.[0]?.name || '—'}</td>
                 <td className="p-2 border">{booking.rooms?.name || '—'}</td>
                 <td className="p-2 border">{booking.check_in}</td>
                 <td className="p-2 border">{booking.check_out}</td>
