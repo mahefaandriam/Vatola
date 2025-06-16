@@ -7,7 +7,7 @@ import SectionTitle from '../components/SectionTitle';
 import BookingForm from '../components/BookingForm';
 import { CheckCircle2 } from 'lucide-react';
 import { getRoomById } from '../../api/getRoomById';
-import { useForm } from "react-hook-form";
+//import { useForm } from "react-hook-form";
 
 type Room = {
   id: string;
@@ -22,25 +22,21 @@ type Room = {
   featured: boolean;
 };
 
-type Props = {
-  room: Room;
-};
-
-type BookingFormInputs = {
+/*type BookingFormInputs = {
   check_in: string;
   check_out: string;
-};
+};*/
 
 const RoomDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [room, setRoom] = useState<Room | null>(null);
-  const { register, handleSubmit, watch } = useForm<BookingFormInputs>();
-  const [isAvailable, setIsAvailable] = useState(true);
-  const [checkingAvailability, setCheckingAvailability] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  //const { register, handleSubmit, watch } = useForm<BookingFormInputs>();
+  //const [isAvailable, setIsAvailable] = useState(true);
+  //const [checkingAvailability, setCheckingAvailability] = useState(false);
+  //const [submitted, setSubmitted] = useState(false);
 
-  const watchCheckIn = watch("check_in");
-  const watchCheckOut = watch("check_out");
+  //const watchCheckIn = watch("check_in");
+  //const watchCheckOut = watch("check_out");
 
   useEffect(() => {
     const fetchRoom = async () => {
