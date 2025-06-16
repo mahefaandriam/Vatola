@@ -23,6 +23,10 @@ export default function Login() {
       <input type="email" placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
       <input type="password" placeholder="Password" onChange={e => setForm({ ...form, password: e.target.value })} />
       <button type="submit">Login</button>
+      <a href="/forgot-password" className="text-blue-500 hover:underline">
+        Mot de passe oublié ?
+      </a>
     </form>
+    
   );
 }

@@ -84,6 +84,9 @@ export default function Profile() {
       >
         Sauvegarder
       </button>
+      <a href="/forgot-password" className="text-blue-500 hover:underline">
+        Mot de passe oublié ?
+      </a>
     </div>
   );
 }

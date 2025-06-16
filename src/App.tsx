@@ -17,6 +17,8 @@ import Profile from './pages/Profile';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import PrivateRoute from './components/PrivateRoute';
 import Users from './pages/admin/Users';
+import ForgotPassword from './pages/ForgotPassword';
+import UpdatePassword from './pages/UpdatePassword';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/singup" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
             <Route
               path="/profil"
               element={
