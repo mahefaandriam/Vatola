@@ -43,8 +43,16 @@ export default function Reservations() {
     const { data, error } = await query;
 
     if (data) {
-      const filtered = data.filter(booking =>
-        Array.isArray(booking.profiles) && booking.profiles[0]?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      // Map rooms to a single object (first element) and filter by search term
+      const mapped = data.map((booking: any) => ({
+        ...booking,
+        profiles: booking.profiles,
+        rooms: Array.isArray(booking.rooms) ? booking.rooms[0] : booking.rooms,
+      }));
+      const filtered = mapped.filter(
+        (booking: any) =>
+          Array.isArray(booking.profiles) &&
+          booking.profiles[0]?.name?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setBookings(filtered);
     } else {
