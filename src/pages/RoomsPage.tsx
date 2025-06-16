@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import RoomCard from '../components/RoomCard';
-import { rooms } from '../data/rooms';
+import { getRooms } from '../../api/getRooms';
+
+type Room = {
+  id: string;
+  name: string;
+  type: string;
+  price: number;
+  description: string;
+  size: number;
+  capacity: number;
+  amenities: string[];
+  images: string[];
+  featured: boolean;
+};
 
 const RoomsPage: React.FC = () => {
+  const [rooms, setRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState(rooms);
   const [priceRange, setPriceRange] = useState(450);
   
+  useEffect(() => {
+    async function fetchRooms() {
+      try {
+        const data = await getRooms();
+        console.log(data);
+        setRooms(data);
+        // Apply initial filter after rooms are fetched
+        setFilteredRooms(data.filter(room => room.price <= priceRange));
+      } catch (err) {
+        console.error(err);
+      } 
+    }
+
+    fetchRooms();
+  }, []);
+
   const roomTypes = Array.from(new Set(rooms.map(room => room.type)));
   
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {

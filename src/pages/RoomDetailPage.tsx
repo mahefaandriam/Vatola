@@ -1,16 +1,71 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import SectionTitle from '../components/SectionTitle';
 import BookingForm from '../components/BookingForm';
-import { rooms } from '../data/rooms';
 import { CheckCircle2 } from 'lucide-react';
+import { getRoomById } from '../../api/getRoomById';
+import { useForm } from "react-hook-form";
+
+type Room = {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  price: number;
+  size: number;
+  capacity: number;
+  amenities: string[];
+  images: string[];
+  featured: boolean;
+};
+
+type Props = {
+  room: Room;
+};
+
+type BookingFormInputs = {
+  check_in: string;
+  check_out: string;
+};
 
 const RoomDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const room = rooms.find(room => room.id === id);
-  
+  const [room, setRoom] = useState<Room | null>(null);
+  const { register, handleSubmit, watch } = useForm<BookingFormInputs>();
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [checkingAvailability, setCheckingAvailability] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const watchCheckIn = watch("check_in");
+  const watchCheckOut = watch("check_out");
+
+  useEffect(() => {
+    const fetchRoom = async () => {
+      if (!id) {
+        setRoom(null);
+        return;
+      }
+      try {
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+          setRoom(null);
+          return;
+        }
+        const data = await getRoomById(numericId);
+        setRoom(data);
+      } catch (error) {
+        console.error('Error fetching room:', error);
+        setRoom(null);
+      }
+      //setLoading(false);
+    };
+
+    fetchRoom();
+  }, [id]);
+
   if (!room) {
     return (
       <div className="min-h-screen flex items-center justify-center">

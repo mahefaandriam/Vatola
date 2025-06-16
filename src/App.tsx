@@ -9,6 +9,10 @@ import SpaPage from './pages/SpaPage';
 import NailSalonPage from './pages/NailSalonPage';
 import ContactPage from './pages/ContactPage';
 import BookingPage from './pages/BookingPage';
+import Login from './pages/Login';
+import Register from './pages/Singup';
+//import Dashboard from './pages/Dashboard';
+//import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -17,6 +21,16 @@ function App() {
         <Header />
         <main className="flex-grow">
           <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/singup" element={<Register />} />
+           {/* <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />*/}
             <Route path="/" element={<HomePage />} />
             <Route path="/rooms" element={<RoomsPage />} />
             <Route path="/rooms/:id" element={<RoomDetailPage />} />
