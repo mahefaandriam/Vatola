@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react'
 
 type AuthContextType = {
   user: any; // Replace 'any' with your actual user type if available
