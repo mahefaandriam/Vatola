@@ -137,7 +137,10 @@ export default function Profile() {
           </thead>
           <tbody>
             {bookings.map((b: any) => {
-              const isFuture = new Date(b.check_in) > new Date();
+              const now = new Date();
+              const start = new Date(b.check_in);
+              const timeDiff = start.getTime() - now.getTime();
+              const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
               return(
               <tr key={b.id}>
                 <td className="p-2">{b.rooms?.type || '—'}</td>
@@ -146,7 +149,7 @@ export default function Profile() {
                 <td className="p-2">{b.total_price} €</td>
                 <td className="p-2">{b.status}</td>
                 <td className="p-2">
-                    {isFuture && (b.status === 'confirmed' || b.status === 'pending') && (
+                    {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
                     <button
                       onClick={() => handleCancel(b.id)}
                       className="bg-red-500 text-white px-2 py-1 rounded text-xs"
