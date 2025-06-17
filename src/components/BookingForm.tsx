@@ -5,7 +5,6 @@ import { Calendar, Users, ChevronUp, ChevronDown } from 'lucide-react';
 import type  { BookingDetails } from '../types';
 import { supabase } from '../lib/supabaseClient';
 import RoomCard from './RoomCard';
-import LoadingComponents from './LoadingComponents';
 
 type Room = {
   id: string;
