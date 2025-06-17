@@ -11,6 +11,7 @@ import BookingForm from '../components/BookingForm';
 import { rooms } from '../data/rooms';
 //import { pubServices, spaServices, nailServices } from '../data/services';
 import { testimonials } from '../data/testimonials';
+import { ChevronRight } from 'lucide-react';
 
 const HomePage: React.FC = () => {
   const featuredRooms = rooms.filter(room => room.featured);
@@ -150,10 +151,8 @@ const HomePage: React.FC = () => {
                 href="/pub"
                 className="text-accent hover:text-gold-700 font-medium inline-flex items-center transition duration-300"
               >
-                Découvrir plus
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                Découvrir plus &nbsp;
+                <ChevronRight stroke='currentColor' />
               </a>
             </motion.div>
             
@@ -182,10 +181,8 @@ const HomePage: React.FC = () => {
                 href="/spa"
                 className="text-accent hover:text-gold-700 font-medium inline-flex items-center transition duration-300"
               >
-                Découvrir plus
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                Découvrir plus &nbsp; &nbsp;
+                <ChevronRight stroke='currentColor' />
               </a>
             </motion.div>
             
@@ -214,10 +211,8 @@ const HomePage: React.FC = () => {
                 href="/nail-salon"
                 className="text-accent hover:text-gold-700 font-medium inline-flex items-center transition duration-300"
               >
-                Découvrir plus
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                Découvrir plus &nbsp;                
+                <ChevronRight stroke='currentColor' />
               </a>
             </motion.div>
           </div>

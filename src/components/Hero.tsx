@@ -8,6 +8,7 @@ interface HeroProps {
   image: string;
   ctaText?: string;
   ctaLink?: string;
+  ctaBgNone?: boolean;
   overlay?: boolean;
   height?: string;
 }
@@ -18,6 +19,7 @@ const Hero: React.FC<HeroProps> = ({
   image,
   ctaText = 'Réservez Maintenant',
   ctaLink = '/booking',
+  ctaBgNone = false,
   overlay = true,
   height = 'h-screen'
 }) => {
@@ -61,12 +63,12 @@ const Hero: React.FC<HeroProps> = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <Link
-              to={ctaLink}
-              className="inline-block bg-accent hover:bg-gold-700 text-white font-medium px-8 py-3 rounded-md text-lg transition duration-300"
+            <a
+              href={ctaLink}
+              className={ctaBgNone ? `inline-block bg-none text-white font-bold px-8 py-3 rounded-md text-2xl underline transition duration-300` :`inline-block bg-accent hover:bg-gold-700 text-white font-medium px-8 py-3 rounded-md text-lg transition duration-300`}
             >
               {ctaText}
-            </Link>
+            </a>
           </motion.div>
         )}
       </div>

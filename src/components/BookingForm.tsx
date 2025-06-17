@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Calendar, Users, ChevronUp, ChevronDown } from 'lucide-react';
 import type  { BookingDetails } from '../types';
-import { rooms } from '../data/rooms';
+import { supabase } from '../lib/supabaseClient';
+import RoomCard from './RoomCard';
+import LoadingComponents from './LoadingComponents';
+
+type Room = {
+  id: string;
+  name: string;
+  type: string;
+  price: number;
+  description: string;
+  size: number;
+  capacity: number;
+  amenities: string[];
+  images: string[];
+  featured: boolean;
+};
 
 const BookingForm: React.FC = () => {
+  const [roomNames, setRoomNames] = useState<{ name: string, price: string }[] | null>(null);
+  const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(true);
   const [bookingDetails, setBookingDetails] = useState<BookingDetails>({
     checkIn: null,
     checkOut: null,
@@ -14,6 +32,27 @@ const BookingForm: React.FC = () => {
     roomType: '',
   });
 
+  useEffect(() => {
+    async function fetchRooms() {
+      try {
+        const { data, error } = await supabase
+          .from('rooms')
+          .select('name, price');
+
+        console.log(data)
+        if (error) {
+          console.error(error);
+        } else {
+          setRoomNames(data);
+        }
+      } catch (err) {
+        console.error(err);
+      } 
+    }
+
+    fetchRooms();
+  }, []);
+
   const handleInputChange = (field: keyof BookingDetails, value: any) => {
     setBookingDetails((prev) => ({
       ...prev,
@@ -21,11 +60,53 @@ const BookingForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle booking submission - in a real app this would connect to a booking API
-    console.log('Booking submitted:', bookingDetails);
-    alert('Thank you for your booking request! Our team will contact you shortly to confirm your reservation.');
+  const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
+     e.preventDefault();
+    // Format dates to mm/dd/yyyy before passing to checkAvailability
+    const formatDate = (date: Date | null) => {
+      if (!date) return '';
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      const yyyy = date.getFullYear();
+      return `${mm}/${dd}/${yyyy}`;
+    };
+
+    const rooms = await checkAvailability(
+      formatDate(bookingDetails.checkIn),
+      formatDate(bookingDetails.checkOut),
+      bookingDetails.adults + bookingDetails.children
+    );
+    setAvailableRooms(rooms);
+    setLoading(false);
+  };
+
+  const checkAvailability = async (startDate: any, endDate: any, peopleCount: any) => {
+    // Charger toutes les chambres ayant la capacité suffisante
+    const { data: allRooms } = await supabase
+      .from('rooms')
+      .select('*')
+      .gte('capacity', peopleCount);
+
+    if (!allRooms) return [];
+
+    let filteredRooms = allRooms; 
+    
+ 
+
+    // Rechercher les chambres déjà réservées qui se chevauchent
+    const { data: reservedRooms } = await supabase
+      .from('bookings')
+      .select('room_id')
+      .or(`and(check_in.lte.${endDate},check_out.gte.${startDate})`)
+      .not('status', 'eq', 'canceled');
+
+    const reservedIds = reservedRooms?.map(r => r.room_id) ?? [];
+
+    // Filtrer les chambres disponibles
+    const filtredAvailableRooms = filteredRooms.filter(room => !reservedIds.includes(room.id));
+
+    return filtredAvailableRooms;
   };
 
   const incrementGuest = (type: 'adults' | 'children') => {
@@ -70,7 +151,7 @@ const BookingForm: React.FC = () => {
           <div>
             <label className="block text-gray-700 font-medium mb-2">Date de départ</label>
             <div className="relative">
-              <DatePicker
+              <DatePicker 
                 selected={bookingDetails.checkOut}
                 onChange={(date) => handleInputChange('checkOut', date)}
                 selectsEnd
@@ -145,9 +226,9 @@ const BookingForm: React.FC = () => {
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="">Sélectionnez le type de chambre</option>
-              {rooms.map(room => (
-                <option key={room.id} value={room.id}>
-                  {room.name} (${room.price}/nuitée)
+              {(roomNames ?? []).map(n => (
+                <option key={n.name} value={n.name}>
+                  {n.name} (${n.price}/nuitée)
                 </option>
               ))}
             </select>
@@ -156,11 +237,30 @@ const BookingForm: React.FC = () => {
         
         <button
           type="submit"
-          className="w-full bg-accent hover:bg-gold-700 text-white font-medium py-3 px-4 rounded-md transition duration-300"
-        >
+          className="w-full bg-accent hover:bg-gold-700 text-white font-medium py-3 px-4 rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!bookingDetails.checkIn || !bookingDetails.checkOut}
+          style={{ cursor: !bookingDetails.checkIn || !bookingDetails.checkOut ? 'not-allowed' : 'pointer' }}
+        ><a href="#roomList">
           Réservez Maintenant
+        </a>
         </button>
       </form>
+
+      {loading ? (
+        <LoadingComponents />
+      ) : (        
+        <div id='roomList' className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-10">
+          {availableRooms.length > 0 ? (
+            availableRooms.map((room) => (
+              <RoomCard key={room.id} room={room} />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <p className="text-gray-600 text-lg">Pas de chambres correspondant à vos critères. S’il vous plaît ajuster vos filtres.</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

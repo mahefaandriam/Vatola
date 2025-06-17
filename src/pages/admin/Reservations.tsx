@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+import LoadingComponents from '../../components/LoadingComponents';
 
 type Booking = {
   id: number;
   check_in: string;
   check_out: string;
   status: string;
-  profiles?: { name?: string }[] | null;
+  profiles?: { name?: string } | null;
   rooms?: { name?: string } | null;
 };
 
@@ -41,7 +42,7 @@ export default function Reservations() {
     }
 
     const { data, error } = await query;
-
+    
     if (data) {
       // Map rooms to a single object (first element) and filter by search term
       const mapped = data.map((booking: any) => ({
@@ -49,21 +50,23 @@ export default function Reservations() {
         profiles: booking.profiles,
         rooms: Array.isArray(booking.rooms) ? booking.rooms[0] : booking.rooms,
       }));
-      const filtered = mapped.filter(
-        (booking: any) =>
-          Array.isArray(booking.profiles) &&
-          booking.profiles[0]?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+
+    const filtered = mapped.filter(booking =>
+      booking.profiles?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
       setBookings(filtered);
     } else {
-      setBookings([]);
+      console.log("")
     }
 
     if (error) {
       console.error('Erreur chargement des réservations :', error.message);
     }
+
     
     setLoading(false);
+      console.log(bookings);
   };
 
     const updateStatus = async (id: number, newStatus: string) => {
@@ -113,7 +116,7 @@ export default function Reservations() {
    
       <h2 className="text-2xl font-bold mb-4">Liste des Réservations</h2>
       {loading ? (
-        <p>Chargement…</p>
+        <LoadingComponents />
       ) : (
         <table className="min-w-full border bg-white">
           <thead>
@@ -129,7 +132,7 @@ export default function Reservations() {
           <tbody>
             {bookings.map(booking => (
               <tr key={booking.id} className="hover:bg-gray-50">
-                <td className="p-2 border">{booking.profiles?.[0]?.name || '—'}</td>
+                <td className="p-2 border">{booking.profiles?.name || '—'}</td>
                 <td className="p-2 border">{booking.rooms?.name || '—'}</td>
                 <td className="p-2 border">{booking.check_in}</td>
                 <td className="p-2 border">{booking.check_out}</td>

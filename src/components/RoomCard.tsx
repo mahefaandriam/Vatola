@@ -56,7 +56,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           </div>
           
           <Link
-            to={`/rooms/${id}`}
+            to={`/rooms/${id}#roomDetails`}
             className="bg-primary-800 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300"
           >
             Afficher les détails

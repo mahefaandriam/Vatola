@@ -74,3 +74,7 @@
     /*background-size: 200%, 200%;*/
     animation: gold-gradient-x 2s ease forwards;
 }
+
+button {
+  cursor: pointer;
+}

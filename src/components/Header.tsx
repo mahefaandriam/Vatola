@@ -95,15 +95,14 @@ const Header: React.FC = () => {
               onMouseEnter={handleServicesMouseEnter}
               onMouseLeave={handleServicesMouseLeave}
             >
-              <button
-                className="flex items-center hover:text-accent transition duration-200 focus:outline-none"
+              <Link
+                to={'#'}
+                className="flex items-center hover:text-accent transition-colors duration-200"
                 onClick={handleServicesClick}
-                aria-haspopup="true"
                 aria-expanded={isServicesOpen}
-                type="button"
               >
-                Services <ChevronDown size={16} className={`ml-1 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
-              </button>
+                Services <ChevronDown size={16} className={`ml-1 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} />
+              </Link>
               <div
                 className={`absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition duration-200 transform origin-top-right
                   ${isServicesOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
