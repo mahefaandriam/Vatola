@@ -23,7 +23,7 @@ type Room = {
 const BookingForm: React.FC = () => {
   const [roomNames, setRoomNames] = useState<{ name: string, price: string }[] | null>(null);
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<BookingDetails>({
     checkIn: null,
     checkOut: null,
@@ -127,7 +127,7 @@ const BookingForm: React.FC = () => {
     <div className="bg-white rounded-lg shadow-luxury p-6 md:p-8">
       <h3 className="font-serif text-2xl font-semibold text-primary-800 mb-6">Réserver votre séjour</h3>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 my-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Check-in Date */}
           <div>
@@ -246,21 +246,22 @@ const BookingForm: React.FC = () => {
         </button>
       </form>
 
-      {loading ? (
-        <LoadingComponents />
-      ) : (        
-        <div id='roomList' className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-10">
-          {availableRooms.length > 0 ? (
+            
+        <div id='roomList' className="grid grid-cols-1 md:grid-cols-2 gap-8 my-10">
+          {loading ? (
+            <div className="col-span-2 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+          ) : availableRooms.length > 0 ? (  
             availableRooms.map((room) => (
               <RoomCard key={room.id} room={room} />
-            ))
+                ))
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-600 text-lg">Pas de chambres correspondant à vos critères. S’il vous plaît ajuster vos filtres.</p>
             </div>
           )}
         </div>
-      )}
     </div>
   );
 };
