@@ -77,7 +77,7 @@ const RoomDetailPage: React.FC = () => {
         const data = await getRoomById(numericId);
         setRoom(data);
       } catch (error) {
-        console.error('Error fetching room:', error);
+        //console.error('Error fetching room:', error);
         setRoom(null);
       }
       //setLoading(false);

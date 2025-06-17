@@ -37,15 +37,13 @@ const BookingForm: React.FC = () => {
         const { data, error } = await supabase
           .from('rooms')
           .select('name, price');
-
-        console.log(data)
         if (error) {
-          console.error(error);
+          //console.error(error);
         } else {
           setRoomNames(data);
         }
       } catch (err) {
-        console.error(err);
+        //console.error(err);
       } 
     }
 
