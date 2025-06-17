@@ -19,6 +19,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Users from './pages/admin/Users';
 import ForgotPassword from './pages/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword';
+import Notifications from './pages/admin/Notifications';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
               }>
               <Route path="reservations" element={<Reservations />} />
               <Route path="utilisateurs" element={<Users />} />
+              <Route path="notifications" element={<Notifications />} />
             </Route>
             <Route path="/" element={<HomePage />} />
             <Route path="/rooms" element={<RoomsPage />} />

@@ -5,6 +5,7 @@ export default function Register() {
   const [form, setForm] = useState({
     email: '',
     password: '',
+    phone:'',
     name: '',
     surname: '',
     birthday: '',
@@ -16,6 +17,7 @@ export default function Register() {
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
+      phone: form.phone // Si tu veux ajouter un téléphone
     });
     
     if (signUpError) {
@@ -53,6 +55,11 @@ export default function Register() {
       <input type="text" placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
       <input type="text" placeholder="Surname" onChange={e => setForm({ ...form, surname: e.target.value })} />
       <input type="date" placeholder="Birthday" onChange={e => setForm({ ...form, birthday: e.target.value })} />
+      <input
+        type="tel"
+        placeholder="Phone"
+        onChange={e => setForm({ ...form, phone: e.target.value })}
+      />
       <input type="email" placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
       <input type="password" placeholder="Password" onChange={e => setForm({ ...form, password: e.target.value })} />
       <button type="submit">Register</button>
