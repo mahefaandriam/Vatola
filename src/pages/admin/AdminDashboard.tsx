@@ -1,5 +1,5 @@
 // pages/admin/AdminDashboard.jsx
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
 import Reservations from './Reservations'; // Adjust the import path as necessary
 import Users from './Users'; // Adjust the import path as necessary
@@ -9,6 +9,8 @@ import { supabase } from '../../lib/supabaseClient';
 
 export default function AdminDashboard() {
    const [unreadCount, setUnreadCount] = useState(0);
+  const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUnreadCount = async () => {
@@ -20,28 +22,33 @@ export default function AdminDashboard() {
       if (!error) setUnreadCount(count ?? 0);
     };
 
+    const getUser = async () => {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) {
+          navigate('/login');
+          return;
+        }
+        setUser(user);
+        console.log(user);
+       // setEmail(user.email ?? '');
+    };
+  
     fetchUnreadCount(); 
+    getUser();
     const interval = setInterval(fetchUnreadCount, 30000); // toutes les 30s
     return () => clearInterval(interval);
   }, []);
 
+ 
+
   return (
-    <div className="min-h-screen flex mt-50">
-      <aside className="w-64 bg-gray-900 text-white p-4">
-        <h1 className="text-xl font-bold mb-4">Admin Panel</h1>
-        <div>a</div>
-        <div>b
-          <div>
-            c
-          </div>
-          <div>
-            e
-          </div>
-        </div>
-        <div className="">
-          <div><Link to="/admin/reservations">Réservations</Link></div>
-          <div><Link to="/admin/utilisateurs">Utilisateurs</Link></div>          
-          <div>
+    <div className="min-h-screen flex mt-20">
+      <aside className="fixed w-full bg-gray-900 text-white p-4 ">
+        <h1 className="text-xl font-bold mb-4">Admin Panel {user && user.email} </h1> 
+        <div className="flex spcace-x-5">
+          <div className='mx-4'><Link to="/admin/reservations">Réservations</Link></div>
+          <div className='mx-4'><Link to="/admin/utilisateurs">Utilisateurs</Link></div>          
+          <div className='mx-4'>
           <Link to="/admin/notifications">Notifications
             <span className="ml-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
               {unreadCount}
@@ -51,7 +58,7 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
-      <main className="flex-1 p-8 bg-gray-100">
+      <main className="flex-1 p-8 bg-gray-100 mt-20">
         <Routes>
           <Route path="reservations" element={<Reservations />} />
           <Route path="utilisateurs" element={<Users />} />

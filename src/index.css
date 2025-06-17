@@ -4,6 +4,14 @@
 @import "swiper/css";
 @import "swiper/css/effect-coverflow";
 
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
 @theme {
     /* Custom theme colors */
     /* color-primary */

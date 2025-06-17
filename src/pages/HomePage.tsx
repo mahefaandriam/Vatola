@@ -21,9 +21,9 @@ const HomePage: React.FC = () => {
       {/* Hero Section */}
        {/* Experience Unparalleled Luxury*/}
       <Hero
-        title="Vivez un luxe inégalé"
-        subtitle="Laissez-vous séduire par le mélange parfait d'élégance, de confort et de service exceptionnel au HÔTEL VATOLA."
-        image="https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg"
+        title="Le luxe, réinventé pour vous"
+        subtitle="Élégance, confort et service exceptionnel : vivez l’expérience unique de l’HÔTEL VATOLA."
+        image="/tab-de-vin.JPG"
         ctaText="Réservez Votre Séjour"
         ctaLink="/booking"
       />
@@ -40,19 +40,19 @@ const HomePage: React.FC = () => {
             >
               <SectionTitle
                 title="Bienvenue à HÔTEL VATOLA"
-                subtitle="Plongez dans une oasis de luxe et de confort, où chaque détail est conçu pour dépasser vos attentes."
+                subtitle="Un monde de luxe et de confort vous attend, où chaque détail vise l’excellence."
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-                HÔTEL VATOLA se présente comme un phare de sophistication et d'hospitalité. Notre établissement élégant offre un sanctuaire où le luxe moderne rencontre le charme intemporel, créant une expérience inoubliable pour tous nos clients.
+               L’HÔTEL VATOLA incarne la quintessence de la sophistication et de l’hospitalité. Dans un cadre raffiné, notre établissement offre un véritable sanctuaire où le luxe contemporain s’harmonise avec un charme intemporel, pour offrir à chaque client une expérience mémorable.
               </p>
               <p className="text-gray-600 mb-6">
-                De nos chambres superbement conçues à nos équipements de classe mondiale, y compris notre pub, spa et salon de manucure, chaque aspect de votre séjour est conçu pour offrir un maximum de confort et de satisfaction.
+                Des chambres au design raffiné à nos installations de classe mondiale — incluant pub, spa et salon de manucure — chaque détail de votre séjour est pensé pour vous offrir un confort absolu et une satisfaction totale.
               </p>
               <div className="grid grid-cols-2 gap-4 text-center">
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="font-serif text-3xl font-bold text-accent mb-2">10+</div>
-                  <div className="text-gray-600">Chambres de standards</div>
+                  <div className="text-gray-600">Chambres standards</div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="font-serif text-3xl font-bold text-accent mb-2">3</div>
@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="font-serif text-3xl font-bold text-accent mb-2">15+</div>
-                  <div className="text-gray-600">Soins du Spa</div>
+                  <div className="text-gray-600">Optoins de Soins ou Spa</div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="font-serif text-3xl font-bold text-accent mb-2">24/7</div>
@@ -98,7 +98,7 @@ const HomePage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Hébergement en vedette"
-            subtitle="Explorez notre sélection de chambres et suites soigneusement conçues, offrant le mélange parfait de confort et de raffinement."
+            subtitle="Parcourez notre collection de chambres et suites, pensées avec soin pour marier confort moderne et élégance intemporelle."
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -122,7 +122,7 @@ const HomePage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Services & commodités exceptionnels"
-            subtitle="Profitez de notre gamme de services de classe mondiale conçus pour améliorer votre séjour et vous offrir un confort inégalé."
+            subtitle="Bénéficiez de services haut de gamme, soigneusement pensés pour sublimer votre séjour et vous garantir un confort inégalé."
           />
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -134,9 +134,9 @@ const HomePage: React.FC = () => {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 flex items-center justify-center">
+              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 hover:w-50 hover:h-50 transition-all duration-1000 flex items-center justify-center">
                 <img
-                  src="https://images.pexels.com/photos/1554654/pexels-photo-1554654.jpeg"
+                  src="/tab-de-vin.JPG"
                   alt="Pub Icon"
                   className="w-full h-full object-cover rounded-full"
                 />
@@ -164,9 +164,9 @@ const HomePage: React.FC = () => {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 flex items-center justify-center">
+              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4  w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50 flex items-center justify-center">
                 <img
-                  src="https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg"
+                  src="/spa1.jpg"
                   alt="Spa Icon"
                   className="w-full h-full object-cover rounded-full"
                 />
@@ -194,9 +194,9 @@ const HomePage: React.FC = () => {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 flex items-center justify-center">
+              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50  flex items-center justify-center">
                 <img
-                  src="https://images.pexels.com/photos/939836/pexels-photo-939836.jpeg"
+                  src="nails.webp"
                   alt="Nail Salon Icon"
                   className="w-full h-full object-cover rounded-full"
                 />
