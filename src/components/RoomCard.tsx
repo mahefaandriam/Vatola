@@ -5,9 +5,13 @@ import type { Room } from '../types';
 
 interface RoomCardProps {
   room: Room;
+  checkIn?: string | Date | null;
+  checkOut?: string | Date | null;
+  adults?: number;
+  children?: number;
 }
 
-const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
+const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, children}) => {
   const { id, name, description, price, size, capacity, images } = room;
 
   return (
@@ -55,12 +59,34 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
             <span className="text-sm text-gray-500"> / nuitée</span>
           </div>
           
-          <Link
-            to={`/rooms/${id}#roomDetails`}
-            className="bg-primary-800 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300"
-          >
-            Afficher les détails
-          </Link>
+          {
+            checkIn && checkOut ? (
+              <div>
+                <div className="text-sm text-gray-500 mb-5">
+                  {`Réservé du ${checkIn} au ${checkOut}`}
+                </div>
+                <Link
+                  to={`/rooms/${id}?check_in=${encodeURIComponent(
+                  typeof checkIn === 'string' ? checkIn : checkIn?.toISOString() || ''
+                  )}&check_out=${encodeURIComponent(
+                  typeof checkOut === 'string' ? checkOut : checkOut?.toISOString() || ''
+                  )}&adults=${adults ?? ''}&children=${children ?? ''}`}
+                  className=" bg-primary-800 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300"
+                >
+                  Réserver
+                </Link>
+              </div>
+              
+            ) : (
+
+            <Link
+              to={`/rooms/${id}#roomDetails`}
+              className="bg-primary-800 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300"
+            >
+              Afficher les détails
+            </Link>
+            )
+          }
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useParams, Link , useSearchParams} from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import SectionTitle from '../components/SectionTitle';
@@ -8,6 +9,7 @@ import BookingForm from '../components/BookingForm';
 import { CheckCircle2 } from 'lucide-react';
 import { getRoomById } from '../../api/getRoomById';
 import Hero from '../components/Hero';
+import { supabase } from '../lib/supabaseClient';
 //import { useForm } from "react-hook-form";
 
 type Room = {
@@ -30,14 +32,35 @@ type Room = {
 
 const RoomDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  // ?ckeck_in=2023-10-01&check_out=2023-10-05&adults=2&children=1
+  // Get query params from URL
+  const [searchParams, _] = useSearchParams();
+  
+  
+  /*const searchParams = new URLSearchParams(window.location.search);
+  const check_in = decodeURIComponent(searchParams.get('check_in') || '');
+  const check_out = searchParams.get('check_out');
+  const adults = searchParams.get('adults');
+  const children = searchParams.get('children');*/
   const [room, setRoom] = useState<Room | null>(null);
   //const { register, handleSubmit, watch } = useForm<BookingFormInputs>();
   //const [isAvailable, setIsAvailable] = useState(true);
   //const [checkingAvailability, setCheckingAvailability] = useState(false);
   //const [submitted, setSubmitted] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [showSummary, setShowSummary] = useState(false);
+   const navigate = useNavigate();
 
-  //const watchCheckIn = watch("check_in");
-  //const watchCheckOut = watch("check_out");
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+  }, []);
+
+  const checkIn = searchParams.get('check_in');
+  const checkOut = searchParams.get('check_out');
+  const adults = searchParams.get('adults');
+  const children = searchParams.get('children');  
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -61,7 +84,69 @@ const RoomDetailPage: React.FC = () => {
     };
 
     fetchRoom();
+
+
+  if (checkIn && checkOut) {
+    setShowSummary(true)
+  }
+
   }, [id]);
+
+  const handleConfirmBooking = async () => {
+    if (!user) {
+      // sauvegarder les infos dans le localStorage pour les restaurer plus tard
+      localStorage.setItem("pending_booking", JSON.stringify({
+        room: room,
+        checkIn,
+        checkOut,
+        adults,
+        children
+      }));
+
+      // rediriger vers la page login
+      navigate(`/login?redirect=/rooms/${id}?check_in=${encodeURIComponent(checkIn || '')}&check_out=${encodeURIComponent(checkOut|| ''
+                  )}&adults=${adults ?? ''}&children=${children ?? ''}`);
+      return;
+    }
+
+    if (!room) {
+      alert("Aucune chambre sélectionnée pour la réservation.");
+      return;
+    }
+
+    if (!showSummary) navigate('/booking');
+
+
+    let nights = 0;
+    let totalPrice = 0;
+    if (checkIn && checkOut) {
+      const checkInDate = new Date(checkIn);
+      const checkOutDate = new Date(checkOut);
+      if (!isNaN(checkInDate.getTime()) && !isNaN(checkOutDate.getTime())) {
+        nights = (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24);
+        nights = Math.max(0, nights);
+        totalPrice = nights * room.price;
+      }
+    }
+
+    const { error } = await supabase.from('bookings').insert({
+      room_id: room.id,
+      check_in: checkIn,
+      check_out: checkOut,
+      status: 'pending',
+      people: (parseInt(adults ?? '0', 10) + parseInt(children ?? '0', 10)),
+      night: nights,
+      total_price: totalPrice,
+      user_id: user.id
+    });
+
+    if (!error) {
+      alert("Merci, votre Réservation a été enregistrer avec succés, nous allons confirmer votre invitaion et vous repondre bientot !");
+      setShowSummary(false);
+      navigate(`/rooms/${id}`);
+    }
+  };
+
 
   if (!room) {
     return (
@@ -91,6 +176,42 @@ const RoomDetailPage: React.FC = () => {
       ctaBgNone={true}
       height="h-[80vh]"
       />
+      { showSummary && (
+        <div className="summary-card">
+          <h2>Récapitulatif de la réservation</h2>
+          <p><strong>Chambre :</strong> {room.name} ({room.type})</p>
+          <p><strong>Date d’arrivée :</strong> {checkIn}</p>
+          <p><strong>Date de départ :</strong> {checkOut}</p>
+          <p><strong>Nombre de personnes :</strong>Adultes: {adults}, Enfants: {children}</p>
+          <p><strong>Prix par nuit :</strong> {room.price} €</p>
+          <p><strong>Capacité :</strong> {room.capacity} invités Max</p>
+
+          {(() => {
+            let nights = 0;
+            let totalPrice = 0;
+            if (checkIn && checkOut) {
+              const checkInDate = new Date(checkIn);
+              const checkOutDate = new Date(checkOut);
+              if (!isNaN(checkInDate.getTime()) && !isNaN(checkOutDate.getTime())) {
+                nights = (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24);
+                nights = Math.max(0, nights);
+                totalPrice = nights * room.price;
+              }
+            }
+            return (
+              <>
+                <p><strong>Nombre de nuits :</strong> {nights}</p>
+                <p><strong>Prix total :</strong> {totalPrice.toFixed(2)} €</p>
+                {/* Replace selectedRoom with room and bookRoom implementation as needed */}
+                {/* <button onClick={() => bookRoom(room.id, totalPrice)}>
+                  Confirmer la réservation
+                </button> */}
+              </>
+            );
+          })()}
+        </div>
+      )}
+      
       <div id='roomDetails' className="pt-24 md:pt-28 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -148,12 +269,13 @@ const RoomDetailPage: React.FC = () => {
             <span className="font-serif text-2xl font-bold text-primary-800">${room.price}</span>
             <span className="text-gray-500"> / nuitée</span>
             </div>
-            <Link
-            to="/booking"
+            
+            <button
             className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
+            onClick={handleConfirmBooking}
             >
             Réservez Maintenant
-            </Link>
+            </button>
           </div>
           <p className="text-sm text-gray-500">
            *Les prix peuvent varier en fonction de la saison et de la disponibilité. Taxes et frais non inclus.

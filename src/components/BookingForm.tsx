@@ -59,17 +59,18 @@ const BookingForm: React.FC = () => {
     }));
   };
 
+      // Format dates to mm/dd/yyyy before passing to checkAvailability
+  const formatDate = (date: Date | null) => {
+    if (!date) return '';
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${mm}/${dd}/${yyyy}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
      e.preventDefault();
-    // Format dates to mm/dd/yyyy before passing to checkAvailability
-    const formatDate = (date: Date | null) => {
-      if (!date) return '';
-      const mm = String(date.getMonth() + 1).padStart(2, '0');
-      const dd = String(date.getDate()).padStart(2, '0');
-      const yyyy = date.getFullYear();
-      return `${mm}/${dd}/${yyyy}`;
-    };
 
     const rooms = await checkAvailability(
       formatDate(bookingDetails.checkIn),
@@ -253,7 +254,7 @@ const BookingForm: React.FC = () => {
             </div>
           ) : availableRooms.length > 0 ? (  
             availableRooms.map((room) => (
-              <RoomCard key={room.id} room={room} />
+              <RoomCard key={room.id} room={room} checkIn={formatDate(bookingDetails.checkIn)} checkOut={formatDate(bookingDetails.checkOut)} adults={bookingDetails.adults} children={bookingDetails.children}/>
                 ))
           ) : (
             <div className="col-span-full text-center py-12">

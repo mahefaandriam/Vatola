@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
+   const navigate = useNavigate();
 
   const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -14,7 +16,17 @@ export default function Login() {
     if (error) {
       alert(error.message);
     } else {
-      alert('Logged in!');
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirect = searchParams.get('redirect');
+      if (redirect) {
+        navigate(redirect);
+      } else {
+        if (form.email === '/admin') {
+          navigate('/admin'); // Redirect to admin dashboard if user is admin
+        } else {
+          navigate('/profil'); // Redirect to user profile if not admin  
+        }
+      }
     }
   };
 
