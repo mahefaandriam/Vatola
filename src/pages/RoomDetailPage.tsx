@@ -144,6 +144,23 @@ const RoomDetailPage: React.FC = () => {
       alert("Merci, votre Réservation a été enregistrer avec succés, nous allons confirmer votre invitaion et vous repondre bientot !");
       setShowSummary(false);
       navigate(`/rooms/${id}`);
+      // Envoi de la notification
+      await supabase.from('notifications').insert([
+      {
+        type: 'booking',
+        message: `Nouvelle réservation de ${user.name} pour ${room.name}`,
+        data: {
+          user_id: user.id,
+          email: user.email,
+          checkIn,
+          checkOut,
+          adults: parseInt(adults ?? '0', 10),
+          children: parseInt(children ?? '0', 10),
+          totalPrice,
+          room: room.name,
+        },
+      },
+    ]);
     }
   };
 
