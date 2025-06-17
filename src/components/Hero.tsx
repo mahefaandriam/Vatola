@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+
 interface HeroProps {
   title: string;
   subtitle?: string;
@@ -23,7 +24,9 @@ const Hero: React.FC<HeroProps> = ({
   height = 'h-screen'
 }) => {
   return (
+
     <div
+    id='hero'
       className={`relative ${height} flex items-center justify-center overflow-hidden`}
       style={{
         backgroundImage: `url(${image})`,

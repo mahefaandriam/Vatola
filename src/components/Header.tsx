@@ -10,10 +10,23 @@ const Header: React.FC = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
+  const [hasHero, setHasHero] = useState(false);
 
   useEffect(() => {
+    const hero = document.getElementById('hero');
+    hero && hero.classList.contains('hero'); 
+    setHasHero(!!hero); // vérifie si la page contient un #hero
+    console.log('hasHero:', hasHero);
+    
+    if (!hasHero) {
+      setIsScrolled(true);
+      return;
+    }else if (window.scrollY < 80) {
+      setIsScrolled(false);
+    }
+
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      if (window.scrollY > 80) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -22,7 +35,7 @@ const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  });
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
