@@ -18,8 +18,9 @@ export default function Login() {
     } else {
       const searchParams = new URLSearchParams(window.location.search);
       const redirect = searchParams.get('redirect');
-      if (redirect) {
-        navigate(redirect);
+      const redirectSanitized = redirect ? redirect.replace(/;/g, '&') : null;
+      if (redirectSanitized) {
+        navigate(redirectSanitized);
       } else {
         if (form.email === '/admin') {
           navigate('/admin'); // Redirect to admin dashboard if user is admin

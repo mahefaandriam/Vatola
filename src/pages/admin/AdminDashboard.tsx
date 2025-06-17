@@ -29,17 +29,26 @@ export default function AdminDashboard() {
     <div className="min-h-screen flex mt-50">
       <aside className="w-64 bg-gray-900 text-white p-4">
         <h1 className="text-xl font-bold mb-4">Admin Panel</h1>
-        <nav className="space-y-2">
-          <Link to="/admin/reservations">Réservations</Link>
-          <Link to="/admin/utilisateurs">Utilisateurs</Link>
+        <div>a</div>
+        <div>b
+          <div>
+            c
+          </div>
+          <div>
+            e
+          </div>
+        </div>
+        <div className="">
+          <div><Link to="/admin/reservations">Réservations</Link></div>
+          <div><Link to="/admin/utilisateurs">Utilisateurs</Link></div>          
+          <div>
           <Link to="/admin/notifications">Notifications
-          {unreadCount > 0 && (
             <span className="ml-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
               {unreadCount}
             </span>
-          )}
           </Link>
-        </nav>
+          </div>
+        </div>
       </aside>
 
       <main className="flex-1 p-8 bg-gray-100">

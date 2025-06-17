@@ -104,8 +104,8 @@ const RoomDetailPage: React.FC = () => {
       }));
 
       // rediriger vers la page login
-      navigate(`/login?redirect=/rooms/${id}?check_in=${encodeURIComponent(checkIn || '')}&check_out=${encodeURIComponent(checkOut|| ''
-                  )}&adults=${adults ?? ''}&children=${children ?? ''}`);
+      navigate(`/login?redirect=/rooms/${id}?check_in=${encodeURIComponent(checkIn || '')};check_out=${encodeURIComponent(checkOut|| ''
+                  )};adults=${adults ?? ''};children=${children ?? ''}`);
       return;
     }
 
