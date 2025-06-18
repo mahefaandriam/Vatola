@@ -35,7 +35,7 @@ export default function UpdatePassword() {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
+    <div className="p-4 max-w-md mx-auto mt-30">
       <h2 className="text-xl font-bold mb-4">Définir un nouveau mot de passe</h2>
 
       {!submitted ? (

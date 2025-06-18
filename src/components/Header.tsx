@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Hotel, ChevronDown } from 'lucide-react';
 import { useRef } from 'react';
-import LogoutButton from './LogoutButton';
+import { supabase } from '../lib/supabaseClient';
+import { useAuth } from '../context/AuthContext';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,12 +12,13 @@ const Header: React.FC = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
   const [hasHero, setHasHero] = useState(false);
+  const [reservationCount, setReservationCount] = useState(0);
+  const { user} = useAuth();
 
   useEffect(() => {
     const hero = document.getElementById('hero');
     hero && hero.classList.contains('hero'); 
     setHasHero(!!hero); // vérifie si la page contient un #hero
-    console.log('hasHero:', hasHero);
     
     if (!hasHero) {
       setIsScrolled(true);
@@ -35,7 +37,34 @@ const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  });
+  } );
+
+  useEffect(() => {
+    const loadCount = async () => {
+      const count = await fetchReservationCount();
+      setReservationCount(count ?? 0);
+    };
+
+    loadCount();
+  }, [user])
+
+  const fetchReservationCount = async () => {
+    const { count, error } = await supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id || 0);
+
+    if (error) {
+      console.error('Erreur fetch reservations:', error.message);
+      return 0;
+    }
+    
+    if(!user){
+      return 0;
+    }
+
+    return count;
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -79,7 +108,7 @@ const Header: React.FC = () => {
         !isHomePage && !isScrolled ? 'bg-primary-800' : ''
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
@@ -91,12 +120,21 @@ const Header: React.FC = () => {
               <p className="text-xs md:text-sm tracking-widest">Hôtel & SPA</p>
             </div>
           </Link>
-          <Link to="/profil">Mon Profil</Link>
-          
-          <LogoutButton />
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden text-sm md:text-lg md:flex items-center space-x-2 md:space-x-8 ">
+            {user ? (
+              <Link to="/profil" className='relative transition duration-200'>Mon Profil 
+                <span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
+                  {reservationCount}
+                </span>
+              </Link>
+            ) : (
+              <Link to="/login" className="hover:text-accent transition duration-200">
+                Connexion
+              </Link>
+            )}
+            
             <Link to="/" className="hover:text-accent transition duration-200">
               Accueil
             </Link>
@@ -139,20 +177,29 @@ const Header: React.FC = () => {
             </Link>
             <Link
               to="/booking"
-              className="bg-accent hover:bg-gold-700 text-white px-6 py-2 rounded-md transition duration-300"
+              className="bg-accent hover:bg-gold-700 text-white px-2 py-2 md:px-6 md:py-2 rounded-md transition duration-300"
             >
               Réservez Maintenant
             </Link>
           </nav>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-2xl focus:outline-none"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className='md:hidden'>
+            {user && (
+            <Link to="/profil" className='mr-8 relative md:text-sm transition duration-200'>Mon Profil 
+              <span className="absolute top-4 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
+                {reservationCount}
+              </span>
+            </Link>
+            )}
+            <button
+              className=" text-2xl focus:outline-none"
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 

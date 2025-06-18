@@ -3,31 +3,17 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import LogoutButton from '../components/LogoutButton';
 import { useAuth } from '../context/AuthContext';
+import SectionTitle from '../components/SectionTitle';
 
 export default function Profile() {
   const { user } = useAuth();
-  const [_, setFullName] = useState('');
   const [profile, setProfile] = useState({ name: '', surname: '', birthday: '' });
   const [bookings, setBookings] = useState<any>([]);
  // const [email, setEmail] = useState('');
 
   useEffect(() => {
-    const getUser = async () => {
-      
       loadProfile(user.id);
-      loadBookings(user.id);
-     // setEmail(user.email ?? '');
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('name')
-        .eq('id', user.id)
-        .single();
-
-      if (profile) setFullName(profile.name);
-    };
-
-    getUser();
+      loadBookings(user.id);      
   }, []);
 
   const loadBookings = async (userId: any) => {
@@ -94,77 +80,142 @@ export default function Profile() {
   if (!user) return <p>Chargement...</p>;
 
   return (
-    <div className="mx-10 p-6 mt-25 grid grid-cols-2">
-      <div className='flex flex-col mx-8 col-span-1'>
-         <h2 className="text-xl font-bold mb-4">Mon Profil</h2>
-        <label>Nom</label>
-        <input value={profile.name} onChange={e => setProfile({ ...profile, name: e.target.value })} />
-
-        <label>Prénom</label>
-        <input value={profile.surname} onChange={e => setProfile({ ...profile, surname: e.target.value })} />
-
-        <label>Date de naissance</label>
-        <input type="date" value={profile.birthday} onChange={e => setProfile({ ...profile, birthday: e.target.value })} />
-
-        <label>Email</label>
-        <input value={user?.email} disabled />
-
-        <button onClick={handleSave} className="mt-4 bg-blue-500 text-white p-2 rounded">Mettre à jour</button>
-      
-        <a href="/forgot-password" className="text-blue-500 hover:underline">
-          Mot de passe oublié ?
-        </a>
-        <LogoutButton />
+    <div className="mx-10 p-6 mt-25 ">
+       <SectionTitle
+          title="Informations du compte"
+          subtitle="Nous aimerions avoir de vos nouvelles. Veuillez remplir le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
+          alignment="left"
+        />
+       <div >
+        <div  className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                Votre Nom*
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={profile.name} onChange={e => setProfile({ ...profile, name: e.target.value })}
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="prenom" className="block text-gray-700 font-medium mb-2">
+                Votre Prénom*
+              </label>
+              <input
+                type="prenom"
+                id="prenom"
+                name="prenom"
+                value={profile.surname} onChange={e => setProfile({ ...profile, surname: e.target.value })}                    
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                value={user?.email} disabled
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent cursor-not-allowed"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="naissance" className="block text-gray-700 font-medium mb-2">
+                Date de naissance
+              </label>
+                <input
+                id="naissance"
+                name="naissance"
+                type="date"
+                  value={profile.birthday} onChange={e => setProfile({ ...profile, birthday: e.target.value })} 
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
+              Mot de passe*
+            </label>
+            <input
+              id="password"
+              name="password"
+              required
+              disabled
+              value={'****************'}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent cursor-not-allowed"
+            ></input>
+            <a href="/update-password" className="text-blue-500 underline">
+              Changer Mot de passe ?
+            </a>
+          </div>
+          
+          <button
+            onClick={handleSave}
+            className="bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5"
+          >
+            Mettre à jour
+          </button>
+          <LogoutButton />
+        </div>
       </div>
       <div className='col-span-1'>
-        <h3 className="text-lg font-semibold mt-6 mb-2">Mes réservations</h3>
-        {bookings.length === 0 ? (
-          <p>Aucune réservation pour le moment.</p>
-        ) : (
-          <table className="w-full border text-sm">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="p-2 text-left">Chambre</th>
-                <th className="p-2 text-left">Début</th>
-                <th className="p-2 text-left">Fin</th>
-                <th className="p-2 text-left">Prix</th>
-                <th className="p-2 text-left">Statut</th>
-                <th className="p-2 text-left">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((b: any) => {
-                const now = new Date();
-                const start = new Date(b.check_in);
-                const timeDiff = start.getTime() - now.getTime();
-                const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
-                return(
-                <tr key={b.id}>
-                  <td className="p-2">{b.rooms?.type || '—'}</td>
-                  <td className="p-2">{b.check_in}</td>
-                  <td className="p-2">{b.check_out}</td>
-                  <td className="p-2">{b.total_price} €</td>
-                  <td className="p-2">{b.status}</td>
-                  <td className="p-2">
-                      {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
-                      <button
-                        onClick={() => handleCancel(b.id)}
-                        className="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                      >
-                        Annuler
-                      </button>
-                      )}
-                  </td>
+        <h3 className="font-serif text-xl font-semibold text-primary-800 mb-6">Mes réservations</h3>
+          {bookings.length === 0 ? (
+            <p>Aucune réservation pour le moment.</p>
+          ) : (
+            <table className="w-full border text-sm">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="p-2 text-left">Chambre</th>
+                  <th className="p-2 text-left">Début</th>
+                  <th className="p-2 text-left">Fin</th>
+                  <th className="p-2 text-left">Prix</th>
+                  <th className="p-2 text-left">Statut</th>
+                  <th className="p-2 text-left">Action</th>
                 </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        )}
-      </div>
-     
-
-      
+              </thead>
+              <tbody>
+                {bookings.map((b: any) => {
+                  const now = new Date();
+                  const start = new Date(b.check_in);
+                  const timeDiff = start.getTime() - now.getTime();
+                  const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
+                  return(
+                  <tr key={b.id}>
+                    <td className="p-2">{b.rooms?.type || '—'}</td>
+                    <td className="p-2">{b.check_in}</td>
+                    <td className="p-2">{b.check_out}</td>
+                    <td className="p-2">{b.total_price} €</td>
+                    <td className="p-2">{b.status}</td>
+                    <td className="p-2">
+                        {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
+                        <button
+                          onClick={() => handleCancel(b.id)}
+                          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                        >
+                          Annuler
+                        </button>
+                        )}
+                    </td>
+                  </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
     </div>
   );
 }
