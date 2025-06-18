@@ -1,25 +1,19 @@
 // src/pages/Profile.jsx
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { useNavigate } from 'react-router-dom';
 import LogoutButton from '../components/LogoutButton';
+import { useAuth } from '../context/AuthContext';
 
 export default function Profile() {
-  const [user, setUser] = useState<any>(null);
+  const { user } = useAuth();
   const [_, setFullName] = useState('');
   const [profile, setProfile] = useState({ name: '', surname: '', birthday: '' });
   const [bookings, setBookings] = useState<any>([]);
  // const [email, setEmail] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user }, error } = await supabase.auth.getUser();
-      if (error || !user) {
-        navigate('/login');
-        return;
-      }
-      setUser(user);
+      
       loadProfile(user.id);
       loadBookings(user.id);
      // setEmail(user.email ?? '');
@@ -100,72 +94,77 @@ export default function Profile() {
   if (!user) return <p>Chargement...</p>;
 
   return (
-    <div className="max-w-xl mx-auto p-6 flex flex-col space-y-4">
-      <h2 className="text-xl font-bold mb-4">Mon Profil</h2>
-      <label>Nom</label>
-      <input value={profile.name} onChange={e => setProfile({ ...profile, name: e.target.value })} />
+    <div className="mx-10 p-6 mt-25 grid grid-cols-2">
+      <div className='flex flex-col mx-8 col-span-1'>
+         <h2 className="text-xl font-bold mb-4">Mon Profil</h2>
+        <label>Nom</label>
+        <input value={profile.name} onChange={e => setProfile({ ...profile, name: e.target.value })} />
 
-      <label>Prénom</label>
-      <input value={profile.surname} onChange={e => setProfile({ ...profile, surname: e.target.value })} />
+        <label>Prénom</label>
+        <input value={profile.surname} onChange={e => setProfile({ ...profile, surname: e.target.value })} />
 
-      <label>Date de naissance</label>
-      <input type="date" value={profile.birthday} onChange={e => setProfile({ ...profile, birthday: e.target.value })} />
+        <label>Date de naissance</label>
+        <input type="date" value={profile.birthday} onChange={e => setProfile({ ...profile, birthday: e.target.value })} />
 
-      <label>Email</label>
-      <input value={user?.email} disabled />
+        <label>Email</label>
+        <input value={user?.email} disabled />
 
-      <button onClick={handleSave} className="mt-4 bg-blue-500 text-white p-2 rounded">Mettre à jour</button>
-    
-      <a href="/forgot-password" className="text-blue-500 hover:underline">
-        Mot de passe oublié ?
-      </a>
-      <LogoutButton />
-
-      <h3 className="text-lg font-semibold mt-6 mb-2">Mes réservations</h3>
-
-      {bookings.length === 0 ? (
-        <p>Aucune réservation pour le moment.</p>
-      ) : (
-        <table className="w-full border text-sm">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-2 text-left">Chambre</th>
-              <th className="p-2 text-left">Début</th>
-              <th className="p-2 text-left">Fin</th>
-              <th className="p-2 text-left">Prix</th>
-              <th className="p-2 text-left">Statut</th>
-              <th className="p-2 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((b: any) => {
-              const now = new Date();
-              const start = new Date(b.check_in);
-              const timeDiff = start.getTime() - now.getTime();
-              const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
-              return(
-              <tr key={b.id}>
-                <td className="p-2">{b.rooms?.type || '—'}</td>
-                <td className="p-2">{b.check_in}</td>
-                <td className="p-2">{b.check_out}</td>
-                <td className="p-2">{b.total_price} €</td>
-                <td className="p-2">{b.status}</td>
-                <td className="p-2">
-                    {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
-                    <button
-                      onClick={() => handleCancel(b.id)}
-                      className="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                    >
-                      Annuler
-                    </button>
-                    )}
-                </td>
+        <button onClick={handleSave} className="mt-4 bg-blue-500 text-white p-2 rounded">Mettre à jour</button>
+      
+        <a href="/forgot-password" className="text-blue-500 hover:underline">
+          Mot de passe oublié ?
+        </a>
+        <LogoutButton />
+      </div>
+      <div className='col-span-1'>
+        <h3 className="text-lg font-semibold mt-6 mb-2">Mes réservations</h3>
+        {bookings.length === 0 ? (
+          <p>Aucune réservation pour le moment.</p>
+        ) : (
+          <table className="w-full border text-sm">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="p-2 text-left">Chambre</th>
+                <th className="p-2 text-left">Début</th>
+                <th className="p-2 text-left">Fin</th>
+                <th className="p-2 text-left">Prix</th>
+                <th className="p-2 text-left">Statut</th>
+                <th className="p-2 text-left">Action</th>
               </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {bookings.map((b: any) => {
+                const now = new Date();
+                const start = new Date(b.check_in);
+                const timeDiff = start.getTime() - now.getTime();
+                const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
+                return(
+                <tr key={b.id}>
+                  <td className="p-2">{b.rooms?.type || '—'}</td>
+                  <td className="p-2">{b.check_in}</td>
+                  <td className="p-2">{b.check_out}</td>
+                  <td className="p-2">{b.total_price} €</td>
+                  <td className="p-2">{b.status}</td>
+                  <td className="p-2">
+                      {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
+                      <button
+                        onClick={() => handleCancel(b.id)}
+                        className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                      >
+                        Annuler
+                      </button>
+                      )}
+                  </td>
+                </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        )}
+      </div>
+     
+
+      
     </div>
   );
 }
