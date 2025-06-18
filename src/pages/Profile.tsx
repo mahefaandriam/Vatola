@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import LogoutButton from '../components/LogoutButton';
 
 export default function Profile() {
   const [user, setUser] = useState<any>(null);
@@ -118,6 +119,7 @@ export default function Profile() {
       <a href="/forgot-password" className="text-blue-500 hover:underline">
         Mot de passe oublié ?
       </a>
+      <LogoutButton />
 
       <h3 className="text-lg font-semibold mt-6 mb-2">Mes réservations</h3>
 

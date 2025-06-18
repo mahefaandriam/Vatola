@@ -7,6 +7,7 @@ import AdminNotifications from './Notifications';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import Rooms from './Rooms';
+import NailsServices from './NailsServieces';
 
 export default function AdminDashboard() {
    const [unreadCount, setUnreadCount] = useState(0);
@@ -30,12 +31,14 @@ export default function AdminDashboard() {
           return;
         }
         setUser(user);
+        navigate('/admin/reservations')
        // setEmail(user.email ?? '');
     };
   
+    
+    const interval = setInterval(fetchUnreadCount, 30000); // toutes les 30s4
     fetchUnreadCount(); 
     getUser();
-    const interval = setInterval(fetchUnreadCount, 30000); // toutes les 30s
     return () => clearInterval(interval);
   }, []);
 
@@ -48,7 +51,8 @@ export default function AdminDashboard() {
         <div className="flex spcace-x-5">
           <div className='mx-4'><Link to="/admin/reservations">Réservations</Link></div>
           <div className='mx-4'><Link to="/admin/utilisateurs">Utilisateurs</Link></div>    
-          <div className='mx-4'><Link to="/admin/chambres">Chambres</Link></div>           
+          <div className='mx-4'><Link to="/admin/chambres">Chambres</Link></div>       
+          <div className='mx-4'><Link to="/admin/nails">Nails</Link></div>             
           <div className='mx-4'>
           <Link to="/admin/notifications">Notifications
             <span className="ml-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
@@ -59,11 +63,12 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
-      <main className="flex-1 overflow-x-hidden bg-gray-100">
+      <main className="flex-1 overflow-x-hidden bg-gray-100 pt-30">
         <Routes>
           <Route path="reservations" element={<Reservations />} />
           <Route path="utilisateurs" element={<Users />} />
           <Route path="chambres" element={<Rooms />} />
+          <Route path="nails" element={<NailsServices />} />
           <Route path="notifications" element={<AdminNotifications />} />
         </Routes>
       </main>

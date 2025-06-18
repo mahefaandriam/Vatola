@@ -97,7 +97,7 @@ const HomePage: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredRooms.map((room) => (
-              <div>
+              <div key={room.id}>
                 <RoomCard room={room} />
               </div>
             ))}

@@ -1,10 +1,139 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import type { Service } from '../../types';
+import { supabase } from '../../lib/supabaseClient';
+import LoadingComponents from '../../components/LoadingComponents';
 
 const NailsServices: React.FC = () => {
+    const [nails, setNails] = useState<Service[]>([]);
+    const [editNails, setEditNails] = useState<Service | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchNailsServices();
+    }, []);
+
+    const uploadImage = async (file: any) => {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        const filePath = `admin/assets/${fileName}`;
+
+        const { error } = await supabase.storage
+            .from('room-images')
+            .upload(filePath, file);
+
+        if (error) throw error;
+
+        const { data } = supabase.storage.from('room-images').getPublicUrl(filePath);
+        return data.publicUrl;
+    };
+
+    const fetchNailsServices = async () => {
+        try {
+            setLoading(true);
+            const { data, error } = await supabase
+                .from('nails_services')
+                .select('*')
+                .order('created_at', { ascending: false });
+        
+            if (!error) setNails(data);
+            console.log('Nails services fetched:', data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Failed to fetch nails services:', error);
+        }
+    };
+
+    function replaceImage(id: any): void {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e: any) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            try {
+                // Get current service
+                const service = nails.find((s) => s.id === id);
+                if (service && service.image) {
+                    // Extract file path from public URL
+                    const urlParts = service.image.split('/room-images/');
+                    if (urlParts.length === 2) {
+                        const filePath = `admin/assets/${urlParts[1]}`;
+                        await supabase.storage.from('room-images').remove([filePath]);
+                    }
+                }
+                // Upload new image
+                const publicUrl = await uploadImage(file);
+                // Update service with new image URL
+                await supabase
+                    .from('nails_services')
+                    .update({ image: publicUrl })
+                    .eq('id', id);
+                fetchNailsServices();
+            } catch (error) {
+                console.error('Error replacing image:', error);
+            }
+        };
+        input.click();        
+    }
+
     return (
-        <div>
-            <h1>Nails Services Admin Page</h1>
-            {/* Add your content here */}
+        
+        <div className='p-6 max-w-5xl mx-auto'>
+            <div className={`bg-white w-full text-sm fixed z-40 p-2 ${editNails ? 'mt-25':''}`}>
+                <p className="text-lg font-semibold mb-4">Modifier</p>    
+                <form >
+                    <input name="type" defaultValue={editNails?.name} placeholder="Type" required />
+                    <input name="decription" defaultValue={editNails?.description} placeholder="Decription" required />
+                    <input name="price" type="number" defaultValue={editNails?.price} placeholder="prix" required />
+                    <input name="duration" type="number" defaultValue={editNails?.duration} placeholder="Durée" required />
+                    <button type="submit" className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600">{editNails ? 'Modifier' : 'Ajouter'}</button>
+                    <button type="button" className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" onClick={() => setEditNails(null)}>Annuler</button>
+                </form>
+            </div>
+            <div className='mt-25'> 
+                <h1>Nails Services Admin Page</h1>
+                 {loading ? (
+                    <LoadingComponents />
+                ) : (
+                    <table className="w-full border">
+                        <thead className="bg-gray-100">
+                        <tr>
+                            <th className="p-2">Nom</th>
+                            <th className="p-2">Inscription</th>
+                            <th className="p-2">Prix</th>
+                            <th className="p-2">Duration</th>
+                            <th className="p-2">Image</th>
+                            <th className="p-2">Action</th>
+                            
+                        </tr>
+                        </thead>
+                    <tbody>
+                        <tr>
+                            {nails.map((service) => (
+                                <React.Fragment key={service.id}>
+                                    <td>{service.name}</td>
+                                        <td>{service.description}</td>
+                                        <td>{service.price ? `${service.price} €` : 'N/A'}</td>
+                                        <td>{service.duration || 'N/A'}</td>
+                                        <td>
+                                            {service.image ? (
+                                                <img src={service.image} alt={service.name} style={{ width: '100px', height: 'auto' }} />
+                                            ) : (
+                                                'No Image'
+                                            )}
+                                        </td>
+                                        <td className="border border-gray-300 p-2" >
+                                        <button className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600" onClick={() => replaceImage(service.id)}>Modifier Image</button>
+                                        <button className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600" onClick={() => setEditNails(service)}>Modifier</button>
+                                        <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Supprimer</button>
+                                        </td>
+                                </React.Fragment>
+                            ))}
+                            </tr>
+                        </tbody>
+                    </table>
+                )}
+            </div>
         </div>
     );
 };
