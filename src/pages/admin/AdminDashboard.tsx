@@ -59,7 +59,7 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
-      <main className="flex-1 p-8 bg-gray-100 mt-20">
+      <main className="flex-1 overflow-x-hidden bg-gray-100">
         <Routes>
           <Route path="reservations" element={<Reservations />} />
           <Route path="utilisateurs" element={<Users />} />
