@@ -65,7 +65,7 @@ const RoomsPage: React.FC = () => {
       <Hero
         title="Nos hébergements"
         subtitle="Découvrez notre gamme de chambres et suites élégamment aménagées, conçues pour votre confort et votre détente."
-        image="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"
+        image="/familiales.JPG"
         height="h-[70vh]"
       />
       

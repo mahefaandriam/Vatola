@@ -9,7 +9,7 @@ const PubPage: React.FC = () => {
     <div>
       <Hero
         title="VATOLAHY, Pub & Bar de luxe"
-        subtitle="Détendez-vous dans notre pub sophistiqué qui propose des cocktails artisanaux, des vins fins et des en-cas gastronomiques dans une ambiance élégante."
+        subtitle="Détendez-vous dans l’atmosphère chic de notre pub, proposant une sélection de cocktails faits maison, de vins raffinés et de bouchées gourmandes."
         image="/une-verre2.jpg"
        // image="https://images.pexels.com/photos/1554654/pexels-photo-1554654.jpeg"
         height="h-[70vh]"
@@ -131,13 +131,13 @@ const PubPage: React.FC = () => {
             
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/696218/pexels-photo-696218.jpeg"
+                src="/night-vibe.JPG"
                 alt="Live Music at Pub"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
-                  src="https://images.pexels.com/photos/1269025/pexels-photo-1269025.jpeg"
+                  src="/good-time.jpeg"
                   alt="Craft Beer"
                   className="w-full h-full object-cover rounded-lg transform -translate-x-4 -translate-y-4 shadow-lg"
                 />

@@ -17,13 +17,13 @@ export const pubServices: Service[] = [
     id: 'wine-selection',
     name: 'Vins raffinés',
     description: 'Notre carte des vins propose des bouteilles exceptionnelles provenant de vignobles renommés du monde entier.',
-    image: 'https://images.pexels.com/photos/2912108/pexels-photo-2912108.jpeg'
+    image: '/tab-de-vin.JPG'
   },
   {
     id: 'gourmet-bites',
     name: 'Bouchées gastronomiques au bar',
     description: 'Délicieux petits plats et apéritifs parfaits pour partager tout en savourant vos boissons préférées.',
-    image: 'https://images.pexels.com/photos/6270541/pexels-photo-6270541.jpeg'
+    image: '/plat3.jpg'
   }
 ];
 

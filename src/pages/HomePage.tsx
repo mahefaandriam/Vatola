@@ -69,13 +69,7 @@ const HomePage: React.FC = () => {
               </div>
             </motion.div>
             
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
+            <div className='relative'>
               <img
                 src="/clients1.jpg"
                 alt="Hotel Lobby"
@@ -88,7 +82,7 @@ const HomePage: React.FC = () => {
                   className="w-full h-full object-cover rounded-lg transform translate-x-4 translate-y-4 shadow-lg"
                 />
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -97,21 +91,15 @@ const HomePage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
-            title="Hébergement en vedette"
+            title="Hébergements"
             subtitle="Parcourez notre collection de chambres et suites, pensées avec soin pour marier confort moderne et élégance intemporelle."
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredRooms.map((room) => (
-              <motion.div
-                key={room.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-              >
+              <div>
                 <RoomCard room={room} />
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -127,11 +115,7 @@ const HomePage: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Pub & Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+            <div
               className="text-center"
             >
               <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 hover:w-50 hover:h-50 transition-all duration-1000 flex items-center justify-center">
@@ -154,14 +138,10 @@ const HomePage: React.FC = () => {
                 Découvrir plus &nbsp;
                 <ChevronRight stroke='currentColor' />
               </a>
-            </motion.div>
+            </div>
             
             {/* Spa & Wellness */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
+            <div
               className="text-center"
             >
               <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4  w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50 flex items-center justify-center">
@@ -184,14 +164,10 @@ const HomePage: React.FC = () => {
                 Découvrir plus &nbsp; &nbsp;
                 <ChevronRight stroke='currentColor' />
               </a>
-            </motion.div>
+            </div>
             
             {/* Nail Salon */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
+            <div
               className="text-center"
             >
               <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50  flex items-center justify-center">
@@ -214,7 +190,7 @@ const HomePage: React.FC = () => {
                 Découvrir plus &nbsp;                
                 <ChevronRight stroke='currentColor' />
               </a>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

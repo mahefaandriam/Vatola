@@ -10,7 +10,7 @@ const SpaPage: React.FC = () => {
       <Hero
         title="Spa rajeunissant & Bien-être"
         subtitle="Offrez-vous un monde de détente et de revitalisation avec nos soins spa haut de gamme."
-        image="https://images.pexels.com/photos/3188/love-romantic-bath-candlelight.jpg"
+        image="/care.jpg"
         height="h-[70vh]"
       />
       
@@ -46,7 +46,7 @@ const SpaPage: React.FC = () => {
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="https://images.pexels.com/photos/3188/love-romantic-bath-candlelight.jpg"
+                src="/care2.jpg"
                 alt="Spa Bath"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />

@@ -40,7 +40,7 @@ const ContactPage: React.FC = () => {
       <Hero
         title="Contactez-nous"
         subtitle= "Nous sommes là pour vous aider avec toutes les demandes ou réservations."
-        image="https://images.pexels.com/photos/3769120/pexels-photo-3769120.jpeg"
+        image="/avion.jpeg"
         ctaText={undefined}
         height="h-[70vh]"
       />
@@ -264,9 +264,16 @@ const ContactPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-luxury p-4">
               <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
                 {/* Replace with an actual map in a real implementation */}
-                <div className="w-full h-96 bg-gray-300 flex items-center justify-center">
-                  <p className="text-gray-600">La carte interactive serait affichée ici</p>
-                </div>
+                <iframe
+                  title="Hotel VATOLAHY Location"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3772.393032176275!2d47.0307165!3d-19.8590461!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21e50e5bedb8cd11%3A0x7bfd8f5b462bb3e5!2sHotel%20VATOLAHY!5e0!3m2!1sen!2smg!4v1718030000000!5m2!1sen!2smg"
+                  width="100%"
+                  height="384"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
               </div>
             </div>
             

@@ -36,7 +36,7 @@ const NailSalonPage: React.FC = () => {
             
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="https://images.pexels.com/photos/939836/pexels-photo-939836.jpeg"
+                src="/nails.webp"
                 alt="Manicure Service"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />

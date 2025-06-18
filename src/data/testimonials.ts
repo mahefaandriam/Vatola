@@ -12,7 +12,7 @@ export const testimonials: Testimonial[] = [
   {
     id: '2',
     name: 'James Wilson',
-    image: '/spa5.jpg', 
+    image: '/nails.webp', 
     text: 'Le souci du détail de cet hôtel est remarquable. À partir du moment où nous sommes arrivés, tout était parfait. La chambre de luxe était spacieuse et le pub avait une excellente sélection de boissons. ',
     rating: 5,
     date: 'February 28, 2024'
