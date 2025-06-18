@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
@@ -298,26 +298,19 @@ const ContactPage: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <h4 className="font-medium text-primary-800 mb-2">Depuis l'aéroport</h4>
+                  <h4 className="font-medium text-primary-800 mb-2">Depuis le centre-ville</h4>
                   <p className="text-gray-600">
-                    Notre hôtel est situé à 20 minutes de l’aéroport international. Prenez la route principale 
-                    nord et suivre les panneaux pour le centre-ville. Nous offrons un service de navette aéroport sur demande.
-                  </p>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-primary-800 mb-2">Par les transports publics</h4>
-                  <p className="text-gray-600">
-                    La station de métro la plus proche est Central Square, à seulement 5 minutes à pied de l’hôtel. 
-                    Les lignes de bus 10, 15 et 22 s’arrêtent toutes à un pâté de maisons de notre entrée.
+                    Sur l’axe principal de la RN4, à 5 minutes en voiture du centre-ville d’Antsirabe.
+                    L’hôtel est facilement accessible depuis la route principale, avec un grand parking disponible.
                   </p>
                 </div>
                 
                 <div>
                   <h4 className="font-medium text-primary-800 mb-2">Informations sur le stationnement</h4>
                   <p className="text-gray-600">
-                    Nous offrons un service de voiturier pour les clients. Le stationnement est également disponible dans notre 
-                    garage souterrain sécurisé à un taux de 25 $ par jour.
+                    Pour votre tranquillité d’esprit, l’HÔTEL VATOLA met à la disposition de ses clients un grand parking intérieur sécurisé, 
+                     entièrement gratuit et sous surveillance permanente. Vous pourrez ainsi profiter pleinement de
+                     votre séjour, en toute sérénité, en sachant que votre véhicule est en sécurité.
                   </p>
                 </div>
               </div>

@@ -88,11 +88,21 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center">
                 <Phone size={18} className="mr-2 text-accent" />
-                <span className="text-gray-300"> +261 34 11 937 77</span>
+                <span className="text-gray-300"> 
+                  <a href="tel:+261376607863" className="hover:text-accent transition duration-300">
+                    +261 37 66 078 63
+                  </a>&nbsp;|&nbsp;
+                  <a href="tel:+261341193777" className="hover:text-accent transition duration-300">
+                    +261 34 11 937 77
+                  </a></span>
               </li>
               <li className="flex items-center">
                 <Mail size={18} className="mr-2 text-accent" />
-                <span className="text-gray-300">info@vatolahyantsirabe.com</span>
+                <span className="text-gray-300">
+                  <a href="mailto:hotelvatola@outlook.com" className="hover:text-accent transition duration-300">
+                    hotelvatola@outlook.com
+                  </a>
+                </span>
               </li>
             </ul>
           </div>
