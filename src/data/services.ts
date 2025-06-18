@@ -34,7 +34,7 @@ export const spaServices: Service[] = [
     description: 'Un massage classique du corps entier utilisant une pression douce à ferme pour favoriser la relaxation et soulager la tension musculaire.',
     price: 120,
     duration: '60 minutes',
-    image: 'https://images.pexels.com/photos/3865676/pexels-photo-3865676.jpeg'
+    image: '/massage.jpg'
   },
   {
     id: 'deep-tissue-massage',
@@ -42,7 +42,7 @@ export const spaServices: Service[] = [
     description: 'Nous pratiquons l’art du massage en pleine conscience : une approche où le corps est écouté, respecté, honoré.',
     price: 150,
     duration: '60 minutes',
-    image: '/spa5.jpg'
+    image: '/massage2.jpg'
   },
   {
     id: 'facial-treatment',
@@ -50,7 +50,7 @@ export const spaServices: Service[] = [
     description: 'Revitalisez votre peau avec notre soin du visage premium à base de produits bio adaptés à votre type de peau.',
     price: 130,
     duration: '75 minutes',
-    image: 'https://images.pexels.com/photos/3985329/pexels-photo-3985329.jpeg'
+    image: '/massage3.jpg'
   },
   {
     id: 'body-scrub',
@@ -58,7 +58,7 @@ export const spaServices: Service[] = [
     description: 'Un soin exfoliant luxueux qui laisse votre peau éclatante et rajeunie. ',
     price: 110,
     duration: '45 minutes',
-    image: '/spa6.jpg'
+    image: '/massage4.jpg'
   }
 ];
 

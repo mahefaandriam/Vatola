@@ -93,16 +93,7 @@ const RoomDetailPage: React.FC = () => {
   }, [id]);
 
   const handleConfirmBooking = async () => {
-    if (!user) {
-      // sauvegarder les infos dans le localStorage pour les restaurer plus tard
-      localStorage.setItem("pending_booking", JSON.stringify({
-        room: room,
-        checkIn,
-        checkOut,
-        adults,
-        children
-      }));
-
+    if (!user) {    
       // rediriger vers la page login
       navigate(`/login?redirect=/rooms/${id}?check_in=${encodeURIComponent(checkIn || '')};check_out=${encodeURIComponent(checkOut|| ''
                   )};adults=${adults ?? ''};children=${children ?? ''}`);

@@ -8,9 +8,11 @@ const NailSalonPage: React.FC = () => {
   return (
     <div>
       <Hero
-        title="Salon de manucure haut de gamme"
-        subtitle="Profitez d’un soin des ongles exceptionnel dans notre salon élégant qui offre une gamme de soins allant des manucures classiques aux créations artistiques."
+        title="Espace manucure élégant et exclusif"
+        subtitle="Offrez à vos mains l’attention qu’elles méritent dans notre salon chic, où manucures traditionnelles et designs créatifs se côtoient avec élégance."
         image="https://images.pexels.com/photos/939836/pexels-photo-939836.jpeg"
+        ctaLink='/contact?subject=nailsalon'
+        ctaText="Prendre rendez-vous"
         height="h-[70vh]"
       />
       
@@ -127,7 +129,7 @@ const NailSalonPage: React.FC = () => {
             
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/2799609/pexels-photo-2799609.jpeg"
+                src="/nails4.jpg"
                 alt="Nail Polish Collection"
                 className="w-full h-auto rounded-lg shadow-lg"
               />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
@@ -11,6 +11,9 @@ const ContactPage: React.FC = () => {
     subject: '',
     message: '',
   });
+
+  const searchParams = new URLSearchParams(window.location.search);
+  const subject = searchParams.get('subject') || '';
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -19,6 +22,16 @@ const ContactPage: React.FC = () => {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    // Initialize form data with subject if provided in URL
+    if (subject) {
+      setFormData((prevData) => ({
+        ...prevData,
+        subject: subject,
+      }));
+    }
+  }, [subject]);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,8 +188,11 @@ const ContactPage: React.FC = () => {
                       <div>
                         <h4 className="font-medium text-primary-800 mb-1">Numéro de téléphone</h4>
                         <p className="text-gray-600">
-                          <a href="tel:+15551234567" className="hover:text-accent transition duration-300">
-                            +1 (555) 123-4567
+                          <a href="tel:+261376607863" className="hover:text-accent transition duration-300">
+                            +261 37 66 078 63
+                          </a>&nbsp;|&nbsp;
+                          <a href="tel:+261341193777" className="hover:text-accent transition duration-300">
+                            +261 34 11 937 77
                           </a>
                         </p>
                       </div>
@@ -189,8 +205,8 @@ const ContactPage: React.FC = () => {
                       <div>
                         <h4 className="font-medium text-primary-800 mb-1">Email</h4>
                         <p className="text-gray-600">
-                          <a href="mailto:info@vatolahyluxy.com" className="hover:text-accent transition duration-300">
-                            info@vatolahyluxy.com
+                          <a href="mailto:hotelvatola@outlook.com" className="hover:text-accent transition duration-300">
+                            hotelvatola@outlook.com
                           </a>
                         </p>
                       </div>
@@ -265,7 +281,7 @@ const ContactPage: React.FC = () => {
               <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
                 {/* Replace with an actual map in a real implementation */}
                 <iframe
-                  title="Hotel VATOLAHY Location"
+                  title="Hôtel VATOLAHY Location"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3772.393032176275!2d47.0307165!3d-19.8590461!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21e50e5bedb8cd11%3A0x7bfd8f5b462bb3e5!2sHotel%20VATOLAHY!5e0!3m2!1sen!2smg!4v1718030000000!5m2!1sen!2smg"
                   width="100%"
                   height="384"
