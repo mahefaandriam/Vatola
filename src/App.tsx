@@ -20,6 +20,7 @@ import Users from './pages/admin/Users';
 import ForgotPassword from './pages/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword';
 import Notifications from './pages/admin/Notifications';
+import Rooms from './pages/admin/Rooms';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
               }>
               <Route path="reservations" element={<Reservations />} />
               <Route path="utilisateurs" element={<Users />} />
+              <Route path="chambres" element={<Rooms />} />
               <Route path="notifications" element={<Notifications />} />
             </Route>
             <Route path="/" element={<HomePage />} />

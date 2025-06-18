@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
       <Hero
         title="Le luxe, réinventé pour vous"
         subtitle="Élégance, confort et service exceptionnel : vivez l’expérience unique de l’HÔTEL VATOLA."
-        image="/tab-de-vin.JPG"
+        image="/vatola.jpg"
         ctaText="Réservez Votre Séjour"
         ctaLink="/booking"
       />

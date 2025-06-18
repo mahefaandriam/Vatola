@@ -6,6 +6,7 @@ import Users from './Users'; // Adjust the import path as necessary
 import AdminNotifications from './Notifications';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+import Rooms from './Rooms';
 
 export default function AdminDashboard() {
    const [unreadCount, setUnreadCount] = useState(0);
@@ -29,7 +30,6 @@ export default function AdminDashboard() {
           return;
         }
         setUser(user);
-        console.log(user);
        // setEmail(user.email ?? '');
     };
   
@@ -43,11 +43,12 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen flex mt-20">
-      <aside className="fixed w-full bg-gray-900 text-white p-4 ">
+      <aside className="fixed w-full bg-gray-900 text-white p-4 z-50">
         <h1 className="text-xl font-bold mb-4">Admin Panel {user && user.email} </h1> 
         <div className="flex spcace-x-5">
           <div className='mx-4'><Link to="/admin/reservations">Réservations</Link></div>
-          <div className='mx-4'><Link to="/admin/utilisateurs">Utilisateurs</Link></div>          
+          <div className='mx-4'><Link to="/admin/utilisateurs">Utilisateurs</Link></div>    
+          <div className='mx-4'><Link to="/admin/chambres">Chambres</Link></div>           
           <div className='mx-4'>
           <Link to="/admin/notifications">Notifications
             <span className="ml-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
@@ -62,6 +63,7 @@ export default function AdminDashboard() {
         <Routes>
           <Route path="reservations" element={<Reservations />} />
           <Route path="utilisateurs" element={<Users />} />
+          <Route path="chambres" element={<Rooms />} />
           <Route path="notifications" element={<AdminNotifications />} />
         </Routes>
       </main>
