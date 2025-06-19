@@ -184,41 +184,6 @@ const RoomDetailPage: React.FC = () => {
       ctaBgNone={true}
       height="h-[80vh]"
       />
-      { showSummary && (
-        <div className="summary-card">
-          <h2>Récapitulatif de la réservation</h2>
-          <p><strong>Chambre :</strong> {room.name} ({room.type})</p>
-          <p><strong>Date d’arrivée :</strong> {checkIn}</p>
-          <p><strong>Date de départ :</strong> {checkOut}</p>
-          <p><strong>Nombre de personnes :</strong>Adultes: {adults}, Enfants: {children}</p>
-          <p><strong>Prix par nuit :</strong> {room.price} €</p>
-          <p><strong>Capacité :</strong> {room.capacity} invités Max</p>
-
-          {(() => {
-            let nights = 0;
-            let totalPrice = 0;
-            if (checkIn && checkOut) {
-              const checkInDate = new Date(checkIn);
-              const checkOutDate = new Date(checkOut);
-              if (!isNaN(checkInDate.getTime()) && !isNaN(checkOutDate.getTime())) {
-                nights = (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24);
-                nights = Math.max(0, nights);
-                totalPrice = nights * room.price;
-              }
-            }
-            return (
-              <>
-                <p><strong>Nombre de nuits :</strong> {nights}</p>
-                <p><strong>Prix total :</strong> {totalPrice.toFixed(2)} €</p>
-                {/* Replace selectedRoom with room and bookRoom implementation as needed */}
-                {/* <button onClick={() => bookRoom(room.id, totalPrice)}>
-                  Confirmer la réservation
-                </button> */}
-              </>
-            );
-          })()}
-        </div>
-      )}
       
       <div id='roomDetails' className="pt-24 md:pt-28 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6 py-12">
@@ -248,46 +213,81 @@ const RoomDetailPage: React.FC = () => {
           </h1>
           
           <div className="flex items-center mb-6">
-          <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium">
-            {room.type}
-          </span>
-          <span className="mx-2 text-gray-400">•</span>
-          <span className="text-gray-600">
-            {room.size} m² • {room.capacity} invités Max
-          </span>
-          </div>
-          
-          <p className="text-gray-600 mb-6">{room.description}</p>
-          
-          <div className="mb-8">
-          <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Chambres</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {room.amenities.map((amenity, index) => (
-            <div key={index} className="flex items-center">
-              <CheckCircle2 size={16} className="text-accent mr-2" />
-              <span className="text-gray-600">{amenity}</span>
-            </div>
-            ))}
-          </div>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-luxury p-6">
-          <div className="flex justify-between items-center mb-4">
-            <div>
-            <span className="font-serif text-2xl font-bold text-primary-800">${room.price}</span>
-            <span className="text-gray-500"> / nuitée</span>
+            <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium">
+              {room.type}
+            </span>
+            <span className="mx-2 text-gray-400">•</span>
+            <span className="text-gray-600">
+              {room.size} m² • {room.capacity} invités Max
+            </span>
             </div>
             
-            <button
-            className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
-            onClick={handleConfirmBooking}
-            >
-            Réservez Maintenant
-            </button>
+            <p className="text-gray-600 mb-6">{room.description}</p>
+            
+            <div className="mb-8">
+            <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Chambres</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {room.amenities.map((amenity, index) => (
+              <div key={index} className="flex items-center">
+                <CheckCircle2 size={16} className="text-accent mr-2" />
+                <span className="text-gray-600">{amenity}</span>
+              </div>
+              ))}
+            </div>
           </div>
-          <p className="text-sm text-gray-500">
-           *Les prix peuvent varier en fonction de la saison et de la disponibilité. Taxes et frais non inclus.
-          </p>
+
+          { showSummary && (
+            <div className="flex items-center mb-6 border p-2 rounded">
+                <div className="mb-8">
+
+                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Récapitulatif de votre réservation</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex items-center">
+                        <CheckCircle2 size={16} className="text-accent mr-2" />
+                        <span className="text-gray-600"><strong>Chambre :</strong> {room.name} ({room.type})</span>
+                    </div>
+                    <div className="flex items-center">
+                        <CheckCircle2 size={16} className="text-accent mr-2" />
+                        <span className="text-gray-600"><strong>Date d’arrivée :</strong> {checkIn}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <CheckCircle2 size={16} className="text-accent mr-2" />
+                        <span className="text-gray-600"><strong>Date de départ :</strong> {checkOut}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <CheckCircle2 size={16} className="text-accent mr-2" />
+                        <span className="text-gray-600"><strong>Nombre de personnes :</strong>Adultes: {adults}, Enfants: {children}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <CheckCircle2 size={16} className="text-accent mr-2" />
+                        <span className="text-gray-600"><strong>Prix par nuit :</strong> {room.price} $</span>
+                    </div>
+                    <div className="flex items-center">
+                        <CheckCircle2 size={16} className="text-accent mr-2" />
+                        <span className="text-gray-600"><strong>Capacité :</strong> {room.capacity} invités Max</span>
+                    </div>
+                  </div>
+                </div>
+
+            </div>          
+          )}
+          <div className="bg-white rounded-lg shadow-luxury p-6">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+              <span className="font-serif text-2xl font-bold text-primary-800">${room.price}</span>
+              <span className="text-gray-500"> / nuitée</span>
+              </div>
+              
+              <button
+              className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
+              onClick={handleConfirmBooking}
+              >
+              Réservez Maintenant
+              </button>
+            </div>
+            <p className="text-sm text-gray-500">
+            *Les prix peuvent varier en fonction de la saison et de la disponibilité. Taxes et frais non inclus.
+            </p>
           </div>  
         </div>
         </div>

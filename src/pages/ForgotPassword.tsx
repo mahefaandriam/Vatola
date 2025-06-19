@@ -21,7 +21,7 @@ export default function ForgotPassword() {
     checkSession();
   }, [navigate]);
 
-  const notifyError = (error: any) =>   toast.error(error, {
+ /* const notifyError = (error: any) =>   toast.error(error, {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -31,7 +31,7 @@ export default function ForgotPassword() {
       progress: undefined,
       theme: "light",
       transition: Bounce,
-  });
+  });*/
 
   const notifyWarn = (warn: any) => toast.warn(warn, {
     position: "bottom-right",
@@ -45,7 +45,7 @@ export default function ForgotPassword() {
     transition: Bounce,
   });
 
-  const notifySucces = (succes: any) => toast.success(succes, {
+ /* const notifySucces = (succes: any) => toast.success(succes, {
     position: "bottom-right",
     autoClose: 5000,
     hideProgressBar: false,
@@ -55,7 +55,7 @@ export default function ForgotPassword() {
     progress: undefined,
     theme: "light",
     transition: Bounce,
-  });
+  });*/
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();

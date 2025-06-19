@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 type ContactMessage = {
   read: any;
   id: number;
-  nom: string;
+  name: string;
   email: string;
   subject: string;
   message: string;
