@@ -22,10 +22,12 @@ import UpdatePassword from './pages/UpdatePassword';
 import Notifications from './pages/admin/Notifications';
 import Rooms from './pages/admin/Rooms';
 import NailsServices from './pages/admin/NailsServieces';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <Router>
+      <ToastContainer />
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">

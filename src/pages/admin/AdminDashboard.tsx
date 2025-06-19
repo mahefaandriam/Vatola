@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import Rooms from './Rooms';
 import NailsServices from './NailsServieces';
+import Contacts from './Contacts';
 
 export default function AdminDashboard() {
    const [unreadCount, setUnreadCount] = useState(0);
@@ -59,7 +60,8 @@ export default function AdminDashboard() {
               {unreadCount}
             </span>
           </Link>
-          </div>
+          </div> 
+          <div className='mx-4'><Link to="/admin/contacts">Contacts</Link></div>   
         </div>
       </aside>
 
@@ -70,6 +72,7 @@ export default function AdminDashboard() {
           <Route path="chambres" element={<Rooms />} />
           <Route path="nails" element={<NailsServices />} />
           <Route path="notifications" element={<AdminNotifications />} />
+          <Route path="contacts" element={<Contacts />} />
         </Routes>
       </main>
     </div>

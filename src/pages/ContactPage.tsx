@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
+
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -33,19 +35,28 @@ const ContactPage: React.FC = () => {
     }
   }, [subject]);
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission - in a real app this would connect to a backend API
     console.log('Form submitted:', formData);
     alert('Merci de votre message ! Notre équipe vous contactera sous peu. ');
+    
+    const { error } = await supabase.from('contacts').insert([formData]);
+
+    if (error) {
+      alert("Erreur lors de l'envoi." );
+    } else {
+      alert("Message envoyé avec succès ✅" );
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+      });
+    }
     // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: '',
-    });
+    
   };
   
   return (

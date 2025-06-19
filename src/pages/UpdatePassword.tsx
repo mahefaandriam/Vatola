@@ -35,8 +35,14 @@ export default function UpdatePassword() {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto mt-30">
-      <h2 className="text-xl font-bold mb-4">Définir un nouveau mot de passe</h2>
+    <div className="p-4 max-w-md mx-2 md:mx-auto mt-30 border-1 rounded border-accent mb-10">
+      <h3 className="font-serif text-xl font-semibold text-primary-800 mb-6">Définir un nouveau mot de passe</h3>
+      <p className="text-gray-600 mb-6">
+        Merci de définir un nouveau mot de passe afin de poursuivre.
+      </p>
+      <p className="text-gray-600 text-sm mb-6">
+        <p className='italic'>suggestion:</p>Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, un chiffre et un symbole.
+      </p>
 
       {!submitted ? (
         <form onSubmit={handleUpdate} className="space-y-4">
@@ -46,7 +52,7 @@ export default function UpdatePassword() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full border p-2 rounded"
+            className="w-full p-3 border-2 border-accent rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
           />
           <button
             type="submit"

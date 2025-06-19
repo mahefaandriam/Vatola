@@ -2,10 +2,48 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import SectionTitle from '../components/SectionTitle';
+import { Bounce, toast } from 'react-toastify';
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
    const navigate = useNavigate();
+
+  const notifyError = (error: any) =>   toast.error(error, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+  });
+
+  /*const notifyWarn = (warn: any) => toast.warn(warn, {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+  });*/
+
+  const notifySucces = (succes: any) => toast.success(succes, {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+  });
+
 
   const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -15,17 +53,20 @@ export default function Login() {
     });
 
     if (error) {
-      alert(error.message);
+      notifyError(error + ": Veuillez verfier Votre Email et Mot de passe");
     } else {
       const searchParams = new URLSearchParams(window.location.search);
       const redirect = searchParams.get('redirect');
       const redirectSanitized = redirect ? redirect.replace(/;/g, '&') : null;
+      notifySucces("Connexion")
       if (redirectSanitized) {
         navigate(redirectSanitized);
       } else {
         if (form.email === '/admin') {
+          notifySucces("Wecolme Admin")
           navigate('/admin'); // Redirect to admin dashboard if user is admin
         } else {
+          notifySucces("Connexion")
           navigate('/profil'); // Redirect to user profile if not admin  
         }
       }
@@ -34,9 +75,10 @@ export default function Login() {
 
   return (
     <div className='mt-25 mb-5 mx-5 md:mx-30'>
+      
       <SectionTitle
-        title="Entrer en contact"
-        subtitle="Nous aimerions avoir de vos nouvelles. Veuillez remplir le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
+        title="Authentification"
+        subtitle="Heureux de vous revoir ! Entrez vos informations de connexion ci-dessous."
         alignment="left"
       />
     

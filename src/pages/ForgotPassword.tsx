@@ -1,10 +1,61 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient'; // ajuste le chemin si besoin
+import { useNavigate } from 'react-router-dom';
+import { Bounce, toast } from 'react-toastify';
+
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        notifyWarn('Veuillez vous deconnecté! Avant Faire cette opération.')
+        navigate('/profil');
+      }
+    };
+    checkSession();
+  }, [navigate]);
+
+  const notifyError = (error: any) =>   toast.error(error, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+  });
+
+  const notifyWarn = (warn: any) => toast.warn(warn, {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+  });
+
+  const notifySucces = (succes: any) => toast.success(succes, {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+  });
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -22,8 +73,17 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Mot de passe oublié</h2>
+    <div className="p-4 max-w-md mx-2 md:mx-auto mt-30 border-1 rounded border-accent mb-10">
+
+      <h3 className="font-serif text-xl font-semibold text-primary-800 mb-6">Mot de passe oublié</h3>
+      <p className="text-gray-600 mb-6">
+        Entrez votre adresse emails en toute confidentialité.
+      </p>
+      <p className="text-gray-600 text-sm mb-6">
+        Pour des raisons de sécurité, veuillez entrer l'adresse email liée à votre compte. Une lien de réinitialisation vous sera envoyé
+        par email dans les plus brefs délais.
+         Cette information est nécessaire pour vérifier votre indentité et garantir la sécurité de votre compte.
+      </p>
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="space-y-4">
