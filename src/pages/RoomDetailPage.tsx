@@ -10,6 +10,7 @@ import { CheckCircle2 } from 'lucide-react';
 import { getRoomById } from '../../api/getRoomById';
 import Hero from '../components/Hero';
 import { supabase } from '../lib/supabaseClient';
+import { motion } from 'framer-motion';
 //import { useForm } from "react-hook-form";
 
 type Room = {
@@ -32,24 +33,11 @@ type Room = {
 
 const RoomDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  // ?ckeck_in=2023-10-01&check_out=2023-10-05&adults=2&children=1
-  // Get query params from URL
   const [searchParams, _] = useSearchParams();
-  
-  
-  /*const searchParams = new URLSearchParams(window.location.search);
-  const check_in = decodeURIComponent(searchParams.get('check_in') || '');
-  const check_out = searchParams.get('check_out');
-  const adults = searchParams.get('adults');
-  const children = searchParams.get('children');*/
   const [room, setRoom] = useState<Room | null>(null);
-  //const { register, handleSubmit, watch } = useForm<BookingFormInputs>();
-  //const [isAvailable, setIsAvailable] = useState(true);
-  //const [checkingAvailability, setCheckingAvailability] = useState(false);
-  //const [submitted, setSubmitted] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [showSummary, setShowSummary] = useState(false);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -175,123 +163,151 @@ const RoomDetailPage: React.FC = () => {
   
   return (
     <div>
-      <Hero
+      <Hero 
       title={room.name}
       subtitle={`Notre ${room.name} spacieuse de  ${room.size}m² est conçue pour le confort et la commodité.`}
       image={room.images[0]}
       ctaText='Détails'
-      ctaLink='#roomDetails'
+      ctaLink='#roomdetails'
       ctaBgNone={true}
       height="h-[80vh]"
       />
       
-      <div id='roomDetails' className="pt-24 md:pt-28 bg-gray-50">
-      <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div>
-          <Swiper
-          modules={[Pagination, Navigation]}
-          pagination={{ clickable: true }}
-          navigation={true}
-          className="rounded-lg overflow-hidden"
-          >
-          {room.images.map((image, index) => (
-            <SwiperSlide key={index}>
-            <img
-              src={image}
-              alt={`${room.name} - Image ${index + 1}`}
-              className="w-full h-[400px] object-cover"
-            />
-            </SwiperSlide>
-          ))}
-          </Swiper>
-        </div>
-        
-        <div>
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-primary-800 mb-2">
-          {room.name}
-          </h1>
-          
-          <div className="flex items-center mb-6">
-            <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium">
-              {room.type}
-            </span>
-            <span className="mx-2 text-gray-400">•</span>
-            <span className="text-gray-600">
-              {room.size} m² • {room.capacity} invités Max
-            </span>
-            </div>
-            
-            <p className="text-gray-600 mb-6">{room.description}</p>
-            
-            <div className="mb-8">
-            <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Chambres</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {room.amenities.map((amenity, index) => (
-              <div key={index} className="flex items-center">
-                <CheckCircle2 size={16} className="text-accent mr-2" />
-                <span className="text-gray-600">{amenity}</span>
-              </div>
-              ))}
-            </div>
-          </div>
-
+      <div id='roomdetails' className="pt-20 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6 pb-10">
           { showSummary && (
-            <div className="flex items-center mb-6 border p-2 rounded">
-                <div className="mb-8">
-
-                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Récapitulatif de votre réservation</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div className="flex items-center">
-                        <CheckCircle2 size={16} className="text-accent mr-2" />
-                        <span className="text-gray-600"><strong>Chambre :</strong> {room.name} ({room.type})</span>
+              <div id='bookingSummary' className="flex items-center mb-10 py-5 border border-accent px-5 rounded">
+                  <div className="mb-8 h-50 w-full ">
+                      <h3 className="font-serif text-xl font-semibold text-primary-800 mb-1">Récapitulatif de votre réservation</h3>
+                      <div className='w-full '>
+                      <motion.div
+                        initial={{ opacity: 0, width: 0 }}
+                        whileInView={{ opacity: 1, width: '150px' }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                        viewport={{ once: true }}
+                        className={`h-1 bg-accent mr-auto mb-4`}
+                      />
                     </div>
-                    <div className="flex items-center">
-                        <CheckCircle2 size={16} className="text-accent mr-2" />
-                        <span className="text-gray-600"><strong>Date d’arrivée :</strong> {checkIn}</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div className="flex items-center">
+                          <CheckCircle2 size={16} className="text-accent mr-2" />
+                          <span className="text-gray-600"><strong>Chambre :</strong> {room.name} ({room.type})</span>
+                      </div>
+                      <div className="flex items-center">
+                          <CheckCircle2 size={16} className="text-accent mr-2" />
+                          <span className="text-gray-600"><strong>Date d’arrivée :</strong> {checkIn}</span>
+                      </div>
+                      <div className="flex items-center">
+                          <CheckCircle2 size={16} className="text-accent mr-2" />
+                          <span className="text-gray-600"><strong>Date de départ :</strong> {checkOut}</span>
+                      </div>
+                      <div className="flex items-center">
+                          <CheckCircle2 size={16} className="text-accent mr-2" />
+                          <span className="text-gray-600"><strong>Nombre de personnes :</strong>Adultes: {adults}, Enfants: {children}</span>
+                      </div>
+                      <div className="flex items-center">
+                          <CheckCircle2 size={16} className="text-accent mr-2" />
+                          <span className="text-gray-600"><strong>Prix par nuit :</strong> {room.price} $</span>
+                      </div>
+                      <div className="flex items-center">
+                          <CheckCircle2 size={16} className="text-accent mr-2" />
+                          <span className="text-gray-600"><strong>Capacité :</strong> {room.capacity} invités Max</span>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                        <CheckCircle2 size={16} className="text-accent mr-2" />
-                        <span className="text-gray-600"><strong>Date de départ :</strong> {checkOut}</span>
-                    </div>
-                    <div className="flex items-center">
-                        <CheckCircle2 size={16} className="text-accent mr-2" />
-                        <span className="text-gray-600"><strong>Nombre de personnes :</strong>Adultes: {adults}, Enfants: {children}</span>
-                    </div>
-                    <div className="flex items-center">
-                        <CheckCircle2 size={16} className="text-accent mr-2" />
-                        <span className="text-gray-600"><strong>Prix par nuit :</strong> {room.price} $</span>
-                    </div>
-                    <div className="flex items-center">
-                        <CheckCircle2 size={16} className="text-accent mr-2" />
-                        <span className="text-gray-600"><strong>Capacité :</strong> {room.capacity} invités Max</span>
+                      <div className='flex justify-between items-center w-full'>
+                        <div >
+                        </div>
+                        <button
+                          className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300 right-0"
+                          onClick={handleConfirmBooking}
+                          >
+                          Confirmer Réservation
+                        </button>
                     </div>
                   </div>
-                </div>
-
-            </div>          
-          )}
-          <div className="bg-white rounded-lg shadow-luxury p-6">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-              <span className="font-serif text-2xl font-bold text-primary-800">${room.price}</span>
-              <span className="text-gray-500"> / nuitée</span>
+                
+              </div>          
+            )}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <Swiper
+            modules={[Pagination, Navigation]}
+            pagination={{ clickable: true }}
+            navigation={true}
+            className="rounded-lg overflow-hidden"
+            >
+            {room.images.map((image, index) => (
+              <SwiperSlide key={index}>
+              <img
+                src={image}
+                alt={`${room.name} - Image ${index + 1}`}
+                className="w-full h-[400px] object-cover"
+              />
+              </SwiperSlide>
+            ))}
+            </Swiper>
+          </div>
+          
+          <div>
+            <h1 className="font-serif text-3xl md:text-4xl font-bold text-primary-800 mb-2">
+            {room.name}
+            </h1>
+            
+            <div className="flex items-center mb-6">
+              <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium">
+                {room.type}
+              </span>
+              <span className="mx-2 text-gray-400">•</span>
+              <span className="text-gray-600">
+                {room.size} m² • {room.capacity} invités Max
+              </span>
               </div>
               
-              <button
-              className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
-              onClick={handleConfirmBooking}
-              >
-              Réservez Maintenant
-              </button>
+              <p className="text-gray-600 mb-6">{room.description}</p>
+              
+              <div className="mb-8">
+              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Chambres</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {room.amenities.map((amenity, index) => (
+                <div key={index} className="flex items-center">
+                  <CheckCircle2 size={16} className="text-accent mr-2" />
+                  <span className="text-gray-600">{amenity}</span>
+                </div>
+                ))}
+              </div>
             </div>
-            <p className="text-sm text-gray-500">
-            *Les prix peuvent varier en fonction de la saison et de la disponibilité. Taxes et frais non inclus.
-            </p>
-          </div>  
+
+            
+            <div className="bg-white rounded-lg shadow-luxury p-6">
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                <span className="font-serif text-2xl font-bold text-primary-800">${room.price}</span>
+                <span className="text-gray-500"> / nuitée</span>
+                </div>
+                
+                {showSummary ? (
+                    <button
+                      className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
+                      onClick={handleConfirmBooking}
+                      >
+                      Confirmer Réservation
+                    </button>
+                ) : (
+                  <button
+                  className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
+                  onClick={handleConfirmBooking}
+                  >
+                  Réservez Maintenant
+                  </button>
+                )}
+              </div>
+              <p className="text-sm text-gray-500">
+              *Les prix peuvent varier en fonction de la saison et de la disponibilité. Taxes et frais non inclus.
+              </p>
+            </div>  
+          </div>
+          </div>
         </div>
-        </div>
-      </div>
       </div>
       <section className="py-16 bg-white">
       <div className="container mx-auto px-4 md:px-6">
