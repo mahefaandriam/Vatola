@@ -172,7 +172,7 @@ const Header: React.FC = () => {
                 </div>
               </div>
             </div>
-            <Link to="/contact" className="hover:text-accent transition duration-200">
+            <Link to="/contact#hero" className="hover:text-accent transition duration-200">
               Contact
             </Link>
             <Link

@@ -70,7 +70,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
                   typeof checkIn === 'string' ? checkIn : checkIn?.toISOString() || ''
                   )}&check_out=${encodeURIComponent(
                   typeof checkOut === 'string' ? checkOut : checkOut?.toISOString() || ''
-                  )}&adults=${adults ?? ''}&children=${children ?? ''}`}
+                  )}&adults=${adults ?? ''}&children=${children ?? ''}#bookingSummary`}
                   className=" bg-primary-800 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300"
                 >
                   Réserver
@@ -80,7 +80,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
             ) : (
 
             <Link
-              to={`/rooms/${id}#roomDetails`}
+              to={`/rooms/${id}#roomdetails`}
               className="bg-primary-800 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300"
             >
               Afficher les détails
