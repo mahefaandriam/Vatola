@@ -43,16 +43,16 @@ export default function AdminContacts() {
     <section className="p-6">
       <h1 className="text-2xl font-bold mb-4">Messages de contact</h1>
       <div className="overflow-x-auto">
-        <table className="min-w-full border text-sm">
+        <table className="min-w-full border border-gray-300 text-sm">
           <thead className="bg-gray-100 text-left">
             <tr>
-              <th className="p-2 border">Nom</th>
-              <th className="p-2 border">Email</th>
-              <th className="p-2 border">Sujet</th>
-              <th className="p-2 border">Message</th>
-              <th className="p-2 border">Date</th>
-              <th className="p-2 border">Lu</th>
-              <th className="p-2 border">Action</th>
+              <th className="p-2 border border-gray-300">Nom</th>
+              <th className="p-2 border border-gray-300">Email</th>
+              <th className="p-2 border border-gray-300">Sujet</th>
+              <th className="p-2 border border-gray-300">Message</th>
+              <th className="p-2 border border-gray-300">Date</th>
+              <th className="p-2 border border-gray-300">Lu</th>
+              <th className="p-2 border border-gray-300">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -60,15 +60,15 @@ export default function AdminContacts() {
               <tr key={msg.id}  
               className={msg.read ? '' : 'bg-blue-50 hover:bg-blue-100 cursor-pointer'}
                  onClick={() => handleMarkAsRead(msg.id)}>
-                <td className="p-2 border">{msg.name}</td>
-                <td className="p-2 border">{msg.email}</td>
-                <td className="p-2 border">{msg.subject}</td>
-                <td className="p-2 border max-w-[300px] truncate">{msg.message}</td>
-                <td className="p-2 border">{new Date(msg.created_at).toLocaleString()}</td>
-                <td className="p-2 border text-center">
+                <td className="p-2 border border-gray-300">{msg.name}</td>
+                <td className="p-2 border border-gray-300">{msg.email}</td>
+                <td className="p-2 border border-gray-300">{msg.subject}</td>
+                <td className="p-2 border border-gray-300 max-w-[300px] truncate">{msg.message}</td>
+                <td className="p-2 border border-gray-300">{new Date(msg.created_at).toLocaleString()}</td>
+                <td className="p-2 border border-gray-300 text-center">
                     {msg.read ? '✅' : '🔵'}
                 </td>
-                <td className="p-2 border">
+                <td className="p-2 border border-gray-300">
                   <button
                     onClick={() => handleDelete(msg.id)}
                     className="text-red-600 hover:underline"

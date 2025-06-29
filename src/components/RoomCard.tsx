@@ -20,6 +20,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
         <img
           src={images[0]}
           alt={name}
+          loading="lazy"
           className="w-full h-64 object-cover"
         />
         {room.featured && (

@@ -39,21 +39,25 @@ const PubPage: React.FC = () => {
               <img
                 src="/une-verre2.jpg"
                 alt="Cocktail and Glass"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="une-verre3.jpg"
                 alt="Cocktail Preparation"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="/clients1.jpg"
                 alt="Craft Beer Selection"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="/plat-de-poulets.jpg"
                 alt="Gourment plat de poulet"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
             </div>
@@ -133,12 +137,14 @@ const PubPage: React.FC = () => {
               <img
                 src="/night-vibe.JPG"
                 alt="Live Music at Pub"
+                loading="lazy"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
                   src="/good-time.jpeg"
                   alt="Craft Beer"
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-lg transform -translate-x-4 -translate-y-4 shadow-lg"
                 />
               </div>
@@ -192,9 +198,14 @@ const PubPage: React.FC = () => {
             <div className="mt-8 pt-6 border-t border-gray-200 text-center">
               <p className="text-gray-600">
                 Pour les événements privés et les réservations, veuillez nous contacter à 
-                <a href="tel:+15551234567" className="text-accent hover:text-gold-700 ml-1">
-                  +1 (555) 123-4567
-                </a>
+                <p className="text-accent">
+                  <a href="tel:+261376607863" className='hover:text-gold-700'>
+                    +261 37 66 078 63
+                  </a>&nbsp;|&nbsp;
+                  <a href="tel:+261341193777" className='hover:text-gold-700'>
+                    +261 34 11 937 77
+                  </a>
+                </p>
               </p>
             </div>
           </div>

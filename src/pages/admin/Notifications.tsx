@@ -42,7 +42,7 @@ export default function AdminNotifications() {
           {notifications.map((notif) => (
             <li
               key={notif.id}
-              className={`p-4 border rounded ${notif.is_read ? 'bg-gray-100' : 'bg-white'}`}
+              className={`p-4 border border-gray-300 rounded ${notif.is_read ? 'bg-gray-100' : 'bg-white'}`}
             >
               <div className="flex justify-between">
                 <p>{notif.message}</p>

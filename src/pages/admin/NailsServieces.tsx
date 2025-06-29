@@ -95,7 +95,7 @@ const NailsServices: React.FC = () => {
                  {loading ? (
                     <LoadingComponents />
                 ) : (
-                    <table className="w-full border">
+                    <table className="w-full border border-gray-300">
                         <thead className="bg-gray-100">
                         <tr>
                             <th className="p-2">Nom</th>
@@ -122,7 +122,7 @@ const NailsServices: React.FC = () => {
                                                 'No Image'
                                             )}
                                         </td>
-                                        <td className="border border-gray-300 p-2" >
+                                        <td className="border border-gray-300 border border-gray-300-gray-300 p-2" >
                                         <button className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600" onClick={() => replaceImage(service.id)}>Modifier Image</button>
                                         <button className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600" onClick={() => setEditNails(service)}>Modifier</button>
                                         <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Supprimer</button>

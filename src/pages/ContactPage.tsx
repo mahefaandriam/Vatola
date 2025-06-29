@@ -64,7 +64,7 @@ const ContactPage: React.FC = () => {
       <Hero
         title="Contactez-nous"
         subtitle= "Nous sommes là pour vous aider avec toutes les demandes ou réservations."
-        image="/avion.jpeg"
+        image="/avion.webp"
         ctaText={undefined}
         height="h-[70vh]"
       />

@@ -85,58 +85,57 @@ export default function Reservations() {
     
 
   return (
-    <div>
-        <div className="mb-4 flex items-center gap-4">
-             <div className="mb-4">
-                <label htmlFor="statusFilter" className="mr-2 font-medium">Filtrer par statut :</label>
-                <select
-                    id="statusFilter"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="border px-3 py-1 rounded"
-                >
-                    <option value="all">Tous</option>
-                    <option value="pending">En attente</option>
-                    <option value="confirmed">Confirmée</option>
-                    <option value="canceled">Annulée</option>
-                </select>
-            </div>
-            <div>
-                <label htmlFor="searchTerm" className="mr-2 font-medium">Rechercher client :</label>
-                <input
-                type="text"
-                id="searchTerm"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Nom du client"
-                className="border px-3 py-1 rounded"
-                />
-            </div>
-        </div>
-   
+    <div className='p-5'>    
       <h2 className="text-2xl font-bold mb-4">Liste des Réservations</h2>
+      <div className="mb-4 flex items-center gap-4 ">
+          <div className="mb-4">
+              <label htmlFor="statusFilter" className="mr-2 font-medium">Filtrer par statut :</label>
+              <select
+                  id="statusFilter"
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="border border-gray-300 px-3 py-1 rounded"
+              >
+                  <option value="all">Tous</option>
+                  <option value="pending">En attente</option>
+                  <option value="confirmed">Confirmée</option>
+                  <option value="canceled">Annulée</option>
+              </select>
+          </div>
+          <div>
+              <label htmlFor="searchTerm" className="mr-2 font-medium">Rechercher client :</label>
+              <input
+              type="text"
+              id="searchTerm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Nom du client"
+              className="border border-gray-300 px-3 py-1 rounded"
+              />
+          </div>
+      </div>
       {loading ? (
         <LoadingComponents />
       ) : (
-        <table className="min-w-full border bg-white">
+        <table className="min-w-full border border-gray-300 bg-white overflow-x-scroll ">
           <thead>
             <tr className="bg-gray-100">
-                <th className="p-2 border">Client</th>
-                <th className="p-2 border">Chambre</th>
-                <th className="p-2 border">Début</th>
-                <th className="p-2 border">Fin</th>
-                <th className="p-2 border">Statut</th>
-                <th className="p-2 border">Actions</th>
+                <th className="p-2 border border-gray-300" style={{ position: 'sticky', left: 0, background: '#fff', zIndex: 2 }}>Client</th>
+                <th className="p-2 border border-gray-300">Chambre</th>
+                <th className="p-2 border border-gray-300">Début</th>
+                <th className="p-2 border border-gray-300">Fin</th>
+                <th className="p-2 border border-gray-300">Statut</th>
+                <th className="p-2 border border-gray-300">Actions</th>
             </tr>
           </thead>
           <tbody>
             {bookings.map(booking => (
               <tr key={booking.id} className="hover:bg-gray-50">
-                <td className="p-2 border">{booking.profiles?.name || '—'}</td>
-                <td className="p-2 border">{booking.rooms?.name || '—'}</td>
-                <td className="p-2 border">{booking.check_in}</td>
-                <td className="p-2 border">{booking.check_out}</td>
-                <td className="p-2 border">
+                <td className="p-2 border border-gray-300" style={{ position: 'sticky', left: 0, background: '#fff', zIndex: 2 }}>{booking.profiles?.name || '—'}</td>
+                <td className="p-2 border border-gray-300">{booking.rooms?.name || '—'}</td>
+                <td className="p-2 border border-gray-300">{booking.check_in}</td>
+                <td className="p-2 border border-gray-300">{booking.check_out}</td>
+                <td className="p-2 border border-gray-300">
                     <span
                     className={`px-2 py-1 text-sm rounded 
                         ${
@@ -149,7 +148,7 @@ export default function Reservations() {
                     >
                     {booking.status}
                     </span>
-                </td><td className="p-2 border">
+                </td><td className="p-2 border border-gray-300">
                     {booking.status === 'confirmed' && (
                         <button
                         onClick={() => {

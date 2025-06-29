@@ -80,7 +80,7 @@ export default function Profile() {
   if (!user) return <p>Chargement...</p>;
 
   return (
-    <div className="mx-10 p-6 mt-25 ">
+    <div className="md:mx-10 p-6 mt-25 ">
        <SectionTitle
           title="Informations du compte"
           subtitle="Nous aimerions avoir de vos nouvelles. Veuillez remplir le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
@@ -170,14 +170,14 @@ export default function Profile() {
           <LogoutButton />
         </div>
       </div>
-      <div className='col-span-1'>
+      <div className='col-span-1 '>
         <h3 className="font-serif text-xl font-semibold text-primary-800 mb-6">Mes réservations</h3>
           {bookings.length === 0 ? (
             <p>Aucune réservation pour le moment.</p>
           ) : (
-            <table className="w-full border text-sm">
+            <table className="w-full border-2 border-accent  text-sm rounded px-5">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className=" bg-accent">
                   <th className="p-2 text-left">Chambre</th>
                   <th className="p-2 text-left">Début</th>
                   <th className="p-2 text-left">Fin</th>

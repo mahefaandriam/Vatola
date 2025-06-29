@@ -44,7 +44,7 @@ export default function Users() {
       <h1 className="text-2xl font-bold mb-4">Utilisateurs</h1>
             {loading ? (
         <div>
-           <div className="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+           <div className="mx-auto w-full max-w-sm rounded-md border border-gray-300 border-gray-300-blue-300 p-4">
               <div className="flex animate-pulse space-x-4">
                 <div className="size-10 rounded-full bg-gray-200"></div>
                 <div className="flex-1 space-y-6 py-1">
@@ -61,24 +61,24 @@ export default function Users() {
           </div>
         </div>
       ) : (
-      <table className="w-full border">
+      <table className="w-full border border-gray-300">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-2">Nom</th>
-            <th className="p-2">Email</th>
-            <th className="p-2">Inscription</th>
-            <th className="p-2">Action</th>
+            <th className="p-2 border border-gray-300">Nom</th>
+            <th className="p-2 border border-gray-300">Email</th>
+            <th className="p-2 border border-gray-300">Inscription</th>
+            <th className="p-2 border border-gray-300">Action</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="border-t">
-              <td className="p-2">{user.name || '—'}</td>
-              <td className="p-2">{user.email}</td>
-              <td className="p-2">
+            <tr key={user.id} className="border border-gray-300-t">
+              <td className="p-2 border border-gray-300">{user.name || '—'}</td>
+              <td className="p-2 border border-gray-300">{user.email}</td>
+              <td className="p-2 border border-gray-300">
                 {new Date(user.created_at).toLocaleDateString()}
               </td>
-              <td className="p-2">
+              <td className="p-2 border border-gray-300">
                 <button
                   onClick={() => handleDelete(user.id, user.email)}
                   className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"

@@ -71,13 +71,15 @@ const HomePage: React.FC = () => {
             
             <div className='relative'>
               <img
-                src="/clients1.jpg"
+                src="/clients1.webp"
                 alt="Hotel Lobby"
+                loading="lazy"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
                   src="/plat1.jpg"
+                  loading="lazy"
                   alt="Hotel Detail"
                   className="w-full h-full object-cover rounded-lg transform translate-x-4 translate-y-4 shadow-lg"
                 />
@@ -122,6 +124,7 @@ const HomePage: React.FC = () => {
                 <img
                   src="/tab-de-vin.JPG"
                   alt="Pub Icon"
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -148,6 +151,7 @@ const HomePage: React.FC = () => {
                 <img
                   src="/spa1.jpg"
                   alt="Spa Icon"
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -174,6 +178,7 @@ const HomePage: React.FC = () => {
                 <img
                   src="nails.webp"
                   alt="Nail Salon Icon"
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>

@@ -38,21 +38,25 @@ const SpaPage: React.FC = () => {
               <img
                 src="/spa2.jpg"
                 alt="Spa Ambiance"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="/spa3.jpg"
                 alt="Spa Ambiance"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="/care2.jpg"
                 alt="Spa Bath"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="spa4.jpg"
                 alt="Spa Ambiance"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
             </div>
@@ -98,6 +102,7 @@ const SpaPage: React.FC = () => {
                 <img
                   src="spa7.jpg"
                   alt="Salle de détente"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -113,6 +118,7 @@ const SpaPage: React.FC = () => {
                 <img
                   src="spa2.jpg"
                   alt="Sauna"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -128,6 +134,7 @@ const SpaPage: React.FC = () => {
                 <img
                   src="/sauna1.jpg"
                   alt="Steam Room"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -153,6 +160,7 @@ const SpaPage: React.FC = () => {
                 <img
                   src="https://images.pexels.com/photos/3757952/pexels-photo-3757952.jpeg"
                   alt="Relaxation Package"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -183,6 +191,7 @@ const SpaPage: React.FC = () => {
                 <img
                   src="https://images.pexels.com/photos/3764013/pexels-photo-3764013.jpeg"
                   alt="Rejuvenation Package"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -213,6 +222,7 @@ const SpaPage: React.FC = () => {
                 <img
                   src="https://images.pexels.com/photos/6663354/pexels-photo-6663354.jpeg"
                   alt="Couples Package"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>

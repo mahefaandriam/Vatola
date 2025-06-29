@@ -9,8 +9,8 @@ const BookingPage: React.FC = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
-            title="Book Your Stay"
-            subtitle="Reserve your luxurious accommodation at VATOLAHY LUXY HOTEL and prepare for an unforgettable experience."
+            title="Réservez Votre Séjour"
+            subtitle="Réservez votre hébergement au HÔTEL VATOLAHY et préparez-vous à vivre une expérience inoubliable."
           />
           
           <div className="max-w-3xl mx-auto">
@@ -23,70 +23,78 @@ const BookingPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
             <SectionTitle
-              title="Booking Information"
-              subtitle="Important details about our booking and cancellation policies."
+              title="Informations De Réservation"
+              subtitle="Détails importants sur nos politiques de réservation et d’annulation."
             />
             
             <div className="bg-gray-50 rounded-lg shadow-luxury p-8">
               <div className="space-y-6">
                 <div>
-                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Check-in / Check-out</h3>
+                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Arrivée / Départ</h3>
                   <p className="text-gray-600">
-                    Check-in time is from 3:00 PM, and check-out time is by 12:00 PM. Early check-in and late 
-                    check-out may be available upon request, subject to availability and additional charges.
+                   L’heure d’arrivée est à partir de 15h00, et l’heure de départ est avant 12h00. L’enregistrement anticipé et
+                    le départ tardif peuvent être disponibles sur demande, sous réserve de disponibilité et moyennant des frais supplémentaires.
                   </p>
                 </div>
                 
                 <div>
-                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Reservation Requirements</h3>
+                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Conditions de réservation</h3>
                   <p className="text-gray-600 mb-3">
-                    To secure your reservation, we require:
+                    Pour sécuriser votre réservation, nous avons besoin :
                   </p>
                   <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                    <li>Valid credit card for guarantee</li>
-                    <li>Government-issued photo ID at check-in</li>
-                    <li>Minimum age of 18 years for the registered guest</li>
+                    <li>Carte de crédit valide pour la garantie</li>
+                    <li>Pièce d’identité avec photo émise par le gouvernement lors de l’enregistrement</li>
+                    <li>Âge minimum de 18 ans pour l’invité enregistré</li>
                   </ul>
                 </div>
                 
                 <div>
-                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Cancellation Policy</h3>
+                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Conditions d'annulation</h3>
                   <p className="text-gray-600">
-                    Reservations may be cancelled up to 48 hours before the scheduled arrival date without penalty. 
-                    Cancellations made within 48 hours of the arrival date will incur a charge equal to one night's stay. 
-                    No-shows will be charged for the entire reserved stay.
+                    Les réservations peuvent être annulées jusqu’à 48 heures avant la date d’arrivée prévue sans pénalité. 
+                    Les annulations effectuées dans les 48 heures avant la date d’arrivée entraîneront des frais égaux à une nuit de séjour. 
+                    Les non-présentations seront facturées pour la totalité du séjour réservé.
                   </p>
                 </div>
                 
                 <div>
-                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Special Requests</h3>
+                  <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">Demandes spéciales</h3>
                   <p className="text-gray-600">
-                    We are happy to accommodate special requests such as specific room locations, additional 
-                    amenities, or accessibility requirements. Please note that these requests are subject to 
-                    availability and cannot be guaranteed.
+                    Nous sommes heureux de répondre aux demandes spéciales telles que des emplacements de chambres spécifiques, des informations supplémentaires 
+                    commodités, ou exigences d’accessibilité. Veuillez noter que ces demandes sont soumises à 
+                    disponibilité et ne peut être garantie.
                   </p>
                 </div>
               </div>
               
               <div className="mt-8 pt-6 border-t border-gray-200">
-                <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Need Assistance?</h3>
+                <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Besoin d'aide ?</h3>
                 <p className="text-gray-600 mb-4">
-                  Our reservations team is available to assist you with any questions or special requirements.
+                  Notre équipe de réservation est disponible pour vous aider avec toutes vos questions ou exigences spéciales.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <a
-                    href="tel:+15551234567"
+                  <div
                     className="inline-flex items-center text-accent hover:text-gold-700 transition duration-300"
                   >
                     <Phone size={16} className="mr-2" />
-                    +1 (555) 123-4567
-                  </a>
+                    <div>
+                      <p className="text-accent">
+                        <a href="tel:+261376607863" className='hover:text-gold-700'>
+                          +261 37 66 078 63
+                        </a>&nbsp;|&nbsp;
+                        <a href="tel:+261341193777" className='hover:text-gold-700'>
+                          +261 34 11 937 77
+                        </a>
+                      </p>
+                    </div>
+                  </div>
                   <a
-                    href="mailto:reservations@vatolahyluxy.com"
+                    href="mailto:hotelvatola@outlook.com"
                     className="inline-flex items-center text-accent hover:text-gold-700 transition duration-300"
                   >
                     <Mail size={16} className="mr-2" />
-                    reservations@vatolahyluxy.com
+                    hotelvatola@outlook.com
                   </a>
                 </div>
               </div>

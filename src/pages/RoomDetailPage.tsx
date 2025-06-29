@@ -241,6 +241,7 @@ const RoomDetailPage: React.FC = () => {
               <img
                 src={image}
                 alt={`${room.name} - Image ${index + 1}`}
+                loading="lazy"
                 className="w-full h-[400px] object-cover"
               />
               </SwiperSlide>

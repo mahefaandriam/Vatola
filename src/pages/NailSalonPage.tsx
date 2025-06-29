@@ -40,21 +40,25 @@ const NailSalonPage: React.FC = () => {
               <img
                 src="/nails.webp"
                 alt="Manicure Service"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="https://images.pexels.com/photos/3997386/pexels-photo-3997386.jpeg"
                 alt="Pedicure Service"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="https://images.pexels.com/photos/704815/pexels-photo-704815.jpeg"
                 alt="Gel Nails"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
                 src="https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg"
                 alt="Nail Art"
+                loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
             </div>
@@ -131,12 +135,14 @@ const NailSalonPage: React.FC = () => {
               <img
                 src="/nails4.jpg"
                 alt="Nail Polish Collection"
+                loading="lazy"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
                   src="https://images.pexels.com/photos/4352247/pexels-photo-4352247.jpeg"
                   alt="Nail Care Products"
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-lg transform -translate-x-4 -translate-y-4 shadow-lg"
                 />
               </div>

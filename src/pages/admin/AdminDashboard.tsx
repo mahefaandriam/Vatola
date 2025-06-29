@@ -47,10 +47,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen flex mt-20">
-      <aside className="fixed w-full bg-gray-900 text-white p-4 z-50">
+      <aside className="fixed w-full bg-gray-900 text-white p-4 z-20 overflow-x-scroll">
         <h1 className="text-xl font-bold mb-4">Admin Panel {user && user.email} </h1> 
         <div className="flex spcace-x-5">
-          <div className='mx-4'><Link to="/admin/reservations">Réservations</Link></div>
+          <div className='mr-4'><Link to="/admin/reservations">Réservations</Link></div>
           <div className='mx-4'><Link to="/admin/utilisateurs">Utilisateurs</Link></div>    
           <div className='mx-4'><Link to="/admin/chambres">Chambres</Link></div>       
           <div className='mx-4'><Link to="/admin/nails">Nails</Link></div>             
