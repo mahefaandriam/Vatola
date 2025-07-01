@@ -10,7 +10,7 @@ const PubPage: React.FC = () => {
       <Hero
         title="VATOLAHY, Pub & Bar de luxe"
         subtitle="Détendez-vous dans l’atmosphère chic de notre pub, proposant une sélection de cocktails faits maison, de vins raffinés et de bouchées gourmandes."
-        image="/une-verre2.jpg"
+        image="/une-verre2.webp"
        // image="https://images.pexels.com/photos/1554654/pexels-photo-1554654.jpeg"
         height="h-[70vh]"
       />
@@ -37,25 +37,25 @@ const PubPage: React.FC = () => {
             
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="/une-verre2.jpg"
+                src="/une-verre2.webp"
                 alt="Cocktail and Glass"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="une-verre3.jpg"
+                src="une-verre3.webp"
                 alt="Cocktail Preparation"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="/clients1.jpg"
+                src="/clients1.webp"
                 alt="Craft Beer Selection"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="/plat-de-poulets.jpg"
+                src="/plat-de-poulets.webp"
                 alt="Gourment plat de poulet"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
@@ -135,14 +135,14 @@ const PubPage: React.FC = () => {
             
             <div className="relative">
               <img
-                src="/night-vibe.JPG"
+                src="/pub.jpg"
                 alt="Live Music at Pub"
                 loading="lazy"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
-                  src="/good-time.jpeg"
+                  src="/good-time.webp"
                   alt="Craft Beer"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-lg transform -translate-x-4 -translate-y-4 shadow-lg"

@@ -10,7 +10,7 @@ const NailSalonPage: React.FC = () => {
       <Hero
         title="Espace manucure élégant et exclusif"
         subtitle="Offrez à vos mains l’attention qu’elles méritent dans notre salon chic, où manucures traditionnelles et designs créatifs se côtoient avec élégance."
-        image="https://images.pexels.com/photos/939836/pexels-photo-939836.jpeg"
+        image="nails.jpg"
         ctaLink='/contact?subject=nailsalon'
         ctaText="Prendre rendez-vous"
         height="h-[70vh]"
@@ -38,25 +38,25 @@ const NailSalonPage: React.FC = () => {
             
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="/nails.webp"
+                src="/nails.jpg"
                 alt="Manicure Service"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="https://images.pexels.com/photos/3997386/pexels-photo-3997386.jpeg"
+                src="/nails5.webp"
                 alt="Pedicure Service"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="https://images.pexels.com/photos/704815/pexels-photo-704815.jpeg"
+                src="nails3.jpg"
                 alt="Gel Nails"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg"
+                src="nails2.webp"
                 alt="Nail Art"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
@@ -133,14 +133,14 @@ const NailSalonPage: React.FC = () => {
             
             <div className="relative">
               <img
-                src="/nails4.jpg"
+                src="/nails4.webp"
                 alt="Nail Polish Collection"
                 loading="lazy"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
               <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
-                  src="https://images.pexels.com/photos/4352247/pexels-photo-4352247.jpeg"
+                  src="nails6.webp"
                   alt="Nail Care Products"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-lg transform -translate-x-4 -translate-y-4 shadow-lg"

@@ -78,7 +78,7 @@ const HomePage: React.FC = () => {
               />
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
-                  src="/plat1.jpg"
+                  src="/plat1.webp"
                   loading="lazy"
                   alt="Hotel Detail"
                   className="w-full h-full object-cover rounded-lg transform translate-x-4 translate-y-4 shadow-lg"
@@ -122,7 +122,7 @@ const HomePage: React.FC = () => {
             >
               <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 hover:w-50 hover:h-50 transition-all duration-1000 flex items-center justify-center">
                 <img
-                  src="/tab-de-vin.JPG"
+                  src="/tab-de-vin.webp"
                   alt="Pub Icon"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-full"
@@ -149,7 +149,7 @@ const HomePage: React.FC = () => {
             >
               <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4  w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50 flex items-center justify-center">
                 <img
-                  src="/spa1.jpg"
+                  src="/spa1.webp"
                   alt="Spa Icon"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-full"

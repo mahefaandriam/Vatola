@@ -5,25 +5,25 @@ export const pubServices: Service[] = [
     id: 'classic-cocktails',
     name: 'Cocktails classiques',
     description: 'Nos experts en mixologie créent des cocktails classiques parfaits à partir de spiritueux de qualité supérieure et d’ingrédients frais.',
-    image: '/une-verre2.jpg'
+    image: '/une-verre2.webp'
   },
   {
     id: 'craft-beers',
     name: 'Bières artisanales',
     description: 'Profitez de notre sélection de bières artisanales locales et internationales, soigneusement sélectionnées pour leur qualité et leur goût. ',
-    image: '/clients1.jpg'
+    image: '/clients1.webp'
   },
   {
     id: 'wine-selection',
     name: 'Vins raffinés',
     description: 'Notre carte des vins propose des bouteilles exceptionnelles provenant de vignobles renommés du monde entier.',
-    image: '/tab-de-vin.JPG'
+    image: '/tab-de-vin.webp'
   },
   {
     id: 'gourmet-bites',
     name: 'Bouchées gastronomiques au bar',
     description: 'Délicieux petits plats et apéritifs parfaits pour partager tout en savourant vos boissons préférées.',
-    image: '/plat3.jpg'
+    image: '/plat3.webp'
   }
 ];
 
@@ -34,7 +34,7 @@ export const spaServices: Service[] = [
     description: 'Un massage classique du corps entier utilisant une pression douce à ferme pour favoriser la relaxation et soulager la tension musculaire.',
     price: 120,
     duration: '60 minutes',
-    image: '/massage.jpg'
+    image: '/massage.webp'
   },
   {
     id: 'deep-tissue-massage',
@@ -42,7 +42,7 @@ export const spaServices: Service[] = [
     description: 'Nous pratiquons l’art du massage en pleine conscience : une approche où le corps est écouté, respecté, honoré.',
     price: 150,
     duration: '60 minutes',
-    image: '/massage2.jpg'
+    image: '/massage2.webp'
   },
   {
     id: 'facial-treatment',
@@ -50,7 +50,7 @@ export const spaServices: Service[] = [
     description: 'Revitalisez votre peau avec notre soin du visage premium à base de produits bio adaptés à votre type de peau.',
     price: 130,
     duration: '75 minutes',
-    image: '/massage3.jpg'
+    image: '/massage3.webp'
   },
   {
     id: 'body-scrub',
@@ -58,7 +58,7 @@ export const spaServices: Service[] = [
     description: 'Un soin exfoliant luxueux qui laisse votre peau éclatante et rajeunie. ',
     price: 110,
     duration: '45 minutes',
-    image: '/massage4.jpg'
+    image: '/massage4.webp'
   }
 ];
 
@@ -69,7 +69,7 @@ export const nailServices: Service[] = [
     description: 'Notre manucure classique comprend la mise en forme des ongles, le soin des cuticules, le massage des mains et l’application du vernis.',
     price: 40,
     duration: '45 minutes',
-    image: 'https://images.pexels.com/photos/939836/pexels-photo-939836.jpeg'
+    image: 'nails.jpg'
   },
   {
     id: 'luxury-pedicure',
@@ -77,7 +77,7 @@ export const nailServices: Service[] = [
     description: 'L’expérience ultime de soins des pieds avec exfoliation, élimination des callosités, massage et polissage parfait.',
     price: 60,
     duration: '60 minutes',
-    image: 'https://images.pexels.com/photos/3997386/pexels-photo-3997386.jpeg'
+    image: 'nails5.webp'
   },
   {
     id: 'gel-nails',
@@ -85,7 +85,7 @@ export const nailServices: Service[] = [
     description: 'Gel-polish longue tenue, résistant aux copeaux et à la brillance parfaite qui dure des semaines.',
     price: 55,
     duration: '60 minutes',
-    image: 'https://images.pexels.com/photos/704815/pexels-photo-704815.jpeg'
+    image: 'nails3.jpg'
   },
   {
     id: 'nail-art',
@@ -93,6 +93,6 @@ export const nailServices: Service[] = [
     description: 'Exprimez votre style avec des designs de nail art personnalisés créés par nos techniciens talentueux.',
     price: 70,
     duration: '75 minutes',
-    image: 'https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg'
+    image: 'nails2.webp'
   }
 ];

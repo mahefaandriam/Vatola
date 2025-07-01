@@ -10,7 +10,7 @@ const SpaPage: React.FC = () => {
       <Hero
         title="Spa rajeunissant & Bien-être"
         subtitle="Offrez-vous un monde de détente et de revitalisation avec nos soins spa haut de gamme."
-        image="/care.jpg"
+        image="/care.webp"
         height="h-[70vh]"
       />
       
@@ -36,25 +36,25 @@ const SpaPage: React.FC = () => {
             
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="/spa2.jpg"
+                src="/spa2.webp"
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="/spa3.jpg"
+                src="/spa3.webp"
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="/care2.jpg"
+                src="/care2.webp"
                 alt="Spa Bath"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="spa4.jpg"
+                src="spa4.webp"
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
@@ -100,7 +100,7 @@ const SpaPage: React.FC = () => {
             <div className="bg-primary-700 rounded-lg p-6 hover:bg-primary-600 transition duration-300">
               <div className="h-48 mb-4 overflow-hidden rounded-lg">
                 <img
-                  src="spa7.jpg"
+                  src="spa7.webp"
                   alt="Salle de détente"
                   loading="lazy"
                   className="w-full h-full object-cover"
@@ -116,7 +116,7 @@ const SpaPage: React.FC = () => {
             <div className="bg-primary-700 rounded-lg p-6 hover:bg-primary-600 transition duration-300">
               <div className="h-48 mb-4 overflow-hidden rounded-lg">
                 <img
-                  src="spa2.jpg"
+                  src="spa2.webp"
                   alt="Sauna"
                   loading="lazy"
                   className="w-full h-full object-cover"
@@ -132,7 +132,7 @@ const SpaPage: React.FC = () => {
             <div className="bg-primary-700 rounded-lg p-6 hover:bg-primary-600 transition duration-300">
               <div className="h-48 mb-4 overflow-hidden rounded-lg">
                 <img
-                  src="/sauna1.jpg"
+                  src="/sauna1.webp"
                   alt="Steam Room"
                   loading="lazy"
                   className="w-full h-full object-cover"
@@ -151,14 +151,14 @@ const SpaPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Spa Packages"
-            subtitle="Indulge in our carefully curated spa packages for a complete wellness experience."
+            subtitle="Offrez-vous nos forfaits spa soigneusement conçus pour une expérience bien-être complète."
           />
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gray-50 rounded-lg overflow-hidden shadow-luxury">
               <div className="h-48 overflow-hidden">
                 <img
-                  src="https://images.pexels.com/photos/3757952/pexels-photo-3757952.jpeg"
+                  src="relaxation.webp"
                   alt="Relaxation Package"
                   loading="lazy"
                   className="w-full h-full object-cover"
@@ -185,42 +185,11 @@ const SpaPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-gray-50 rounded-lg overflow-hidden shadow-luxury">
               <div className="h-48 overflow-hidden">
                 <img
-                  src="https://images.pexels.com/photos/3764013/pexels-photo-3764013.jpeg"
-                  alt="Rejuvenation Package"
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">
-                  Rajeunissement total
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Revitalisez votre corps et votre esprit avec notre forfait complet comprenant un massage des tissus profonds, un soin du visage de luxe et un gommage corporel.
-                </p>
-                <div className="flex justify-between items-end">
-                  <div>
-                    <span className="font-semibold text-primary-800 text-xl">$320</span>
-                    <span className="text-sm text-gray-500"> / 3.5 heures</span>
-                  </div>
-                  <a
-                    href="tel:+15551234567"
-                    className="text-accent hover:text-gold-700 font-medium transition duration-300"
-                  >
-                    Réservez Maintenant
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-gray-50 rounded-lg overflow-hidden shadow-luxury">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="https://images.pexels.com/photos/6663354/pexels-photo-6663354.jpeg"
+                  src="massageduo.webp"
                   alt="Couples Package"
                   loading="lazy"
                   className="w-full h-full object-cover"
@@ -237,6 +206,37 @@ const SpaPage: React.FC = () => {
                   <div>
                     <span className="font-semibold text-primary-800 text-xl">$380</span>
                     <span className="text-sm text-gray-500"> / 3 heures (pour deux)</span>
+                  </div>
+                  <a
+                    href="tel:+15551234567"
+                    className="text-accent hover:text-gold-700 font-medium transition duration-300"
+                  >
+                    Réservez Maintenant
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gray-50 rounded-lg overflow-hidden shadow-luxury">
+              <div className="h-48 overflow-hidden">
+                <img
+                  src="rajeunissement.jpg"
+                  alt="Rejuvenation Package"
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif text-xl font-semibold text-primary-800 mb-2">
+                  Rajeunissement total
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Revitalisez votre corps et votre esprit avec notre forfait complet comprenant un massage des tissus profonds, un soin du visage de luxe et un gommage corporel.
+                </p>
+                <div className="flex justify-between items-end">
+                  <div>
+                    <span className="font-semibold text-primary-800 text-xl">$320</span>
+                    <span className="text-sm text-gray-500"> / 3.5 heures</span>
                   </div>
                   <a
                     href="tel:+15551234567"
