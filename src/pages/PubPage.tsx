@@ -37,7 +37,7 @@ const PubPage: React.FC = () => {
             
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="/une-verre2.webp"
+                src="/moto2.jpg"
                 alt="Cocktail and Glass"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"

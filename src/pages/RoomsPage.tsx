@@ -26,7 +26,6 @@ const RoomsPage: React.FC = () => {
     async function fetchRooms() {
       try {
         const data = await getRooms();
-        console.log(data);
         setRooms(data);
         // Apply initial filter after rooms are fetched
         setFilteredRooms(data.filter(room => room.price <= priceRange));
@@ -65,7 +64,7 @@ const RoomsPage: React.FC = () => {
       <Hero
         title="Nos hébergements"
         subtitle="Découvrez notre gamme de chambres et suites élégamment aménagées, conçues pour votre confort et votre détente."
-        image="/familiales.JPG"
+        image="/familiales.webp"
         height="h-[70vh]"
       />
       

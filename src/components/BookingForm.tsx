@@ -247,7 +247,7 @@ const BookingForm: React.FC = () => {
         <div id='roomList' className="grid grid-cols-1 md:grid-cols-2 gap-8 my-10">
           {loading ? (
             <div className="col-span-2 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-800"></div>
             </div>
           ) : availableRooms.length > 0 ? (  
             availableRooms.map((room) => (

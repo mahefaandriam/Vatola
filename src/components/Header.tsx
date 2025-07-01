@@ -45,14 +45,14 @@ const Header: React.FC = () => {
       setReservationCount(count ?? 0);
     };
 
-    loadCount();
+    if (user) loadCount();
   }, [user])
 
   const fetchReservationCount = async () => {
     const { count, error } = await supabase
       .from('bookings')
       .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id || 0);
+      .eq('user_id', user.id);
 
     if (error) {
       console.error('Erreur fetch reservations:', error.message);

@@ -220,7 +220,7 @@ const SpaPage: React.FC = () => {
             <div className="bg-gray-50 rounded-lg overflow-hidden shadow-luxury">
               <div className="h-48 overflow-hidden">
                 <img
-                  src="rajeunissement.jpg"
+                  src="rajeunissement.webp"
                   alt="Rejuvenation Package"
                   loading="lazy"
                   className="w-full h-full object-cover"

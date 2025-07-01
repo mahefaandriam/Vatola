@@ -17,12 +17,16 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-luxury transform hover:scale-105 transition duration-300">
       <div className="relative">
-        <img
+        {images ? (<img
           src={images[0]}
           alt={name}
           loading="lazy"
           className="w-full h-64 object-cover"
-        />
+        />) : (
+          <div className='w-full h-64 flex justify-center items-center'>
+            Pas d'images disponibles.
+          </div>
+        )}
         {room.featured && (
           <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-medium">
             Sélection spéciale

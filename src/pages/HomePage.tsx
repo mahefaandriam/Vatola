@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,13 +8,46 @@ import RoomCard from '../components/RoomCard';
 //import ServiceCard from '../components/ServiceCard';
 import TestimonialCard from '../components/TestimonialCard';
 import BookingForm from '../components/BookingForm';
-import { rooms } from '../data/rooms';
 //import { pubServices, spaServices, nailServices } from '../data/services';
 import { testimonials } from '../data/testimonials';
 import { ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient';
+
+type Room = {
+  id: string;
+  name: string;
+  type: string;
+  price: number;
+  description: string;
+  size: number;
+  capacity: number;
+  amenities: string[];
+  images: string[];
+  featured: boolean;
+};
 
 const HomePage: React.FC = () => {
-  const featuredRooms = rooms.filter(room => room.featured);
+  const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
+  const [loadingFeaturedRooms, setLoadingFeaturedRooms] = useState(true);
+
+  // Zoom effet section :Services & commodités exceptionnels
+  const [addZoom, setAddZomm] = useState(false);
+
+  useEffect(() => {
+    const fetchFeaturedRooms = async () => {
+      const { data, error } = await supabase
+        .from('rooms')
+        .select('*')
+        .eq('featured', true);
+
+      if (!error && data) {
+        setFeaturedRooms(data as Room[]);
+      }
+      setLoadingFeaturedRooms(false);
+    };
+    fetchFeaturedRooms();
+  }, []);
   
   return (
     <div>
@@ -98,11 +131,21 @@ const HomePage: React.FC = () => {
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredRooms.map((room) => (
-              <div key={room.id}>
-                <RoomCard room={room} />
+            {loadingFeaturedRooms 
+            ? (
+              <div className="col-span-1 md:col-end-2 lg:col-span-3 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-800"></div>
               </div>
-            ))}
+            ) : (
+              <>
+              {featuredRooms.map((room) => (
+                <div key={room.id}>
+                  <RoomCard room={room} />
+                </div>
+              ))}
+              </>
+            )}
+            
           </div>
         </div>
       </section>
@@ -120,9 +163,9 @@ const HomePage: React.FC = () => {
             <div
               className="text-center"
             >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 hover:w-50 hover:h-50 transition-all duration-1000 flex items-center justify-center">
+              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 hover:w-50 hover:h-50 transition-all duration-1000 flex items-center justify-center" onMouseEnter={() => setAddZomm(true)} onMouseLeave={() => setAddZomm(false)}>
                 <img
-                  src="/tab-de-vin.webp"
+                  src="pub.jpg"
                   alt="Pub Icon"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-full"
@@ -147,9 +190,12 @@ const HomePage: React.FC = () => {
             <div
               className="text-center"
             >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4  w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50 flex items-center justify-center">
+              <div 
+                  className={`mb-6 mx-auto rounded-full bg-primary-50 p-4   transition-all duration-1000 flex items-center justify-center 
+                        ${addZoom ? 'w-16 h-16' : 'w-50 h-50'}
+                  `}>
                 <img
-                  src="/spa1.webp"
+                  src="/care2.webp"
                   alt="Spa Icon"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-full"
@@ -174,9 +220,9 @@ const HomePage: React.FC = () => {
             <div
               className="text-center"
             >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50  flex items-center justify-center">
+              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50  flex items-center justify-center" onMouseEnter={() => setAddZomm(true)} onMouseLeave={() => setAddZomm(false)}>
                 <img
-                  src="nails.webp"
+                  src="nails.jpg"
                   alt="Nail Salon Icon"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-full"

@@ -33,6 +33,7 @@ type Room = {
 
 const RoomDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [loading, setLoading] = useState(true);
   const [searchParams, _] = useSearchParams();
   const [room, setRoom] = useState<Room | null>(null);
   const [user, setUser] = useState<any>(null);
@@ -68,15 +69,15 @@ const RoomDetailPage: React.FC = () => {
         //console.error('Error fetching room:', error);
         setRoom(null);
       }
-      //setLoading(false);
+      setLoading(false);
     };
 
     fetchRoom();
 
 
-  if (checkIn && checkOut) {
-    setShowSummary(true)
-  }
+    if (checkIn && checkOut) {
+      setShowSummary(true)
+    }
 
   }, [id]);
 
@@ -143,21 +144,32 @@ const RoomDetailPage: React.FC = () => {
     }
   };
 
-
   if (!room) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-serif font-semibold text-primary-800 mb-4">Chambre non trouvée</h2>
-          <p className="text-gray-600 mb-6">La chambre que vous recherchez n’existe pas.</p>
-          <Link
-            to="/rooms"
-            className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
-          >
-            Afficher toutes les chambres
-          </Link>
-        </div>
-      </div>
+      <>
+        {loading 
+          ? (
+            <div className="h-150 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-800"></div>
+            </div>
+          )
+          : (
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="text-center">
+                <h2 className="text-2xl font-serif font-semibold text-primary-800 mb-4">Chambre non trouvée</h2>
+                <p className="text-gray-600 mb-6">La chambre que vous recherchez n’existe pas.</p>
+                <Link
+                  to="/rooms"
+                  className="bg-accent hover:bg-gold-700 text-white font-medium px-6 py-2 rounded-md transition duration-300"
+                >
+                  Afficher toutes les chambres
+                </Link>
+              </div>
+            </div>
+          )
+        }
+
+      </>
     );
   }
   
