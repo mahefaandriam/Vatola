@@ -143,7 +143,7 @@ const Rooms: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-4">Liste des Chambres</h2>
                 <div>
                     <h2 className='my-2 text-gray-400 font-thin text-sm'>Ajouter une chambre &rsaquo;</h2>
-                    <form action="" className='space-x-5 space-y-2 flex flex-wrap text-gray-600'>
+                    <form onSubmit={handleSubmit} action="" className='space-x-5 space-y-2 flex flex-wrap text-gray-600'>
                         <input type="text" className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Nom de la chambre'/>
                         <input type="text" className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Type de chambre'/>
                         <div className="flex items-center">
