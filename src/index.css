@@ -89,3 +89,41 @@ button {
 html {
   scroll-behavior: smooth;
 }
+
+/* Custom thin scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-400, #dbc66d);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-600, #caa833);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold-400, #dbc66d) transparent;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #d1d5db; /* gray-300 */
+}
+
+th, td {
+  border: 1px solid #d1d5db; /* gray-300 */
+  padding: 0.5rem;
+}
+th {
+  background-color: #d8d8d8;
+}

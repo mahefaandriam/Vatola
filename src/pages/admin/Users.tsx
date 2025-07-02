@@ -8,7 +8,7 @@ type User = {
   created_at: string;
 };
 
-export default function Users() {
+export default function ListUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -40,7 +40,7 @@ export default function Users() {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="pl-5">
       <h1 className="text-2xl font-bold mb-4">Utilisateurs</h1>
             {loading ? (
         <div>
@@ -61,7 +61,7 @@ export default function Users() {
           </div>
         </div>
       ) : (
-      <table className="w-full border border-gray-300">
+      <table className="w-full border border-gray-300 text-sm">
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2 border border-gray-300">Nom</th>

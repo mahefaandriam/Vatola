@@ -78,8 +78,8 @@ const NailsServices: React.FC = () => {
 
     return (
         
-        <div className='p-6 max-w-5xl mx-auto'>
-            <div className={`bg-white w-full text-sm fixed z-40 p-2 ${editNails ? 'mt-25':''}`}>
+        <div className='pl-5'>
+            <div className={`bg-white w-full text-sm z-40 p-2 ${editNails ? '':''}`}>
                 <p className="text-lg font-semibold mb-4">Modifier</p>    
                 <form >
                     <input name="type" defaultValue={editNails?.name} placeholder="Type" required />
@@ -90,13 +90,13 @@ const NailsServices: React.FC = () => {
                     <button type="button" className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" onClick={() => setEditNails(null)}>Annuler</button>
                 </form>
             </div>
-            <div className='mt-25'> 
+            <div className=''> 
                 <h1>Nails Services Admin Page</h1>
                  {loading ? (
                     <LoadingComponents />
                 ) : (
-                    <table className="w-full border border-gray-300">
-                        <thead className="bg-gray-100">
+                    <table className="w-full">
+                        <thead >
                         <tr>
                             <th className="p-2">Nom</th>
                             <th className="p-2">Inscription</th>
@@ -107,10 +107,10 @@ const NailsServices: React.FC = () => {
                             
                         </tr>
                         </thead>
-                    <tbody>
-                        <tr>
+                        <tbody>
                             {nails.map((service) => (
-                                <React.Fragment key={service.id}>
+
+                            <tr  key={service.id}>
                                     <td>{service.name}</td>
                                         <td>{service.description}</td>
                                         <td>{service.price ? `${service.price} €` : 'N/A'}</td>
@@ -122,14 +122,14 @@ const NailsServices: React.FC = () => {
                                                 'No Image'
                                             )}
                                         </td>
-                                        <td className="border border-gray-300 border border-gray-300-gray-300 p-2" >
+                                        <td className="p-2" >
                                         <button className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600" onClick={() => replaceImage(service.id)}>Modifier Image</button>
                                         <button className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600" onClick={() => setEditNails(service)}>Modifier</button>
                                         <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Supprimer</button>
                                         </td>
-                                </React.Fragment>
-                            ))}
+                            
                             </tr>
+                            ))}
                         </tbody>
                     </table>
                 )}
