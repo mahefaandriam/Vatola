@@ -36,7 +36,7 @@ const PubPage: React.FC = () => {
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="une-verre3.webp"
+                src="/billard2.jpg"
                 alt="Cocktail Preparation"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
