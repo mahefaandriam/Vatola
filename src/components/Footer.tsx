@@ -4,23 +4,24 @@ import { Hotel, Instagram, Facebook, Twitter, Mail, Phone, MapPin } from 'lucide
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-primary-800 text-white pt-16 pb-8">
+    <footer className="bg-grenat text-white pt-16 pb-8">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Hotel Info */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Hotel size={28} className="text-accent" />
+              <img src="/logo.png" alt="Vatola" className='w-20 h-auto'/>
               <div>
                 <h2 className="font-serif text-xl font-bold tracking-wide">
                   VATOLA <span className="text-accent">Hôtel</span>
                 </h2>
-                <p className="text-xs tracking-widest">Hôtel & SPA</p>
+                <p className="text-xs tracking-widest">Hôtel. Restaurant. Lounge. SPA</p>
               </div>
+              
             </div>
-            <p className="text-gray-300 mb-4">
-              Vivez un luxe inégalé dans notre hôtel élégant, avec des chambres exquises, 
-              un pub sophistiqué, un spa rajeunissant et un salon de beauté haut de gamme.
+            <p>Meilleur rapport qualité-prix</p>
+            <p className="text-gray-300 my-4">
+              Vivez une expérience unique au sein des hauts plateaux de Vakinankaratra.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
@@ -37,7 +38,7 @@ const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-serif font-medium mb-4 pb-2 border-b border-primary-700">
+            <h3 className="text-lg font-serif font-medium mb-4 pb-2 border-b border-accent">
               Accès rapide
             </h3>
             <ul className="space-y-3">
@@ -48,22 +49,17 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/rooms" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                  Chambres & Suites
+                  Nos Chambres
                 </Link>
               </li>
               <li>
-                <Link to="/pub" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                  Pub & Bar
+                <Link to="/pub" className="flex text-gray-300 hover:text-accent transition-colors duration-300">
+                  Pub &nbsp;<h1>&</h1>&nbsp; Bar
                 </Link>
               </li>
               <li>
-                <Link to="/spa" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                  Spa & Bien-être
-                </Link>
-              </li>
-              <li>
-                <Link to="/nail-salon" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                  Salon des Ongles
+                <Link to="/spa" className="flex text-gray-300 hover:text-accent transition-colors duration-300">
+                  Spa &nbsp;<h1>&</h1>&nbsp; Bien-être
                 </Link>
               </li>
               <li>
@@ -76,7 +72,7 @@ const Footer: React.FC = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg font-serif font-medium mb-4 pb-2 border-b border-primary-700">
+            <h3 className="text-lg font-serif font-medium mb-4 pb-2 border-b border-accent">
               Contactez-nous
             </h3>
             <ul className="space-y-3">
@@ -109,7 +105,7 @@ const Footer: React.FC = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-serif font-medium mb-4 pb-2 border-b border-primary-700">
+            <h3 className="text-lg font-serif font-medium mb-4 pb-2 border-b border-accent">
               Newsletter
             </h3>
             <p className="text-gray-300 mb-4">
@@ -120,7 +116,7 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   placeholder="Votre adresse e-mail"
-                  className="w-full px-4 py-2 bg-primary-700 border border-primary-600 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full px-4 py-2 bg-accent border border-primary-600 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
               <button
@@ -133,7 +129,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-primary-700 text-center text-gray-400 text-sm">
+        <div className="mt-12 pt-8 border-t border-accent text-center text-gray-400 text-sm">
           <p>&copy; {new Date().getFullYear()} VATOLA HÔTEL. Tous droits réservés.</p>
         </div>
       </div>

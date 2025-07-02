@@ -9,9 +9,10 @@ interface RoomCardProps {
   checkOut?: string | Date | null;
   adults?: number;
   children?: number;
+  cardWithPrice?: boolean;
 }
 
-const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, children}) => {
+const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, children, cardWithPrice}) => {
   const { id, name, description, price, size, capacity, images } = room;
 
   return (
@@ -59,10 +60,13 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
         </div>
         
         <div className="flex items-center justify-between">
-          <div className="text-primary-800">
-            <span className="font-semibold text-xl">${price}</span>
-            <span className="text-sm text-gray-500"> / nuitée</span>
-          </div>
+          {cardWithPrice &&
+            <div className="text-primary-800">
+              <span className="font-semibold text-xl">${price}</span>
+              <span className="text-sm text-gray-500"> / nuitée</span>
+            </div>
+          }
+          
           
           {
             checkIn && checkOut ? (

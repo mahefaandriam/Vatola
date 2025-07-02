@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Calendar, Users, ChevronUp, ChevronDown } from 'lucide-react';
+import { Calendar, Users, ChevronUp, ChevronDown, Phone } from 'lucide-react';
 import type  { BookingDetails } from '../types';
 import { supabase } from '../lib/supabaseClient';
 import RoomCard from './RoomCard';
@@ -123,7 +123,7 @@ const BookingForm: React.FC = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-luxury p-6 md:p-8">
-      <h3 className="font-serif text-2xl font-semibold text-primary-800 mb-6">Réserver votre séjour</h3>
+      <h3 className="font-serif text-2xl font-semibold text-primary-800 mb-6">Réserver votre séjour en quelques clics</h3>
       
       <form onSubmit={handleSubmit} className="space-y-6 my-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -226,7 +226,7 @@ const BookingForm: React.FC = () => {
               <option value="">Sélectionnez le type de chambre</option>
               {(roomNames ?? []).map(n => (
                 <option key={n.name} value={n.name}>
-                  {n.name} (${n.price}/nuitée)
+                  {n.name}
                 </option>
               ))}
             </select>
@@ -256,6 +256,22 @@ const BookingForm: React.FC = () => {
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-600 text-lg">Pas de chambres correspondant à vos critères. S’il vous plaît ajuster vos filtres.</p>
+                <p className="text-gray-400 text-sm">
+                En cas de difficultés à faire une réservation, n'hésitez pas à nous contacter au 
+                </p>
+                <div className='py-2 flex items-center justify-center text-gray-400 text-sm'>
+                  <Phone size={20} className='text-gray-300'/>
+                 <a href="tel:+261376607863" className=" hover:text-accent transition duration-300">
+                    +261 37 66 078 63
+                  </a>&nbsp;|&nbsp;
+                  <a href="tel:+261341193777" className=" hover:text-accent transition duration-300">
+                    +261 34 11 937 77
+                  </a>
+                  &nbsp;ou&nbsp;
+                  <a href="mailto:hotelvatola@outlook.com" className="hover:text-accent transition duration-300">
+                    hotelvatola@outlook.com
+                  </a>
+                </div>                
             </div>
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -34,12 +34,19 @@ const HomePage: React.FC = () => {
   // Zoom effet section :Services & commodités exceptionnels
   const [addZoom, setAddZomm] = useState(false);
 
+  const customPagination = {
+    clickable: true,
+    renderBullet: function (index: number, className: string) {
+      return '<span key='+ index +' class="' + className + '" style="display:inline-block;width:60px;height:4px;border-radius:2px;background:#2563eb;margin:-15px 4px;"></span>';
+    },
+  };
+
   useEffect(() => {
     const fetchFeaturedRooms = async () => {
       const { data, error } = await supabase
         .from('rooms')
-        .select('*')
-        .eq('featured', true);
+        .select('*');
+        //.eq('featured', true);
 
       if (!error && data) {
         setFeaturedRooms(data as Room[]);
@@ -57,7 +64,7 @@ const HomePage: React.FC = () => {
         title="Le luxe, réinventé pour vous"
         subtitle="Élégance, confort et service exceptionnel : vivez l’expérience unique de l’HÔTEL VATOLA."
         image="/vatola.jpg"
-        ctaText="Réservez Votre Séjour"
+        ctaText="Réservez Votre Séjour dés maintenant"
         ctaLink="/booking"
       />
       
@@ -73,33 +80,29 @@ const HomePage: React.FC = () => {
             >
               <SectionTitle
                 title="Bienvenue à HÔTEL VATOLA"
-                subtitle="Un monde de luxe et de confort vous attend, où chaque détail vise l’excellence."
+                subtitle=""
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
                L’HÔTEL VATOLA incarne la quintessence de la sophistication et de l’hospitalité. Dans un cadre raffiné, notre établissement offre un véritable sanctuaire où le luxe contemporain s’harmonise avec un charme intemporel, pour offrir à chaque client une expérience mémorable.
               </p>
               <p className="text-gray-600 mb-6">
-                Des chambres au design raffiné à nos installations de classe mondiale — incluant pub, spa et salon de manucure — chaque détail de votre séjour est pensé pour vous offrir un confort absolu et une satisfaction totale.
+                Niché dans la charmante ville thermale d'Antsirabe, Le Vatola Antsirabe est bien plus qu'un hôtel - c'est une expérience raffinée mêlant confort, élégance et hospitalité malgache. Inspiré par l'authenticité des Hautes Terres et rehaussé d'une touche de modernité, notre 
+                établissement vous invite à un séjour inoubliable dans un cadre apaisant et soigné.                
               </p>
-              <div className="grid grid-cols-2 gap-4 text-center">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="font-serif text-3xl font-bold text-accent mb-2">10+</div>
-                  <div className="text-gray-600">Chambres standards</div>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="font-serif text-3xl font-bold text-accent mb-2">3</div>
-                  <div className="text-gray-600">Options de Restauration</div>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="font-serif text-3xl font-bold text-accent mb-2">15+</div>
-                  <div className="text-gray-600">Optoins de Soins ou Spa</div>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="font-serif text-3xl font-bold text-accent mb-2">24/7</div>
-                  <div className="text-gray-600">Service de concierge</div>
-                </div>
+             <p className="text-gray-600 mb-6">
+                🌟Que vous soyez en escapade romantique, en voyage d'affaires ou à la recherche d'un moment de détente, Le Vatolavous accueille dans un univers où chaque détail est pensé pour votre bien-être.
+              </p>
+              <div>
+                <p className="text-gray-600 mb-6">Ce qui fait notre différence:</p>
+                  <ul className="list-disc text-gray-600 mb-6 ml-5">
+                    <li>Chambres élégantes & confortables, soigneusement décorées pour allier modernité et ambiance chaleureuse.</li>
+                    <li>Espaces bien-être haut de gamme: spa, soins corporels, manucure & plus de 15 options de soins.</li>
+                    <li>Restaurants & bars raffinés, proposant une cuisine locale et internationale, ainsi que des cocktails signature.</li>
+                    <li>Service de concierge 24/7, pour répondre à toutes vos envies à tout moment.</li>
+                  </ul>  
               </div>
+              
             </motion.div>
             
             <div className='relative'>
@@ -130,23 +133,42 @@ const HomePage: React.FC = () => {
             subtitle="Parcourez notre collection de chambres et suites, pensées avec soin pour marier confort moderne et élégance intemporelle."
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="">
             {loadingFeaturedRooms 
             ? (
               <div className="col-span-1 md:col-end-2 lg:col-span-3 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-800"></div>
               </div>
             ) : (
-              <>
+
+             <Swiper
+              pagination={customPagination}
+              modules={[Pagination, Autoplay]}
+              spaceBetween={30}
+              slidesPerView={1}
+              autoplay={{ delay: 5000 }}
+              breakpoints={{
+                640: {
+                  slidesPerView: 1,
+                },
+                768: {
+                  slidesPerView: 2,
+                },
+                1024: {
+                  slidesPerView: 3,
+                },
+              }}
+              className='roomCard-swiper'
+            >
               {featuredRooms.map((room) => (
-                <div key={room.id}>
-                  <RoomCard room={room} />
-                </div>
+                <SwiperSlide key={room.id}>                
+                    <RoomCard room={room} />
+                </SwiperSlide>
               ))}
-              </>
+            </Swiper>
             )}
-            
           </div>
+          
         </div>
       </section>
       
@@ -154,7 +176,7 @@ const HomePage: React.FC = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
-            title="Services & commodités exceptionnels"
+            title="Services & commodités"
             subtitle="Bénéficiez de services haut de gamme, soigneusement pensés pour sublimer votre séjour et vous garantir un confort inégalé."
           />
           
@@ -163,7 +185,7 @@ const HomePage: React.FC = () => {
             <div
               className="text-center"
             >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16 hover:w-50 hover:h-50 transition-all duration-1000 flex items-center justify-center" onMouseEnter={() => setAddZomm(true)} onMouseLeave={() => setAddZomm(false)}>
+              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-30 h-30 hover:w-50 hover:h-50 transition-all duration-1000 flex items-center justify-center" onMouseEnter={() => setAddZomm(true)} onMouseLeave={() => setAddZomm(false)}>
                 <img
                   src="pub.jpg"
                   alt="Pub Icon"
@@ -186,14 +208,42 @@ const HomePage: React.FC = () => {
               </a>
             </div>
             
+            {/* Nail Salon */}
+            <div
+              className="text-center"
+            >
+              <div className={`mb-6 mx-auto rounded-full bg-primary-50 p-4   transition-all duration-1000 flex items-center justify-center 
+                        ${addZoom ? 'w-16 h-16' : 'w-50 h-50'}
+                  `}>
+                <img
+                  src="resto2.webp"
+                  alt="Reslto Plats"
+                  loading="lazy"
+                  className="w-full h-full object-cover rounded-full"
+                />
+              </div>
+              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-3">
+              Restaurant & Cuisine raffinée
+              </h3>
+                <p className="text-gray-600 mb-4">
+                  Découvrez une carte diversifiée, pensée pour satisfaire toutes les envies, incluant des options végétariennes et des plats adaptés à tous les goûts.<br />
+                  Notre restaurant vous propose un voyage culinaire à travers des spécialités italiennes, malgaches, françaises, allemandes et bien d’autres, pour une expérience gastronomique riche et variée.
+                </p>
+              <a
+                href="/nail-salon"
+                className="text-accent hover:text-gold-700 font-medium inline-flex items-center transition duration-300"
+              >
+                Découvrir plus &nbsp;                
+                <ChevronRight stroke='currentColor' />
+              </a>
+            </div>
+
             {/* Spa & Wellness */}
             <div
               className="text-center"
             >
               <div 
-                  className={`mb-6 mx-auto rounded-full bg-primary-50 p-4   transition-all duration-1000 flex items-center justify-center 
-                        ${addZoom ? 'w-16 h-16' : 'w-50 h-50'}
-                  `}>
+                   className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-30 h-30  transition-all duration-1000  hover:w-50 hover:h-50  flex items-center justify-center" onMouseEnter={() => setAddZomm(true)} onMouseLeave={() => setAddZomm(false)}>
                 <img
                   src="/care2.webp"
                   alt="Spa Icon"
@@ -216,38 +266,12 @@ const HomePage: React.FC = () => {
               </a>
             </div>
             
-            {/* Nail Salon */}
-            <div
-              className="text-center"
-            >
-              <div className="mb-6 mx-auto rounded-full bg-primary-50 p-4 w-16 h-16  transition-all duration-1000  hover:w-50 hover:h-50  flex items-center justify-center" onMouseEnter={() => setAddZomm(true)} onMouseLeave={() => setAddZomm(false)}>
-                <img
-                  src="nails.jpg"
-                  alt="Nail Salon Icon"
-                  loading="lazy"
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
-              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-3">
-                Salon de manucure haut de gamme
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Faites l’expérience de l’art de nos techniciens qualifiés offrant une large gamme de services, des manucures classiques aux créations artistiques.
-              </p>
-              <a
-                href="/nail-salon"
-                className="text-accent hover:text-gold-700 font-medium inline-flex items-center transition duration-300"
-              >
-                Découvrir plus &nbsp;                
-                <ChevronRight stroke='currentColor' />
-              </a>
-            </div>
           </div>
         </div>
       </section>
       
       {/* Testimonials Section */}
-      <section className="py-20 bg-primary-800 text-white">
+      <section className="py-20 bg-grenat text-white">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Expérience des clients"

@@ -62,8 +62,8 @@ const RoomsPage: React.FC = () => {
   return (
     <div>
       <Hero
-        title="Nos hébergements"
-        subtitle="Découvrez notre gamme de chambres et suites élégamment aménagées, conçues pour votre confort et votre détente."
+        title="Nos Chambres"
+        subtitle="Découvrez nos chambres conçue pour votre confort et un moment de détente inégalable."
         image="/familiales.webp"
         height="h-[70vh]"
       />
@@ -72,7 +72,7 @@ const RoomsPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Explorez nos chambres"
-            subtitle="Chaque chambre du VATOLA LUXY HOTEL est soigneusement conçue pour offrir le summum en matière de confort et de luxe."
+            subtitle="Chaque chambre au sein de notre hôtel est conçue pour satisfaire vos besoins et vous assurez un séjour apaisant."
           />
           
           <div className="bg-white rounded-lg shadow-luxury p-6 mb-12">

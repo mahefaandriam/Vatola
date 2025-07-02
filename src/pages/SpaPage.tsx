@@ -8,9 +8,11 @@ const SpaPage: React.FC = () => {
   return (
     <div>
       <Hero
-        title="Spa rajeunissant & Bien-être"
-        subtitle="Offrez-vous un monde de détente et de revitalisation avec nos soins spa haut de gamme."
+        title="Spa & Bien-être"
+        subtitle="Offrez-vous un monde de détente et de revitalisation avec nos soins spa."
         image="/care.webp"
+        ctaText='Réservez votre séance dès maintenant'
+        ctaLink='/contact'
         height="h-[70vh]"
       />
       
@@ -19,8 +21,8 @@ const SpaPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <SectionTitle
-                title="Notre sanctuaire de spa"
-                subtitle="Un havre de tranquillité où l’esprit, le corps et l’esprit trouvent une harmonie parfaite."
+                title="Notre service bien être"
+                subtitle="Un havre de paix pour votre corps et votre esprit"
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
@@ -88,6 +90,7 @@ const SpaPage: React.FC = () => {
         </div>
       </section>
       
+      {/*
       <section className="py-20 bg-primary-800 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
@@ -146,6 +149,7 @@ const SpaPage: React.FC = () => {
           </div>
         </div>
       </section>
+      */}
       
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">

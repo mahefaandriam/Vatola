@@ -1,16 +1,15 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
-import ServiceCard from '../components/ServiceCard';
-import { pubServices } from '../data/services';
 
 const PubPage: React.FC = () => {
   return (
     <div>
       <Hero
-        title="VATOLAHY, Pub & Bar de luxe"
-        subtitle="Détendez-vous dans l’atmosphère chic de notre pub, proposant une sélection de cocktails faits maison, de vins raffinés et de bouchées gourmandes."
+        title="VATOLA PUB & BAR"
+        subtitle="Venez découvrir dès maintenant"
         image="/une-verre2.webp"
+        ctaText=''
        // image="https://images.pexels.com/photos/1554654/pexels-photo-1554654.jpeg"
         height="h-[70vh]"
       />
@@ -20,18 +19,12 @@ const PubPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <SectionTitle
-                title="Découvrez notre luxueux pub"
-                subtitle="Un espace sophistiqué pour se détendre et savourer des boissons de qualité supérieure et des bouchées gastronomiques."
+                title="Le Pub Lounge Bar"
+                subtitle="L'élégance décontractéé au coeur de votre soirée"
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-                Notre élégant pub offre le mélange parfait de confort et de luxe, offrant un cadre idéal pour la détente après une journée d’exploration ou de travail. L’atmosphère chaleureuse et accueillante est complétée par de riches finitions en bois, des sièges moelleux et un éclairage subtil qui crée une ambiance de tranquillité raffinée.
-              </p>
-              <p className="text-gray-600 mb-6">
-                Laissez-vous tenter par notre sélection de spiritueux raffinés, de bières artisanales et de vins du monde entier. Nos mixologues qualifiés créent des cocktails classiques et innovants en utilisant des ingrédients de première qualité et des techniques de présentation artistiques.
-              </p>
-              <p className="text-gray-600">
-                Complétez vos boissons avec notre menu de bouchées de bar gastronomique, conçu par nos chefs talentueux pour offrir l’accompagnement parfait à la boisson de votre choix. Des fromages artisanaux aux petites assiettes sophistiquées, chaque offre est élaborée avec précision et soin.
+                Bienvenue au Pub Lounge Bar, un lieu chic et chaleureux où se rencontrent ambiance raffinée, cocktails d'exception et instants de détente. Conçu pour offrir une expérience unique, notre espace mêle le confort d'un lounge sophistiqué à l'énergie d'un bar convivial.
               </p>
             </div>
             
@@ -55,7 +48,7 @@ const PubPage: React.FC = () => {
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="/plat-de-poulets.webp"
+                src="/pub4.jpg"
                 alt="Gourment plat de poulet"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
@@ -65,6 +58,7 @@ const PubPage: React.FC = () => {
         </div>
       </section>
       
+      {/*
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
@@ -152,6 +146,7 @@ const PubPage: React.FC = () => {
           </div>
         </div>
       </section>
+      */}
       
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">

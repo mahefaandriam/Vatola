@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Hotel, ChevronDown } from 'lucide-react';
+import { Menu, X, Hotel, ChevronDown, User } from 'lucide-react';
 import { useRef } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../context/AuthContext';
@@ -97,7 +97,7 @@ const Header: React.FC = () => {
   const handleServicesClick = () => setIsServicesOpen((prev) => !prev);
 
   const headerClass = isScrolled
-    ? 'bg-white shadow-md text-primary-800 py-4'
+    ? 'bg-white shadow-md text-primary-800 py-0'
     : 'bg-transparent text-white py-6';
 
   const isHomePage = location.pathname === '/';
@@ -112,17 +112,13 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <Hotel size={28} className="text-accent" />
-            <div>
-              <h1 className="font-serif text-xl md:text-2xl font-bold tracking-wide">
-                VATOLA <span className="text-accent">Hôtel</span>
-              </h1>
-              <p className="text-xs md:text-sm tracking-widest">Hôtel & SPA</p>
-            </div>
+            <img src="/logo+name.png" alt="logo Vatola" className='w-50 h-auto'/>
+           
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden text-sm md:text-lg md:flex items-center space-x-2 md:space-x-8 ">
+            {/*
             {user ? (
               <Link to="/profil" className='relative transition duration-200'>Mon Profil 
                 <span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
@@ -134,12 +130,13 @@ const Header: React.FC = () => {
                 Connexion
               </Link>
             )}
+            */}
             
             <Link to="/" className="hover:text-accent transition duration-200">
               Accueil
             </Link>
             <Link to="/rooms" className="hover:text-accent transition duration-200">
-              Chambres
+              Nos Chambres
             </Link>
             <div
               className="relative"
@@ -152,7 +149,7 @@ const Header: React.FC = () => {
                 onClick={handleServicesClick}
                 aria-expanded={isServicesOpen}
               >
-                Services <ChevronDown size={16} className={`ml-1 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} />
+                Nos Services <ChevronDown size={16} className={`ml-1 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} />
               </Link>
               <div
                 className={`absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition duration-200 transform origin-top-right
@@ -166,34 +163,42 @@ const Header: React.FC = () => {
                   <Link to="/spa" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Spa & Bien-être
                   </Link>
-                  <Link to="/nail-salon" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    Salon des Ongles
-                  </Link>
                 </div>
               </div>
             </div>
             <Link to="/contact#hero" className="hover:text-accent transition duration-200">
-              Contact
+              Nos Contacts
             </Link>
-            <Link
-              to="/booking"
-              className="bg-accent hover:bg-gold-700 text-white px-2 py-2 md:px-6 md:py-2 rounded-md transition duration-300"
-            >
-              Réservez Maintenant
-            </Link>
+            {user ? (
+              <Link to="/profil" className='p-2 relative rounded-full transition duration-200 bg-accent text-white'>
+                <User />
+                <span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
+                  {reservationCount}
+                </span>
+              </Link>
+            ) : (
+              <Link to="/login" className="bg-accent hover:bg-gold-700 text-white px-2 py-2 md:px-6 md:py-2 rounded-md transition duration-300">
+                Connexion
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
-          <div className='md:hidden'>
-            {user && (
-            <Link to="/profil" className='mr-8 relative md:text-sm transition duration-200'>Mon Profil 
-              <span className="absolute top-4 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
-                {reservationCount}
-              </span>
-            </Link>
+          <div className='flex md:hidden'>
+             {user ? (
+              <Link to="/profil" className='mx-4 p-2 flex relative rounded-full transition duration-200 bg-accent text-white'>
+                <User />
+                <span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
+                  {reservationCount}
+                </span>
+              </Link>
+            ) : (
+              <Link to="/login" className="mx-2 bg-accent hover:bg-gold-700 text-white px-2 py-2 md:px-6 md:py-2 rounded-md transition duration-300">
+                Connexion
+              </Link>
             )}
             <button
-              className=" text-2xl focus:outline-none"
+              className="text-2xl focus:outline-none"
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >

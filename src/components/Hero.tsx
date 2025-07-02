@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 
@@ -22,7 +21,7 @@ const Hero: React.FC<HeroProps> = ({
   ctaBgNone = false,
   overlay = true,
   height = 'h-screen'
-}) => {
+}: HeroProps) => {
   return (
 
     <div
