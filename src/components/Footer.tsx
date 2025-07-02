@@ -116,7 +116,7 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   placeholder="Votre adresse e-mail"
-                  className="w-full px-4 py-2 bg-accent border border-primary-600 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full px-4 py-2 bg-accent/70 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
               <button
