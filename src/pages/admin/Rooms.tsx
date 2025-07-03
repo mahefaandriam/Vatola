@@ -41,7 +41,7 @@ const Rooms: React.FC = () => {
     ];
 
     const fetchRooms = async () => {
-        const { data} = await supabase.from('rooms').select('*');
+        const { data } = await supabase.from('rooms').select('*').order('created_at', { ascending: false });
         if (data) setRooms(data);
     };
 
@@ -56,23 +56,18 @@ const Rooms: React.FC = () => {
             type: e.target.type.value,
             price: parseFloat(e.target.price.value),
             capacity: parseInt(e.target.capacity.value),
+            name: e.target.name.value,
+            description: e.target.description.value,
+            size: parseInt(e.target.size.value),
+            amenities: selectedAmenities,
+            featured: e.target.featured.checked,
         };
 
-        if (editRoom) {
-            const {data, error } = await supabase.from('rooms').update(payload).eq('id', editRoom.id);
-            console.log(data, error);
-
-            if (error) {
-                alert('Erreur lors de la mise à jour');
-                console.error(error);
-            } else {
-                fetchRooms(); // refresh data
-            }
-        } else {
+        if (!editRoom) {
             await supabase.from('rooms').insert([payload]);
         }
 
-        setEditRoom(null);
+        //e.target.reset();
         fetchRooms(); // refresh list
     };
 
@@ -144,18 +139,18 @@ const Rooms: React.FC = () => {
                 <div>
                     <h2 className='my-2 text-gray-400 font-thin text-sm'>Ajouter une chambre &rsaquo;</h2>
                     <form onSubmit={handleSubmit} action="" className='space-x-5 space-y-2 flex flex-wrap text-gray-600'>
-                        <input type="text" className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Nom de la chambre'/>
-                        <input type="text" className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Type de chambre'/>
+                        <input type="text" name='name' className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Nom de la chambre'/>
+                        <input type="text" name='type' className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Type de chambre'/>
                         <div className="flex items-center">
-                            <input type="number" className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Prix/nuitée'/>
+                            <input type="number" name='price' className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Prix/nuitée'/>
                             <span className="ml-2">Ar</span>
                         </div>
                         <div className="flex items-center">
-                            <input type="number" className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Surface'/>
+                            <input type="number" name='size' className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Surface'/>
                             <span className="ml-2">m²</span>
                         </div>
                         <div className="flex items-center">
-                            <input type="number" className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Capacité'/>
+                            <input type="number" name='capacity' className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Capacité'/>
                         </div>
                         <div className='flex items-center'>
                             <span className="mx-2">Sélection spéciale</span>
@@ -169,6 +164,7 @@ const Rooms: React.FC = () => {
                             <textarea
                                 className="p-2 border border-gray-200 rounded-lg outline-none focus:border-accent w-64"
                                 placeholder="Description"
+                                name='description'
                                 rows={2}
                             />
                         </div>

@@ -34,7 +34,7 @@ export default function MultiSelectDropdown({
             setIsOpen(false);
           }
         }}
-        className="w-full px-4 py-2 text-left bg-white text-nowrap"
+        className="w-full px-4 py-2 text-left bg-white text-wrap"
       >
         {selected.length > 0 ? selected.join(", ") : placeholder}
       </button>

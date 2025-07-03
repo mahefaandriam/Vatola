@@ -20,7 +20,7 @@ type Room = {
 const RoomsPage: React.FC = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState(rooms);
-  const [priceRange, setPriceRange] = useState(450);
+  const [priceRange, setPriceRange] = useState(1000450);
   
   useEffect(() => {
     async function fetchRooms() {
@@ -28,7 +28,7 @@ const RoomsPage: React.FC = () => {
         const data = await getRooms();
         setRooms(data);
         // Apply initial filter after rooms are fetched
-        setFilteredRooms(data.filter(room => room.price <= priceRange));
+        //setFilteredRooms(data.filter(room => room.price <= priceRange));
       } catch (err) {
         console.error(err);
       } 
@@ -94,6 +94,7 @@ const RoomsPage: React.FC = () => {
                 </select>
               </div>
               
+              {/*
               <div>
                 <label htmlFor="priceRange" className="block text-gray-700 font-medium mb-2">
                   Prix Maximum: ${priceRange}
@@ -114,6 +115,7 @@ const RoomsPage: React.FC = () => {
                   <span>$500</span>
                 </div>
               </div>
+              */}
             </div>
           </div>
           

@@ -108,7 +108,12 @@ export default function Login() {
             />
           </div>
         </div>
-        <button type="submit" className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">Login</button>
+        <button type="submit" className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">Connexion</button>
+        <a href="/singup" className="text-blue-500 hover:underline">
+          Créer un compte ?
+        </a>
+        &nbsp;
+        &nbsp;
         <a href="/forgot-password" className="text-blue-500 hover:underline">
           Mot de passe oublié ?
         </a>

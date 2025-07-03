@@ -8,11 +8,12 @@ const BookingPage: React.FC = () => {
     <div className="pt-24 md:pt-28">
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
+          {/*
           <SectionTitle
             title="Réservez Votre Séjour"
             subtitle="Réservez votre hébergement au HÔTEL VATOLAHY et préparez-vous à vivre une expérience inoubliable."
           />
-          
+          */}
           <div className="max-w-3xl mx-auto">
             <BookingForm />
           </div>

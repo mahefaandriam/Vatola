@@ -61,10 +61,10 @@ const HomePage: React.FC = () => {
       {/* Hero Section */}
        {/* Experience Unparalleled Luxury*/}
       <Hero
-        title="Le luxe, réinventé pour vous"
+        title="Vatola Antsirabe - Votre havre à Antsirabe"
         subtitle="Élégance, confort et service exceptionnel : vivez l’expérience unique de l’HÔTEL VATOLA."
         image="/vatola.jpg"
-        ctaText="Réservez Votre Séjour dés maintenant"
+        ctaText="Réservez Votre Séjour dès maintenant"
         ctaLink="/booking"
       />
       
@@ -91,7 +91,7 @@ const HomePage: React.FC = () => {
                 établissement vous invite à un séjour inoubliable dans un cadre apaisant et soigné.                
               </p>
              <p className="text-gray-600 mb-6">
-                🌟Que vous soyez en escapade romantique, en voyage d'affaires ou à la recherche d'un moment de détente, Le Vatolavous accueille dans un univers où chaque détail est pensé pour votre bien-être.
+                🌟Que vous soyez en escapade romantique, en voyage d'affaires ou à la recherche d'un moment de détente, Vatola vous accueille dans un univers où chaque détail est pensé pour votre bien-être.
               </p>
               <div>
                 <p className="text-gray-600 mb-6">Ce qui fait notre différence:</p>
@@ -172,7 +172,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
       
-      {/* Services Highlights */}
+      {/* Services Highlights 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
@@ -181,7 +181,7 @@ const HomePage: React.FC = () => {
           />
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {/* Pub & Bar */}
+            {/* Pub & Bar 
             <div
               className="text-center"
             >
@@ -208,7 +208,7 @@ const HomePage: React.FC = () => {
               </a>
             </div>
             
-            {/* Nail Salon */}
+            {/* Nail Salon 
             <div
               className="text-center"
             >
@@ -238,7 +238,7 @@ const HomePage: React.FC = () => {
               </a>
             </div>
 
-            {/* Spa & Wellness */}
+            {/* Spa & Wellness *
             <div
               className="text-center"
             >
@@ -269,6 +269,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+      */}
       
       {/* Testimonials Section */}
       <section className="py-20 bg-grenat text-white">

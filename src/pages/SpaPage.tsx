@@ -254,6 +254,56 @@ const SpaPage: React.FC = () => {
           </div>
         </div>
       </section>
+            
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <SectionTitle
+                title="Notre expérience du salon de manucure"
+                subtitle="Offrez-vous des soins de qualité dans un environnement luxueux et relaxant."
+                alignment="left"
+              />
+              <p className="text-gray-600 mb-6">
+                Notre salon de manucure est conçu pour vous offrir le summum du luxe en matière de soin des ongles. Dès votre entrée, vous serez accueilli dans un espace de tranquillité et de sophistication où chaque détail est soigneusement étudié pour améliorer votre expérience.
+              </p>
+              <p className="text-gray-600 mb-6">
+                Notre équipe de techniciens hautement qualifiés apporte des années d’expertise et de créativité à chaque service. En utilisant uniquement des produits haut de gamme et en respectant les normes d’hygiène les plus strictes, nous veillons à ce que vos ongles reçoivent le meilleur soin possible.
+              </p>
+              <p className="text-gray-600">
+                Que vous soyez à la recherche d’une manucure classique, d’une application de gel longue durée ou d’un nail art complexe, nos techniciens travailleront en étroite collaboration avec vous pour obtenir le look parfait qui reflète votre style personnel.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <img
+                src="/nails.jpg"
+                alt="Manicure Service"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+              <img
+                src="/nails5.webp"
+                alt="Pedicure Service"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+              <img
+                src="nails3.jpg"
+                alt="Gel Nails"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+              <img
+                src="nails2.webp"
+                alt="Nail Art"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
       
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">

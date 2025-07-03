@@ -1,4 +1,3 @@
-import React from 'react';
 import { Star } from 'lucide-react';
 import type { Testimonial } from '../types';
 
@@ -19,7 +18,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
           className="w-12 h-12 rounded-full object-cover mr-4"
         />
         <div>
-          <h4 className="font-serif font-medium text-primary-800">{name}</h4>
+         {/* <h4 className="font-serif font-medium text-primary-800">{name}</h4>}*/}
           <p className="text-sm text-gray-500">{date}</p>
         </div>
       </div>

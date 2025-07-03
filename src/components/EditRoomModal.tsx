@@ -3,10 +3,7 @@ import { supabase } from "../lib/supabaseClient";
 import MultiSelectDropdown from "./MultiSelectDropdown";
 import { useEffect } from "react";
 
-
-
 export default function EditRoomModal({ room, onClose, onUpdated }: any) {
-    console.log('editroom' + room)
   const [form, setForm] = useState({ ...room });
   const [loading, setLoading] = useState(false);
     const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
@@ -35,6 +32,15 @@ export default function EditRoomModal({ room, onClose, onUpdated }: any) {
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
+    setForm((prev: any) => ({ ...prev, [name]: value }));
+  };
+
+  const handleChangeBox = (e: { target: {
+    type: string;
+    checked: boolean; name: any; value: any; 
+  }; }) => {
+    const name = e.target.name;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setForm((prev: any) => ({ ...prev, [name]: value }));
   };
 
@@ -67,29 +73,29 @@ export default function EditRoomModal({ room, onClose, onUpdated }: any) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-lg">
+      <div className="bg-white p-6 rounded-lg w-full h-screen max-w-lg overflow-y-scroll">
         <h2 className="text-xl font-semibold mb-4">Modifier la Chambre</h2>
 
         <form onSubmit={handleUpdate} className='space-x-5 space-y-2 flex flex-wrap text-gray-600'>
-            <input type="text" value={form.name} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Nom de la chambre'/>
-            <input type="text" value={form.type} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Type de chambre'/>
+            <input type="text" name="name" value={form.name} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Nom de la chambre'/>
+            <input type="text" name="type" value={form.type} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Type de chambre'/>
             <div className="flex items-center">
-                <input type="number" value={form.price} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Prix/nuitée'/>
+                <input type="number" name="price" value={form.price} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Prix/nuitée'/>
                 <span className="ml-2">Ar</span>
             </div>
             <div className="flex items-center">
-                <input type="number" value={form.size} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Surface'/>
+                <input type="number" name="size" value={form.size} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Surface'/>
                 <span className="ml-2">m²</span>
             </div>
             <div className="flex items-center">
-                <input type="number" value={form.capacity} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Capacité'/>
+                <input type="number" name="capacity" value={form.capacity} onChange={handleChange} className='p-2 border border-gray-200 rounded-lg outline-none focus:border-accent' placeholder='Capacité'/>
             </div>
             <div className='flex items-center'>
                 <span className="mx-2">Sélection spéciale</span>
-                <input name="featured" type="checkbox" defaultChecked={form.featured} />
+                <input name="featured" type="checkbox" defaultChecked={form.featured} onChange={handleChangeBox} />
             </div>
             {/* Amenities dropdown */}
-            <div className='border border-gray-200 w-80 overflow-x-scroll'>
+            <div className='border border-gray-200 '>
                 <MultiSelectDropdown options={amenitiesOptions} selected={selectedAmenities} setSelected={setSelectedAmenities} />
             </div>
             <div>
@@ -97,6 +103,8 @@ export default function EditRoomModal({ room, onClose, onUpdated }: any) {
                     className="p-2 border border-gray-200 rounded-lg outline-none focus:border-accent w-64"
                     placeholder="Description"
                     value={form.description}
+                    name="description"
+                    onChange={handleChange}
                     rows={2}
                 />
             </div>

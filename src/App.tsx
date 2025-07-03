@@ -19,11 +19,12 @@ import PrivateRoute from './components/PrivateRoute';
 import Users from './pages/admin/Users';
 import ForgotPassword from './pages/ForgotPassword';
 import UpdatePassword from './pages/UpdatePassword';
-import Notifications from './pages/admin/Notifications';
 import Rooms from './pages/admin/Rooms';
 import NailsServices from './pages/admin/NailsServieces';
 import ScrollToTop from './components/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
+import Contacts from './pages/admin/Contacts';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <main className="flex-grow">
           <ScrollToTop />
             <Routes>
+              <Route path="*" element={<NotFoundPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/singup" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -56,7 +58,7 @@ function App() {
                 <Route path="utilisateurs" element={<Users />} />
                 <Route path="chambres" element={<Rooms />} />
                 <Route path="nails" element={<NailsServices />} />
-                <Route path="notifications" element={<Notifications />} />
+                <Route path="contact" element={<Contacts />} />
               </Route>
               <Route path="/" element={<HomePage />} />
               <Route path="/rooms" element={<RoomsPage />} />

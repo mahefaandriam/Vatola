@@ -126,7 +126,7 @@ export default function AdminDashboard() {
             `}
           >
             <Link 
-              to="/admin/notifications"
+              to="/admin/contacts"
             >
               <span className="ml-2 top-2 relative bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
                 {unreadCount}
@@ -146,7 +146,6 @@ export default function AdminDashboard() {
           <Route path="reservations" element={<Reservations />} />
           <Route path="utilisateurs" element={<ListUsers />} />
           <Route path="nails" element={<NailsServices />} />
-          <Route path="notifications" element={<AdminNotifications />} />
           <Route path="contacts" element={<Contacts />} />
         </Routes>
       </div>
