@@ -21,6 +21,7 @@ const RoomsPage: React.FC = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState(rooms);
   const [priceRange, setPriceRange] = useState(1000450);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     async function fetchRooms() {
@@ -28,7 +29,8 @@ const RoomsPage: React.FC = () => {
         const data = await getRooms();
         setRooms(data);
         // Apply initial filter after rooms are fetched
-        //setFilteredRooms(data.filter(room => room.price <= priceRange));
+        setFilteredRooms(data.filter(room => room.price <= priceRange));
+        setLoading(false);
       } catch (err) {
         console.error(err);
       } 
@@ -119,6 +121,11 @@ const RoomsPage: React.FC = () => {
             </div>
           </div>
           
+          {loading ? (
+            <div className="col-span-2 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-800"></div>
+            </div>
+          ) :( 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredRooms.length > 0 ? (
               filteredRooms.map((room) => (
@@ -130,6 +137,7 @@ const RoomsPage: React.FC = () => {
               </div>
             )}
           </div>
+          )};
         </div>
       </section>
     </div>
