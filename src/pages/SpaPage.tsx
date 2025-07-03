@@ -70,7 +70,7 @@ const SpaPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Nos traitements exclusifs"
-            subtitle="Découvrez notre gamme de services de spa exceptionnels conçus pour nourrir et restaurer."
+            subtitle=""
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -149,7 +149,7 @@ const SpaPage: React.FC = () => {
           </div>
         </div>
       </section>
-      */}
+      
       
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -254,24 +254,31 @@ const SpaPage: React.FC = () => {
           </div>
         </div>
       </section>
+      */}
             
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <SectionTitle
-                title="Notre expérience du salon de manucure"
-                subtitle="Offrez-vous des soins de qualité dans un environnement luxueux et relaxant."
+                title="Salons d’esthétique – Beauté, soin et élégance"
+                subtitle="Offrez-vous des soins de qualité."
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-                Notre salon de manucure est conçu pour vous offrir le summum du luxe en matière de soin des ongles. Dès votre entrée, vous serez accueilli dans un espace de tranquillité et de sophistication où chaque détail est soigneusement étudié pour améliorer votre expérience.
+                Offrez-vous une parenthèse de beauté dans nos salons d’esthétique, où chaque détail est pensé pour sublimer votre apparence et révéler votre éclat naturel. Dans une atmosphère élégante et relaxante, nos professionnelles vous accueillent pour une expérience de soin complète et personnalisée.
               </p>
               <p className="text-gray-600 mb-6">
-                Notre équipe de techniciens hautement qualifiés apporte des années d’expertise et de créativité à chaque service. En utilisant uniquement des produits haut de gamme et en respectant les normes d’hygiène les plus strictes, nous veillons à ce que vos ongles reçoivent le meilleur soin possible.
+                Onglerie : Manucures soignées, poses de vernis classiques ou semi-permanents, nail art… chaque geste est réalisé avec précision pour des mains impeccables et raffinées.
+              </p>
+              <p className="text-gray-600 mb-6">
+               Coiffure : Du simple brushing aux coupes tendances, en passant par les soins capillaires ou les coiffures événementielles, notre salon vous garantit des résultats à la hauteur de vos envies.
+              </p>
+              <p className="text-gray-600 mb-6">
+                Pédicure : Accordez une attention particulière à vos pieds grâce à nos soins pédicure, alliant hygiène, confort et esthétisme, pour une sensation de légèreté absolue.
               </p>
               <p className="text-gray-600">
-                Que vous soyez à la recherche d’une manucure classique, d’une application de gel longue durée ou d’un nail art complexe, nos techniciens travailleront en étroite collaboration avec vous pour obtenir le look parfait qui reflète votre style personnel.
+                Nos salons sont conçus comme un véritable cocon de bien-être, où la beauté devient un art, et chaque client(e) une priorité.
               </p>
             </div>
             
@@ -289,16 +296,112 @@ const SpaPage: React.FC = () => {
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="nails3.jpg"
+                src="pedicure.jpg"
                 alt="Gel Nails"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="nails2.webp"
+                src="coiffure.jpg"
                 alt="Nail Art"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      
+       <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <div className="grid grid-cols-2 gap-4">
+              <img
+                src="/spa4.webp"
+                alt="Manicure Service"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+              <img
+                src="/spa1.webp"
+                alt="Pedicure Service"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+              <div></div>
+              <img
+                src="spa2.webp"
+                alt="Gel Nails"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+              
+            </div>
+
+            <div>
+              <SectionTitle
+                title="Jacuzzi à l’eau de source ranovisy"
+                subtitle="Offrez-vous des soins de qualité dans un environnement douce et relaxant."
+                alignment="left"
+              />
+              <p className="text-gray-600 mb-6">
+              Offrez-vous un moment de détente ultime dans notre jacuzzi exceptionnel, alimenté directement par la 
+              célèbre eau de source de Ranovisy, réputée pour sa pureté et ses vertus bienfaisantes. Niché dans un 
+              cadre naturel apaisant, notre jacuzzi combine les bienfaits de l’hydrothérapie avec ceux d’une eau
+               naturellement riche en minéraux, pour une expérience de bien-être revitalisante.
+              </p>
+              <p className="text-gray-600 mb-6">
+                Laissez les bulles vous masser en douceur pendant que l’eau de source vous enveloppe, procurant une sensation de 
+                relaxation profonde. Que ce soit après une journée d’excursion ou simplement pour se reconnecter à soi-même, ce 
+                moment dans notre jacuzzi est un véritable rituel de ressourcement.
+              </p>
+            </div>
+            
+            
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <SectionTitle
+                title="Hammam & Sauna – Détente et purification"
+                subtitle="Offrez à votre corps et votre esprit un moment de pure évasion dans notre espace Hammam & Sauna, dédié à la relaxation, à la purification et au lâcher-prise."
+                alignment="left"
+              />
+              <p className="text-gray-600 mb-6">
+               🌿 Le Hammam, avec sa chaleur humide et enveloppante, nettoie la peau en profondeur, élimine les toxines et détend les muscles. Parfait pour relâcher les tensions et revitaliser le corps tout en douceur.
+              </p>
+              <p className="text-gray-600 mb-6">
+                Le Sauna, grâce à sa chaleur sèche, stimule la circulation sanguine, renforce le système immunitaire et procure une sensation immédiate de bien-être. Un véritable rituel nordique pour recharger les batteries.
+              </p>
+              <p className="text-gray-600">
+                En combinant ces deux traditions, vous offrez à votre organisme un soin complet, alternant chaleur, repos et fraîcheur. Un voyage sensoriel qui allie santé, beauté et sérénité.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <img
+                src="/sauna.jpg"
+                alt="Manicure Service"
+                loading="lazy"
+                className="w-full h-64 object-cover object-center rounded-lg shadow-luxury"
+              />
+              <img
+                src="/harmony.jpg"
+                alt="Pedicure Service"
+                loading="lazy"
+                className="w-full h-64 object-cover rounded-lg shadow-luxury"
+              />
+              <div></div>
+              <img
+                src="Hamam.jpg"
+                alt="Nail Art"
+                loading="lazy"
+                className="w-full h-64 object-cover object-bottom rounded-lg shadow-luxury"
               />
             </div>
           </div>

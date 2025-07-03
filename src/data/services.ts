@@ -29,36 +29,32 @@ export const pubServices: Service[] = [
 
 export const spaServices: Service[] = [
   {
-    id: 'swedish-massage',
-    name: 'Massage suédois',
-    description: 'Un massage classique du corps entier utilisant une pression douce à ferme pour favoriser la relaxation et soulager la tension musculaire.',
-    price: 120,
-    duration: '60 minutes',
-    image: '/massage.webp'
-  },
-  {
-    id: 'deep-tissue-massage',
-    name: 'L’art du massage en pleine conscience',
-    description: 'Nous pratiquons l’art du massage en pleine conscience : une approche où le corps est écouté, respecté, honoré.',
-    price: 150,
+    id: 'holistique',
+    name: 'Massage holistique – Harmonie du corps et de l’esprit',
+    description: 'Un soin complet qui harmonise le corps, l’esprit et les émotions. À travers des gestes intuitifs et personnalisés, ce massage libère les tensions profondes et rééquilibre votre énergie.',
     duration: '60 minutes',
     image: '/massage2.webp'
   },
   {
+    id: 'deep-tissue-massage',
+    name: 'Massage aux ventouses',
+    description: 'Une technique ancestrale qui stimule la circulation, détoxifie le corps et soulage les tensions profondes. Grâce à l’action des ventouses, ce massage réactive l’énergie et libère les blocages musculaires.',
+    duration: '60 minutes',
+    image: '/ventouse.webp'
+  },
+  {
     id: 'facial-treatment',
-    name: 'Luxury Facial',
-    description: 'Revitalisez votre peau avec notre soin du visage premium à base de produits bio adaptés à votre type de peau.',
-    price: 130,
+    name: 'Massage partiel',
+    description: 'Ciblé sur une zone précise (dos, jambes, nuque…), ce massage soulage les tensions localisées et procure une relaxation rapide et efficace. Idéal pour les besoins ponctuels ou le manque de temps.',
     duration: '75 minutes',
     image: '/massage3.webp'
   },
   {
     id: 'body-scrub',
-    name: 'Gommage corporel exotique',
-    description: 'Un soin exfoliant luxueux qui laisse votre peau éclatante et rajeunie. ',
-    price: 110,
+    name: 'Massage aux pierres chaudes',
+    description: 'Un soin profondément relaxant où la chaleur douce des pierres volcaniques pénètre les muscles, libérant les tensions et favorisant la circulation. Une expérience apaisante qui allie chaleur et bien-être total.',
     duration: '45 minutes',
-    image: '/massage4.webp'
+    image: '/chaudp.jpg'
   }
 ];
 

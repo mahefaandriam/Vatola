@@ -94,7 +94,7 @@ const RoomDetailPage: React.FC = () => {
       return;
     }
 
-    if (!showSummary) navigate('/booking');
+    if (!showSummary) navigate(`/booking?selecttype=${room.type}`);
 
 
     let nights = 0;

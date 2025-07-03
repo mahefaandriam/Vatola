@@ -20,7 +20,7 @@ type Room = {
 };
 
 const BookingForm: React.FC = () => {
-  const [roomNames, setRoomNames] = useState<{ name: string, price: string }[] | null>(null);
+  const [roomNames, setRoomNames] = useState<{ type: string, price: string }[] | null>(null);
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<BookingDetails>({
@@ -30,17 +30,36 @@ const BookingForm: React.FC = () => {
     children: 0,
     roomType: '',
   });
+ 
+
 
   useEffect(() => {
     async function fetchRooms() {
       try {
         const { data, error } = await supabase
           .from('rooms')
-          .select('name, price');
+          .select('type, price');
         if (error) {
           //console.error(error);
         } else {
           setRoomNames(data);
+          const uniqueRooms = Array.from(
+            new Map(data.map((item: any) => [item.type, item])).values()
+          );
+          setRoomNames(uniqueRooms.map((room: any) => ({
+            type: room.type,
+            price: room.price
+          })));
+
+          const searchParams = new URLSearchParams(window.location.search);
+          const selecttype = searchParams.get('selecttype');
+
+          if (selecttype) {
+            setBookingDetails((prev) => ({
+              ...prev,
+              roomType: selecttype,
+            }));
+          }
         }
       } catch (err) {
         //console.error(err);
@@ -79,18 +98,26 @@ const BookingForm: React.FC = () => {
     setLoading(false);
   };
 
-  const checkAvailability = async (startDate: any, endDate: any, peopleCount: any) => {
-    // Charger toutes les chambres ayant la capacité suffisante
-    const { data: allRooms } = await supabase
+  const checkAvailability = async (
+    startDate: any,
+    endDate: any,
+    peopleCount: any
+  ) => {
+    // Charger toutes les chambres ayant la capacité suffisante et le type sélectionné
+    let query = supabase
       .from('rooms')
       .select('*')
       .gte('capacity', peopleCount);
 
+    if (bookingDetails.roomType) {
+      query = query.eq('type', bookingDetails.roomType);
+    }
+
+    const { data: allRooms } = await query;
+
     if (!allRooms) return [];
 
-    let filteredRooms = allRooms; 
-    
- 
+    let filteredRooms = allRooms;
 
     // Rechercher les chambres déjà réservées qui se chevauchent
     const { data: reservedRooms } = await supabase
@@ -102,7 +129,9 @@ const BookingForm: React.FC = () => {
     const reservedIds = reservedRooms?.map(r => r.room_id) ?? [];
 
     // Filtrer les chambres disponibles
-    const filtredAvailableRooms = filteredRooms.filter(room => !reservedIds.includes(room.id));
+    const filtredAvailableRooms = filteredRooms.filter(
+      room => !reservedIds.includes(room.id)
+    );
 
     return filtredAvailableRooms;
   };
@@ -225,8 +254,8 @@ const BookingForm: React.FC = () => {
             >
               <option value="">Sélectionnez le type de chambre</option>
               {(roomNames ?? []).map(n => (
-                <option key={n.name} value={n.name}>
-                  {n.name}
+                <option key={n.type} value={n.type}>
+                  {n.type}
                 </option>
               ))}
             </select>
