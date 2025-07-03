@@ -89,7 +89,7 @@ const HomePage: React.FC = () => {
                 établissement vous invite à un séjour inoubliable dans un cadre apaisant et soigné.                
               </p>
              <p className="text-gray-600 mb-6">
-                🌟Que vous soyez en escapade romantique, en voyage d'affaires ou à la recherche d'un moment de détente, Vatola vous accueille dans un univers où chaque détail est pensé pour votre bien-être.
+                Que vous soyez en escapade romantique, en voyage d'affaires ou à la recherche d'un moment de détente, Vatola vous accueille dans un univers où chaque détail est pensé pour votre bien-être.
               </p>
               <div>
                 <p className="text-gray-600 mb-6">Ce qui fait notre différence:</p>
@@ -110,14 +110,14 @@ const HomePage: React.FC = () => {
                 loading="lazy"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
-              <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
+              {/* <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-accent rounded-lg hidden md:block">
                 <img
                   src="/plat1.webp"
                   loading="lazy"
                   alt="Hotel Detail"
                   className="w-full h-full object-cover rounded-lg transform translate-x-4 translate-y-4 shadow-lg"
                 />
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
