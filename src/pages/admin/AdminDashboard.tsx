@@ -6,7 +6,6 @@ import { Bed, Beer, House, Laugh, MessageCircle, Sparkles, Users} from 'lucide-r
 import Reservations from './Reservations';
 import Rooms from './Rooms';
 import NailsServices from './NailsServieces';
-import AdminNotifications from './Notifications';
 import Contacts from './Contacts';
 import ListUsers from './Users';
 

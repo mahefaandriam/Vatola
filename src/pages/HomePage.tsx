@@ -10,7 +10,6 @@ import TestimonialCard from '../components/TestimonialCard';
 import BookingForm from '../components/BookingForm';
 //import { pubServices, spaServices, nailServices } from '../data/services';
 import { testimonials } from '../data/testimonials';
-import { ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
@@ -32,7 +31,6 @@ const HomePage: React.FC = () => {
   const [loadingFeaturedRooms, setLoadingFeaturedRooms] = useState(true);
 
   // Zoom effet section :Services & commodités exceptionnels
-  const [addZoom, setAddZomm] = useState(false);
 
   const customPagination = {
     clickable: true,
