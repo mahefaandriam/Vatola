@@ -319,14 +319,14 @@ const ContactPage: React.FC = () => {
                   </p>
                 </div>
                 
-                <div>
+                {/* <div>
                   <h4 className="font-medium text-primary-800 mb-2">Informations sur le stationnement</h4>
                   <p className="text-gray-600">
                     Pour votre tranquillité d’esprit, l’HÔTEL VATOLA met à la disposition de ses clients un grand parking intérieur sécurisé, 
                      entièrement gratuit et sous surveillance permanente. Vous pourrez ainsi profiter pleinement de
                      votre séjour, en toute sérénité, en sachant que votre véhicule est en sécurité.
                   </p>
-                </div>
+                </div>*/}
               </div>
             </div>
           </div>
