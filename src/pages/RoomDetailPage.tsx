@@ -189,7 +189,7 @@ const RoomDetailPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6 pb-10">
           { showSummary && (
               <div id='bookingSummary' className="flex items-center mb-10 py-5 border border-accent px-5 rounded">
-                  <div className="mb-8 h-50 w-full ">
+                  <div className="w-full ">
                       <h3 className="font-serif text-xl font-semibold text-primary-800 mb-1">Récapitulatif de votre réservation</h3>
                       <div className='w-full '>
                       <motion.div
@@ -226,7 +226,7 @@ const RoomDetailPage: React.FC = () => {
                           <span className="text-gray-600"><strong>Capacité :</strong> {room.capacity} invités Max</span>
                       </div>
                     </div>
-                      <div className='flex justify-between items-center w-full'>
+                      <div className='pt-5 flex justify-between items-center w-full'>
                         <div >
                         </div>
                         <button
