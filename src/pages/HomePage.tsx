@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
   const customPagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {
-      return '<span key='+ index +' class="' + className + '" style="display:inline-block;width:60px;height:4px;border-radius:2px;background:#2563eb;margin:-15px 4px;"></span>';
+      return '<span key='+ index +' class="' + className + '" style="display:inline-block;width:60px;height:4px;border-radius:2px;background:#2563eb;paddin:-15px 4px;"></span>';
     },
   };
 
@@ -159,7 +159,7 @@ const HomePage: React.FC = () => {
               className='roomCard-swiper'
             >
               {featuredRooms.map((room) => (
-                <SwiperSlide key={room.id}>                
+                <SwiperSlide key={room.id} className='mb-30'>                
                     <RoomCard room={room} />
                 </SwiperSlide>
               ))}
