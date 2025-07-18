@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <MapPin size={18} className="mr-2 mt-1 text-accent" />
                 <span className="text-gray-300">
-                  27H10 Rue Mahazoarivo sud, Antsirabe
+                  <a href="/contact#map">27H10 Rue Mahazoarivo sud, Antsirabe</a>
                 </span>
               </li>
               <li className="flex items-center">
