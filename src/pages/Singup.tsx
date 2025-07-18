@@ -66,7 +66,7 @@ export default function Register() {
       }
     } else {
       alert('Inscription réussie !');
-      navigate('/admin');
+      navigate('/login');
     }
   };
 
