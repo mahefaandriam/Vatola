@@ -16,6 +16,7 @@ export interface Service {
   name: string;
   description: string;
   price?: number;
+  priceDetail?: string,
   duration?: string;
   image: string;
 }

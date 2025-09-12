@@ -47,7 +47,9 @@ export const spaServices: Service[] = [
     name: 'Massage partiel',
     description: 'Ciblé sur une zone précise (dos, jambes, nuque…), ce massage soulage les tensions localisées et procure une relaxation rapide et efficace. Idéal pour les besoins ponctuels ou le manque de temps.',
     duration: '75 minutes',
-    image: '/massage3.webp'
+    image: '/massage3.webp',
+    price: 30000,
+    priceDetail: 'A partir de 30 000 ar'
   },
   {
     id: 'body-scrub',
