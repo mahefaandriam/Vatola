@@ -18,7 +18,6 @@ export default function MultiSelectDropdown({
 
 
   const toggleOption = (option: any) => {
-    setIsOpen(false);
     setSelected((prev) =>
       prev.includes(option) ? prev.filter((v) => v !== option) : [...prev, option]
     );
@@ -28,7 +27,7 @@ export default function MultiSelectDropdown({
     <div className="relative w-full" onMouseEnter={() =>setFocusOptions(true)} onMouseLeave={() =>setFocusOptions(false)}>
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpen((prev) => !prev)}
         onBlur={() => {
           if (!focusOptions) {
             setIsOpen(false);

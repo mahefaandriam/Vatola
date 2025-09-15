@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabaseClient';
 import MultiSelectDropdown from '../../components/MultiSelectDropdown';
 import { Plus, SquarePen, Trash } from 'lucide-react';
 import EditRoomModal from '../../components/EditRoomModal';
+import { toast } from 'react-toastify';
 
 type Room = {
   id: string;
@@ -25,19 +26,24 @@ const Rooms: React.FC = () => {
     //const [loading, setLoading] = useState(true);
 
     const amenitiesOptions: string[] = [
-        "Wi-Fi haut débit gratuit",
-        "55-inch Smart TV",
-        "Machine à café",
-        "Machine à café",
-        "Articles de toilette haut de gamme",
-        "Minibar gratuit",
-        "Lit king size",
-        "Service en chambre",
-        "Bureau de travail",
-        "Petit-déjeuner inclus",
-        "Douche de pluie",
-        "Peignoir et pantoufles",
-        "Climatisation"
+        "Accès au parking intérieur",
+        "Accès au parking intérieur et vidéo de surveillance",
+        "Accès au parking privé et vidéo de surveillance",
+        "Coffre fort sécursisé",
+        "Télévision dans la chambre et accès canal +",
+        "Wifi dans la chambre",
+        "Accès à la piscine",
+        "Sanitaire privatifs",
+        "Eau chaude",
+        "Chambre chauffeur gratuite",
+        "Cadre exceptionnel",
+        "2 petits lits ou un grand lit confortables",
+        "1 grand lit confortable et un petit lit",
+        "2 grand lit confortable, ou 1 grand lit 2 petit lits superposés",
+        "Berceau disponibles à la demande (gratuit)",
+        "Décoration champagne à la demande",
+        "Chambre chauffeur gratuit",
+        "Enfant de - de 5 ans n’est pas comptés dans le nombre de personnes dans la chambre = gratuit"
     ];
 
     const fetchRooms = async () => {
@@ -64,11 +70,17 @@ const Rooms: React.FC = () => {
         };
 
         if (!editRoom) {
-            await supabase.from('rooms').insert([payload]);
+            const { error } = await supabase.from('rooms').insert([payload]);
+            if (error) {
+                console.error(error);
+                toast.error("Erreur lors de l'ajout de la chambre");
+            } else {
+                toast.success('Chambre ajoutée avec succès');
+                e.target.reset();
+                setSelectedAmenities([]);
+                fetchRooms();
+            }
         }
-
-        //e.target.reset();
-        fetchRooms(); // refresh list
     };
 
     const uploadImage = async (file: any) => {
@@ -89,8 +101,14 @@ const Rooms: React.FC = () => {
     const handleDelete = async (id: string) => {
         if (!confirm("Supprimer cette chambre ?")) return;
 
-        await supabase.from('rooms').delete().eq('id', id);
-        fetchRooms();
+        const { error } = await supabase.from('rooms').delete().eq('id', id);
+        if (error) {
+            console.error(error);
+            toast.error('Erreur lors de la suppression de la chambre');
+        } else {
+            toast.success('Chambre supprimée avec succès');
+            fetchRooms();
+        }
     };
 
     function handleImgDelete(roomId: string, index: number) {
@@ -100,10 +118,11 @@ const Rooms: React.FC = () => {
         const updatedImages = room.images.filter((_, i) => i !== index);
         supabase.from('rooms').update({ images: updatedImages }).eq('id', roomId)
             .then(() => {
+                toast.success('Image supprimée');
                 fetchRooms(); // refresh list
             }, (error) => {
                 console.error('Erreur lors de la suppression de l\'image :', error);
-                alert('Erreur lors de la suppression de l\'image');
+                toast.error("Erreur lors de la suppression de l'image");
             });
     }   
     
@@ -122,11 +141,13 @@ const Rooms: React.FC = () => {
                 const room = rooms.find(r => r.id === id);
                 if (!room) return;
                 const updatedImages = [...(room.images || []), publicUrl];
-                await supabase.from('rooms').update({ images: updatedImages }).eq('id', id);
+                const { error } = await supabase.from('rooms').update({ images: updatedImages }).eq('id', id);
+                if (error) throw error;
+                toast.success('Image ajoutée');
                 fetchRooms();
             } catch (error) {
-                alert('Erreur lors de l\'upload de l\'image');
                 console.error(error);
+                toast.error("Erreur lors de l'upload de l'image");
             }
         };
 

@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
   const customPagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {
-      return '<span key='+ index +' class="' + className + '" style="display:inline-block;width:60px;height:4px;border-radius:2px;background:#2563eb;paddin:-15px 4px;"></span>';
+      return '<span key=' + index + ' class="' + className + '" style="display:inline-block;width:60px;height:4px;border-radius:2px;background:#2563eb;paddin:-15px 4px;"></span>';
     },
   };
 
@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
       const { data, error } = await supabase
         .from('rooms')
         .select('*');
-        //.eq('featured', true);
+      //.eq('featured', true);
 
       if (!error && data) {
         setFeaturedRooms(data as Room[]);
@@ -53,11 +53,11 @@ const HomePage: React.FC = () => {
     };
     fetchFeaturedRooms();
   }, []);
-  
+
   return (
     <div>
       {/* Hero Section */}
-       {/* Experience Unparalleled Luxury*/}
+      {/* Experience Unparalleled Luxury*/}
       <Hero
         title="Vatola Antsirabe - Votre havre à Antsirabe"
         subtitle="Élégance, confort et service exceptionnel : vivez l’expérience unique de l’HÔTEL VATOLA."
@@ -65,7 +65,7 @@ const HomePage: React.FC = () => {
         ctaText="Réservez Votre Séjour dès maintenant"
         ctaLink="/booking"
       />
-      
+
       {/* About Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -82,27 +82,34 @@ const HomePage: React.FC = () => {
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-               L’HÔTEL VATOLA incarne la quintessence de la sophistication et de l’hospitalité. Dans un cadre raffiné, notre établissement offre un véritable sanctuaire où le luxe contemporain s’harmonise avec un charme intemporel, pour offrir à chaque client une expérience mémorable.
+                Plus qu’un hôtel, Vatola est une maison ouverte à tous ceux qui cherchent confort, convivialité et authenticité. Ici, chaque sourire compte : notre équipe estheureuse de vous accueillir et de rendre votre séjour unique, qu’il soit court ou long.
               </p>
               <p className="text-gray-600 mb-6">
-                Niché dans la charmante ville thermale d'Antsirabe, Le Vatola Antsirabe est bien plus qu'un hôtel - c'est une expérience raffinée mêlant confort, élégance et hospitalité malgache. Inspiré par l'authenticité des Hautes Terres et rehaussé d'une touche de modernité, notre 
-                établissement vous invite à un séjour inoubliable dans un cadre apaisant et soigné.                
+                Vous
+                trouverez des chambres confortables, un cadre accueillant et une atmosphère familiale où
+                l’on se sent immédiatement à l’aise.
               </p>
-             <p className="text-gray-600 mb-6">
-                Que vous soyez en escapade romantique, en voyage d'affaires ou à la recherche d'un moment de détente, Vatola vous accueille dans un univers où chaque détail est pensé pour votre bien-être.
+              <p className="text-gray-600 mb-6">
+                Que vous soyez en voyage d’affaires, en vacances ou
+                simplement de passage, l’Hôtel Vatola est l’endroit idéal pour vous reposer, partager et
+                profiter pleinement de votre expérience.
+              </p>
+              <p className="text-gray-600 mb-6">
+                Chez nous, l’hospitalité n’est pas un service, c’est
+                un état d’esprit.
               </p>
               <div>
                 <p className="text-gray-600 mb-6">Ce qui fait notre différence:</p>
-                  <ul className="list-disc text-gray-600 mb-6 ml-5">
-                    <li>Chambres élégantes & confortables, soigneusement décorées pour allier modernité et ambiance chaleureuse.</li>
-                    <li>Espaces bien-être haut de gamme: spa, soins corporels, manucure & plus de 15 options de soins.</li>
-                    <li>Restaurants & bars raffinés, proposant une cuisine locale et internationale, ainsi que des cocktails signature.</li>
-                    <li>Service de concierge 24/7, pour répondre à toutes vos envies à tout moment.</li>
-                  </ul>  
+                <ul className="list-disc text-gray-600 mb-6 ml-5">
+                  <li>Chambres élégantes & confortables, soigneusement décorées pour allier modernité et ambiance chaleureuse.</li>
+                  <li>Espaces bien-être haut de gamme: spa, soins corporels, manucure & plus de 15 options de soins.</li>
+                  <li>Restaurants & bars raffinés, proposant une cuisine locale et internationale, ainsi que des cocktails signature.</li>
+                  <li>Service de concierge 24/7, pour répondre à toutes vos envies à tout moment.</li>
+                </ul>
               </div>
-              
+
             </motion.div>
-            
+
             <div className='relative'>
               <img
                 src="/clients1.webp"
@@ -122,7 +129,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Featured Rooms Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
@@ -130,46 +137,46 @@ const HomePage: React.FC = () => {
             title="Hébergements"
             subtitle="Parcourez notre collection de chambres et suites, pensées avec soin pour marier confort moderne et élégance intemporelle."
           />
-          
-          <div className="">
-            {loadingFeaturedRooms 
-            ? (
-              <div className="col-span-1 md:col-end-2 lg:col-span-3 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-800"></div>
-              </div>
-            ) : (
 
-             <Swiper
-              pagination={customPagination}
-              modules={[Pagination, Autoplay]}
-              spaceBetween={30}
-              slidesPerView={1}
-              autoplay={{ delay: 5000 }}
-              breakpoints={{
-                640: {
-                  slidesPerView: 1,
-                },
-                768: {
-                  slidesPerView: 2,
-                },
-                1024: {
-                  slidesPerView: 3,
-                },
-              }}
-              className='roomCard-swiper'
-            >
-              {featuredRooms.map((room) => (
-                <SwiperSlide key={room.id} className='mb-30'>                
-                    <RoomCard room={room} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            )}
+          <div className="">
+            {loadingFeaturedRooms
+              ? (
+                <div className="col-span-1 md:col-end-2 lg:col-span-3 flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-800"></div>
+                </div>
+              ) : (
+
+                <Swiper
+                  pagination={customPagination}
+                  modules={[Pagination, Autoplay]}
+                  spaceBetween={30}
+                  slidesPerView={1}
+                  autoplay={{ delay: 5000 }}
+                  breakpoints={{
+                    640: {
+                      slidesPerView: 1,
+                    },
+                    768: {
+                      slidesPerView: 2,
+                    },
+                    1024: {
+                      slidesPerView: 3,
+                    },
+                  }}
+                  className='roomCard-swiper'
+                >
+                  {featuredRooms.map((room) => (
+                    <SwiperSlide key={room.id} className='mb-30'>
+                      <RoomCard room={room} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )}
           </div>
-          
+
         </div>
       </section>
-      
+
       {/* Services Highlights 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -268,7 +275,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
       */}
-      
+
       {/* Testimonials Section */}
       <section className="py-20 bg-grenat text-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -277,7 +284,7 @@ const HomePage: React.FC = () => {
             subtitle="Découvrez ce que nos clients ont à dire sur leur séjour à l’HÔTEL VATOLA."
             light={true}
           />
-          
+
           <Swiper
             modules={[Pagination, Autoplay]}
             spaceBetween={30}
@@ -303,7 +310,7 @@ const HomePage: React.FC = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-        </div>        
+        </div>
       </section>
 
       {/* Promo Section
@@ -362,7 +369,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
        */}
-      
+
       {/* Booking Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
@@ -370,7 +377,7 @@ const HomePage: React.FC = () => {
             title="Réserver votre séjour"
             subtitle="Réservez votre escapade luxueuse à l’HÔTEL VATOLA et profitez d’un confort et d’un service inégalés."
           />
-          
+
           <div className="max-w-3xl mx-auto">
             <BookingForm />
           </div>
