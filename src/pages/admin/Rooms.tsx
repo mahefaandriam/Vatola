@@ -47,12 +47,16 @@ const Rooms: React.FC = () => {
     ];
 
     const fetchRooms = async () => {
-        const { data } = await supabase.from('rooms').select('*').order('created_at', { ascending: false });
-        if (data) setRooms(data);
+        const { data: room } = await supabase.from('rooms').select('*').eq('id', highlightId).single();
+        setRooms(rooms.map(r => r.id === highlightId ? room : r));
     };
 
     useEffect(() => {
-     fetchRooms();
+        const getRooms = async () => {
+            const { data } = await supabase.from('rooms').select('*').order('created_at', { ascending: false });
+            if (data) setRooms(data);
+        };
+        getRooms();
     }, []);
 
     const handleSubmit = async (e: any) => {
@@ -304,10 +308,12 @@ const Rooms: React.FC = () => {
                 {editRoom && (
                 <EditRoomModal
                     room={editRoom}
-                    onClose={() => setEditRoom(null)}
+                    onClose={() =>{  
+                        setEditRoom(null);
+                        fetchRooms();
+                    }}
                     onUpdated={() => {
                         setHighlightId(editRoom.id);
-                        fetchRooms();
                     }}
                 />
                 )}

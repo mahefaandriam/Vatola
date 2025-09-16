@@ -43,7 +43,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
         <div className="flex flex-wrap gap-4 mb-4">
           <div className="flex items-center text-sm text-gray-500">
             <Maximize size={16} className="mr-1 text-accent" />
-            <span>{size} m²</span>
+            {size && (<span>{size} m²</span>)}
           </div>
           <div className="flex items-center text-sm text-gray-500">
             <User size={16} className="mr-1 text-accent" />
@@ -60,9 +60,9 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
         </div>
         
         <div className="flex items-center justify-between">
-          {cardWithPrice &&
+          {cardWithPrice && price &&
             <div className="text-primary-800">
-              <span className="font-semibold text-xl">${price}</span>
+              <span className="font-semibold text-xl">{price}&nbsp;Ar</span>
               <span className="text-sm text-gray-500"> / nuitée</span>
             </div>
           }
