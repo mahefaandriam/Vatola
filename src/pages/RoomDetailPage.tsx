@@ -303,7 +303,8 @@ const RoomDetailPage: React.FC = () => {
                     </>
                     ): (
                       <span className="font-serif text-2xl font-bold text-primary-800">
-                        veuillez nous contacter pour toute information complémentaire +261 34 11 937 77
+                        veuillez nous contacter pour toute information complémentaire 
+                        <br />+261 34 11 937 77
                       </span>
                     )}
                 </div>
