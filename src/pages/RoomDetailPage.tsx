@@ -219,7 +219,7 @@ const RoomDetailPage: React.FC = () => {
                       </div>
                       <div className="flex items-center">
                           <CheckCircle2 size={16} className="text-accent mr-2" />
-                          <span className="text-gray-600"><strong>Prix par nuit :</strong> {room.price} $</span>
+                          <span className="text-gray-600"><strong>Prix par nuit :</strong> {room.price} &nbsp; Ar</span>
                       </div>
                       <div className="flex items-center">
                           <CheckCircle2 size={16} className="text-accent mr-2" />
@@ -272,7 +272,7 @@ const RoomDetailPage: React.FC = () => {
               </span>
               <span className="mx-2 text-gray-400">•</span>
               <span className="text-gray-600">
-                {room.size} m² • {room.capacity} invités Max
+                {room.size && (<>{room.size}&nbsp;m²</>)}  • {room.capacity} invités Max
               </span>
               </div>
               
@@ -294,7 +294,13 @@ const RoomDetailPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-luxury p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                <span className="font-serif text-2xl font-bold text-primary-800">${room.price}</span>
+                <span className="font-serif text-2xl font-bold text-primary-800">
+                  {room.price ? (
+                    room.price + ' Ar'
+                  ): (
+                    'veuillez nous contacter pour toute information complémentaire +261 34 11 937 77'
+                  )}
+                </span>
                 <span className="text-gray-500"> / nuitée</span>
                 </div>
                 
