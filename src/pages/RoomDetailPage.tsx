@@ -294,14 +294,18 @@ const RoomDetailPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-luxury p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                <span className="font-serif text-2xl font-bold text-primary-800">
                   {room.price ? (
-                    room.price + ' Ar'
-                  ): (
-                    'veuillez nous contacter pour toute information complémentaire +261 34 11 937 77'
-                  )}
-                </span>
-                <span className="text-gray-500"> / nuitée</span>
+                    <>
+                      <span className="font-serif text-2xl font-bold text-primary-800">
+                          ${room.price} Ar
+                      </span>
+                      <span className="text-gray-500"> / nuitée</span>
+                    </>
+                    ): (
+                      <span className="font-serif text-2xl font-bold text-primary-800">
+                        veuillez nous contacter pour toute information complémentaire +261 34 11 937 77
+                      </span>
+                    )}
                 </div>
                 
                 {showSummary ? (
