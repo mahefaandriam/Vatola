@@ -1,6 +1,10 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function NotFoundPage() {
+  useEffect(() => {
+      document.title = "404 - Page non trouvée - Vatola Hotel";
+    }, []);
   return (
     <div className="min-h-screen flex items-center justify-center bg-grenat text-white p-6">
       <div className="text-center space-y-6">

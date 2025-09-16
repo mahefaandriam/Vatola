@@ -8,6 +8,10 @@ export default function UpdatePassword() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+      document.title = "Nouveau mot de passe - Vatola Hotel";
+    }, []);
+
   // Supabase crée automatiquement une session si le lien est valide
   useEffect(() => {
     const checkSession = async () => {

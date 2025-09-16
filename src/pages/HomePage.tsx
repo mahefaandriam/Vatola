@@ -52,6 +52,8 @@ const HomePage: React.FC = () => {
       setLoadingFeaturedRooms(false);
     };
     fetchFeaturedRooms();
+
+    document.title = 'Accueil - Vatola Hotel';
   }, []);
 
   return (

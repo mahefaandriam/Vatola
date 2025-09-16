@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 
 const PubPage: React.FC = () => {
+  useEffect(() => {
+    document.title = 'Pub & Bar - Vatola Hotel';
+  }, []);
   return (
     <div>
       <Hero

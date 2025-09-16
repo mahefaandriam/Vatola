@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import BookingForm from '../components/BookingForm';
 import {Mail, Phone} from 'lucide-react';
 
 const BookingPage: React.FC = () => {
+  useEffect(() => {
+      document.title = "Réservation - Vatola Hotel";
+    }, []);
   return (
-    <div className="pt-24 md:pt-28">
-      <section className="py-16 bg-gray-50">
+    <div className="pt-20 md:pt-24">
+      <section className="bg-gray-200">
         <div className="container mx-auto px-4 md:px-6">
           {/*
           <SectionTitle
@@ -20,7 +23,7 @@ const BookingPage: React.FC = () => {
         </div>
       </section>
       
-      <section className="py-16 bg-white">
+      <section className="bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto">
             <SectionTitle

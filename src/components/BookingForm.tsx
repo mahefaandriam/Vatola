@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Calendar, Users, ChevronUp, ChevronDown, Phone } from 'lucide-react';
+import { Calendar, Users, ChevronUp, ChevronDown, Phone, Search } from 'lucide-react';
 import type  { BookingDetails } from '../types';
 import { supabase } from '../lib/supabaseClient';
 import RoomCard from './RoomCard';
@@ -151,7 +151,7 @@ const BookingForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-luxury p-6 md:p-8">
+    <div className="bg-white rounded-lg shadow-luxury md:p-8">
       <h3 className="font-serif text-2xl font-semibold text-primary-800 mb-6">Réserver votre séjour en quelques clics</h3>
       
       <form onSubmit={handleSubmit} className="space-y-6 my-5">
@@ -252,7 +252,7 @@ const BookingForm: React.FC = () => {
               onChange={(e) => handleInputChange('roomType', e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
             >
-              <option value="">Sélectionnez le type de chambre</option>
+              <option value="">Tous les chambre</option>
               {(roomNames ?? []).map(n => (
                 <option key={n.type} value={n.type}>
                   {n.type}
@@ -264,11 +264,11 @@ const BookingForm: React.FC = () => {
         
         <button
           type="submit"
-          className="w-full bg-accent hover:bg-gold-700 text-white font-medium py-3 px-4 rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center relative w-full bg-accent hover:bg-gold-700 text-white font-medium py-3 px-4 rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!bookingDetails.checkIn || !bookingDetails.checkOut}
           style={{ cursor: !bookingDetails.checkIn || !bookingDetails.checkOut ? 'not-allowed' : 'pointer' }}
         >
-          Réservez Maintenant
+          <Search /> Chercher une chambre 
         </button>
       </form>
 

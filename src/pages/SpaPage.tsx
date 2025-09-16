@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
 import { spaServices } from '../data/services';
 
 const SpaPage: React.FC = () => {
+  useEffect(() => {
+      document.title = "Spa & Bien-être - Vatola Hotel";
+    }, []);
   return (
     <div>
       <Hero

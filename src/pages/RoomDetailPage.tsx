@@ -8,9 +8,10 @@ import SectionTitle from '../components/SectionTitle';
 import BookingForm from '../components/BookingForm';
 import { CheckCircle2 } from 'lucide-react';
 import { getRoomById } from '../../api/getRoomById';
-import Hero from '../components/Hero';
 import { supabase } from '../lib/supabaseClient';
 import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
+import { useReservations } from '../context/ReservationContext';
 //import { useForm } from "react-hook-form";
 
 type Room = {
@@ -39,17 +40,57 @@ const RoomDetailPage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [showSummary, setShowSummary] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-  }, []);
+  const { setCount } = useReservations();
 
   const checkIn = searchParams.get('check_in');
   const checkOut = searchParams.get('check_out');
   const adults = searchParams.get('adults');
   const children = searchParams.get('children');  
+  const goto = searchParams.get('goto');
+
+  const fetchReservationCount = async () => {
+    const { count, error } = await supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error('Erreur fetch reservations:', error.message);
+      return 0;
+    }
+    
+    if(!user){
+      return 0;
+    }
+
+    return count;
+  };
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });    
+    
+    document.title = room ? `${room.name} - Détails de la chambre` : 'Détails de la chambre';
+  }, []);
+
+  useEffect(() => {
+
+    if (goto === 'roomdetails' && loading === false) {
+      const element = document.getElementById('roomdetails');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    if (goto === 'bookingSummary' && loading === false) {
+      const element = document.getElementById('roomdetails');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+  }, [loading]);
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -121,7 +162,11 @@ const RoomDetailPage: React.FC = () => {
     });
 
     if (!error) {
-      alert("Merci, votre Réservation a été enregistrer avec succés, nous allons confirmer votre invitaion et vous repondre bientot !");
+      toast.success("Merci, votre Réservation a été enregistrer avec succés, nous allons confirmer votre invitaion et vous repondre bientot !");
+
+      const count = await fetchReservationCount();
+      setCount(count ?? 0);
+
       setShowSummary(false);
       navigate(`/rooms/${id}`);
       // Envoi de la notification
@@ -175,17 +220,7 @@ const RoomDetailPage: React.FC = () => {
   
   return (
     <div>
-      <Hero 
-      title={room.name}
-      subtitle={`Notre ${room.name} spacieuse de  ${room.size}m² est conçue pour le confort et la commodité.`}
-      image={room.images[0]}
-      ctaText='Détails'
-      ctaLink='#roomdetails'
-      ctaBgNone={true}
-      height="h-[80vh]"
-      />
-      
-      <div id='roomdetails' className="pt-20 bg-gray-50">
+      <div id='roomdetails' className="pt-35 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6 pb-10">
           { showSummary && (
               <div id='bookingSummary' className="flex items-center mb-10 py-5 border border-accent px-5 rounded">
@@ -297,7 +332,7 @@ const RoomDetailPage: React.FC = () => {
                   {room.price ? (
                     <>
                       <span className="font-serif text-2xl font-bold text-primary-800">
-                          ${room.price} Ar
+                          {room.price} Ar
                       </span>
                       <span className="text-gray-500"> / nuitée</span>
                     </>

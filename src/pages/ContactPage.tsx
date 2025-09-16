@@ -26,6 +26,10 @@ const ContactPage: React.FC = () => {
   };
 
   useEffect(() => {
+      document.title = "Contactez-nous - Vatola Hotel";
+    }, []);
+
+  useEffect(() => {
     // Initialize form data with subject if provided in URL
     if (subject) {
       setFormData((prevData) => ({
