@@ -14,6 +14,7 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     const fetchUnreadCount = async () => {
       const { count, error } = await supabase
         .from('notifications')
@@ -37,6 +38,7 @@ export default function AdminDashboard() {
     const interval = setInterval(fetchUnreadCount, 30000); // toutes les 30s4
     fetchUnreadCount(); 
     getUser();
+    document.title = "Admin - Vatola Hotel";
     return () => clearInterval(interval);
   }, []);
 

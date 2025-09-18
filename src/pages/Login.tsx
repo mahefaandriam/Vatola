@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import SectionTitle from '../components/SectionTitle';
@@ -44,6 +44,10 @@ export default function Login() {
     transition: Bounce,
   });
 
+  useEffect(() => {
+      document.title = "Connexion - Vatola Hotel";
+    }, []);
+
 
   const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -52,13 +56,21 @@ export default function Login() {
       password: form.password,
     });
 
+    
+
     if (error) {
-      notifyError(error + ": Veuillez verfier Votre Email et Mot de passe");
+       if (error.message.includes("Invalid login credentials")) {
+        toast.error("Mauvais email ou mot de passe, veuillez réessayer ou créer un compte.");
+      } else if (error.message.includes("User not found")) {
+        notifyError("Utilisateur non trouvé");
+      } else {
+        toast.error(error.message);
+      }
     } else {
       const searchParams = new URLSearchParams(window.location.search);
       const redirect = searchParams.get('redirect');
       const redirectSanitized = redirect ? redirect.replace(/;/g, '&') : null;
-      notifySucces("Connexion")
+      toast.success("Connexion")
       if (redirectSanitized) {
         navigate(redirectSanitized);
       } else {
@@ -66,7 +78,6 @@ export default function Login() {
           notifySucces("Wecolme Admin")
           navigate('/admin'); // Redirect to admin dashboard if user is admin
         } else {
-          notifySucces("Connexion")
           navigate('/profil'); // Redirect to user profile if not admin  
         }
       }

@@ -37,6 +37,8 @@ const RoomsPage: React.FC = () => {
     }
 
     fetchRooms();
+
+    document.title = 'Nos Chambres - Vatola Hotel';
   }, []);
 
   const roomTypes = Array.from(new Set(rooms.map(room => room.type)));

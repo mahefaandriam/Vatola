@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
 import { nailServices } from '../data/services';
 
 const NailSalonPage: React.FC = () => {
+  useEffect(() => {
+      document.title = "Salon";
+    }, []);
   return (
     <div>
       <Hero

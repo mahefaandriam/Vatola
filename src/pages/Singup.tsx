@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import SectionTitle from '../components/SectionTitle';
 import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+
+  useEffect(() => {
+    document.title = "Inscription - Vatola Hotel";
+  }, []);
+  
   const [form, setForm] = useState({
     email: '',
     password: '',

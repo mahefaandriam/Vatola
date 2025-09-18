@@ -11,6 +11,10 @@ export default function ForgotPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
+      document.title = "Mot de passe oublié - Vatola Hotel";
+    }, []);
+
+  useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
       if (data.session) {

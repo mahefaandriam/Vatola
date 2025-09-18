@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown, User } from 'lucide-react';
 import { useRef } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../context/AuthContext';
+import { useReservations } from '../context/ReservationContext';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ const Header: React.FC = () => {
   const [hasHero, setHasHero] = useState(false);
   const [reservationCount, setReservationCount] = useState(0);
   const { user} = useAuth();
+  const { count } = useReservations();
 
   useEffect(() => {
     const hero = document.getElementById('hero');
@@ -173,7 +175,7 @@ const Header: React.FC = () => {
               <Link to="/profil" className='p-2 relative rounded-full transition duration-200 bg-accent text-white'>
                 <User />
                 <span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
-                  {reservationCount}
+                  {count === 0 ? reservationCount : count} 
                 </span>
               </Link>
             ) : (

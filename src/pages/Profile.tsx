@@ -13,7 +13,9 @@ export default function Profile() {
 
   useEffect(() => {
       loadProfile(user.id);
-      loadBookings(user.id);      
+      loadBookings(user.id);  
+      
+      document.title = 'Mon Profil - Vatola Hotel';
   }, []);
 
   const loadBookings = async (userId: any) => {
