@@ -78,7 +78,37 @@ const RoomsPage: React.FC = () => {
             title="Explorez nos chambres"
             subtitle="Chaque chambre au sein de notre hôtel est conçue pour satisfaire vos besoins et vous assurez un séjour apaisant."
           />
-          
+
+          <div className="bg-gray-50 rounded-lg p-6 mb-8">
+            <h3 className="font-serif text-xl font-semibold text-primary-800 mb-3">Tarifs & Services</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+              <div>
+                <p className="mb-2"><strong>Chambre standard (simple/double)</strong> — Veuillez nous contacter pour toute information complémentaire&nbsp;: +261 34 11 937 77</p>
+                <p className="mb-2"><strong>Chambre twin (2 petits lits)</strong> — 145 000 Ar (tarif susceptible de varier, contactez-nous)</p>
+                <p className="mb-2"><strong>Chambre familiale 3 pers.</strong> — 175 000 Ar (tarif susceptible de varier)</p>
+                <p className="mb-2"><strong>Chambre familiale 4 pers.</strong> — 205 500 Ar (tarif susceptible de varier)</p>
+                <p className="mb-2"><strong>Chambre familiale 5 pers.</strong> — 255 000 Ar (tarif susceptible de varier)</p>
+                <p className="mb-2"><strong>Chambre familiale 8 pers.</strong> — 315 500 Ar (tarif susceptible de varier)</p>
+                <p className="mb-2"><strong>Suite 1/2 personnes</strong> — 315 500 Ar (tarif fixe)</p>
+              </div>
+              <div>
+                <p className="mb-2"><strong>Services compris (selon les chambres)</strong> :</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Accès au parking intérieur sécurisé</li>
+                  <li>Coffre-fort sécurisé</li>
+                  <li>Télévision en chambre avec Canal +</li>
+                  <li>Wifi (standard ou exclusif selon catégorie)</li>
+                  <li>Accès piscine</li>
+                  <li>Sanitaires privatifs, eau chaude</li>
+                  <li>Cadre exceptionnel</li>
+                  <li>Chambre chauffeur gratuite (selon conditions)</li>
+                  <li>Berceau sur demande (gratuit)</li>
+                  <li>Décoration/champagne sur demande</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           <div className="bg-white rounded-lg shadow-luxury p-6 mb-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>

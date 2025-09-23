@@ -313,24 +313,29 @@ const ContactPage: React.FC = () => {
             
             <div className="mt-8 bg-white rounded-lg shadow-luxury p-6">
               <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Directions</h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <h4 className="font-medium text-primary-800 mb-2">Depuis le centre-ville</h4>
-                  <p className="text-gray-600">
-                    Sur l’axe principal de la RN4, à 5 minutes en voiture du centre-ville d’Antsirabe.
-                    L’hôtel est facilement accessible depuis la route principale, avec un grand parking disponible.
+                  <p className="text-gray-600 mb-3">
+                    Itinéraire et distance en temps réel via Google Maps.
                   </p>
+                  <a
+                    href="https://www.google.com/maps/dir/?api=1&origin=H%C3%B4tel+de+Ville+Antsirabe&destination=Hotel+VATOLAHY&travelmode=driving"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block bg-accent hover:bg-gold-700 text-white px-4 py-2 rounded-md transition duration-300"
+                  >
+                    Voir distance & itinéraire
+                  </a>
                 </div>
-                
-                {/* <div>
-                  <h4 className="font-medium text-primary-800 mb-2">Informations sur le stationnement</h4>
-                  <p className="text-gray-600">
-                    Pour votre tranquillité d’esprit, l’HÔTEL VATOLA met à la disposition de ses clients un grand parking intérieur sécurisé, 
-                     entièrement gratuit et sous surveillance permanente. Vous pourrez ainsi profiter pleinement de
-                     votre séjour, en toute sérénité, en sachant que votre véhicule est en sécurité.
-                  </p>
-                </div>*/}
+                <div className="md:col-span-2">
+                  <div className="bg-gray-50 rounded-lg p-4 h-full">
+                    <p className="text-gray-600">
+                      Notre position est idéale pour rejoindre rapidement le centre-ville et les principaux points d’intérêt d’Antsirabe.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

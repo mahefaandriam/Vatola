@@ -60,12 +60,18 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, checkIn, checkOut, adults, ch
         </div>
         
         <div className="flex items-center justify-between">
-          {cardWithPrice && price &&
+          {cardWithPrice && (
             <div className="text-primary-800">
-              <span className="font-semibold text-xl">{price}&nbsp;Ar</span>
-              <span className="text-sm text-gray-500"> / nuitée</span>
+              {price ? (
+                <>
+                  <span className="font-semibold text-xl">{price}&nbsp;Ar</span>
+                  <span className="text-sm text-gray-500"> / nuitée</span>
+                </>
+              ) : (
+                <span className="text-sm text-gray-600">Veuillez nous contacter pour le tarif: +261 34 11 937 77</span>
+              )}
             </div>
-          }
+          )}
           
           
           {

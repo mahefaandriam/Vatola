@@ -8,6 +8,7 @@ import RoomCard from '../components/RoomCard';
 //import ServiceCard from '../components/ServiceCard';
 import TestimonialCard from '../components/TestimonialCard';
 import BookingForm from '../components/BookingForm';
+import QuickReservationForm from '../components/QuickReservationForm';
 //import { pubServices, spaServices, nailServices } from '../data/services';
 import { testimonials } from '../data/testimonials';
 import { useEffect } from 'react';
@@ -382,6 +383,9 @@ const HomePage: React.FC = () => {
 
           <div className="max-w-3xl mx-auto">
             <BookingForm />
+          </div>
+          <div className="max-w-3xl mx-auto mt-6">
+            <QuickReservationForm />
           </div>
         </div>
       </section>
