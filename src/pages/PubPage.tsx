@@ -146,6 +146,36 @@ const PubPage: React.FC = () => {
         </div>
       </section>
 
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Carte Snacks & Boissons" subtitle="Sélection emblématique – tarifs variables selon disponibilités" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-luxury border border-gray-100 p-6">
+              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Snacks</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li>Assiette variée (charcuterie, fromages)</li>
+                <li>Sandwichs & croques</li>
+                <li>Burger maison</li>
+                <li>Pizza/panini</li>
+                <li>Brochettes & tapas chauds</li>
+                <li>Frites, accompagnements</li>
+              </ul>
+            </div>
+            <div className="bg-white rounded-2xl shadow-luxury border border-gray-100 p-6">
+              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Boissons</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li>Cocktails signature & classiques</li>
+                <li>Bières pression & bouteilles</li>
+                <li>Vins & spiritueux</li>
+                <li>Jus frais & softs</li>
+                <li>Mocktails sans alcool</li>
+                <li>Café, thé, infusions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Section événements avec vos couleurs */}
       <section className="py-20 bg-primary-800 text-white relative">
         <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-primary-900/50"></div>
