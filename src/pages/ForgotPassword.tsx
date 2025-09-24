@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient'; // ajuste le chemin si besoin
 import { useNavigate } from 'react-router-dom';
 import { Bounce, toast } from 'react-toastify';
-
-
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
