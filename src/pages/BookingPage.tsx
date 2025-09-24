@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import BookingForm from '../components/BookingForm';
+import QuickReservationForm from '../components/QuickReservationForm';
 import {Mail, Phone} from 'lucide-react';
 
 const BookingPage: React.FC = () => {
@@ -19,6 +20,9 @@ const BookingPage: React.FC = () => {
           */}
           <div className="max-w-3xl mx-auto">
             <BookingForm />
+          </div>
+          <div className="max-w-3xl mx-auto mt-6">
+            <QuickReservationForm />
           </div>
         </div>
       </section>
