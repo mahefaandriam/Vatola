@@ -12,6 +12,17 @@ const NailsServices: React.FC = () => {
         fetchNailsServices();
     }, []);
 
+    const togglePublish = async (id: any, next: boolean) => {
+        try {
+            const { error } = await supabase.from('nails_services').update({ published: next }).eq('id', id);
+            if (error) throw error;
+            fetchNailsServices();
+        } catch (e) {
+            console.error(e);
+            alert("Impossible de changer l'état de publication. Ajoutez une colonne 'published' boolean à 'nails_services'.");
+        }
+    };
+
     const uploadImage = async (file: any) => {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}.${fileExt}`;
@@ -103,8 +114,9 @@ const NailsServices: React.FC = () => {
                             <th className="p-2">Prix</th>
                             <th className="p-2">Duration</th>
                             <th className="p-2">Image</th>
+                            <th className="p-2">Publication</th>
                             <th className="p-2">Action</th>
-                            
+
                         </tr>
                         </thead>
                         <tbody>
@@ -121,6 +133,16 @@ const NailsServices: React.FC = () => {
                                             ) : (
                                                 'No Image'
                                             )}
+                                        </td>
+                                        <td className="p-2">
+                                            <div className="flex items-center gap-2">
+                                                <span className={(service as any).published ? 'px-2 py-0.5 rounded bg-green-100 text-green-700 text-xs' : 'px-2 py-0.5 rounded bg-gray-100 text-gray-700 text-xs'}>
+                                                    {(service as any).published ? 'Publié' : 'Non publié'}
+                                                </span>
+                                                <button className="text-primary-800 underline" onClick={() => togglePublish(service.id, !(service as any).published)}>
+                                                    {(service as any).published ? 'Dépublier' : 'Publier'}
+                                                </button>
+                                            </div>
                                         </td>
                                         <td className="p-2" >
                                         <button className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600" onClick={() => replaceImage(service.id)}>Modifier Image</button>
