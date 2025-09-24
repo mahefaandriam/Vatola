@@ -2,12 +2,16 @@
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { Bed, Beer, House, Laugh, MessageCircle, Sparkles, Users} from 'lucide-react';
+import { Bed, Beer, House, Laugh, MessageCircle, Sparkles, Users, Image as ImageIcon, Share2 } from 'lucide-react';
 import Reservations from './Reservations';
 import Rooms from './Rooms';
 import NailsServices from './NailsServieces';
 import Contacts from './Contacts';
 import ListUsers from './Users';
+import AdminPub from './Pub';
+import AdminSpa from './Spa';
+import AdminMedia from './Media';
+import AdminSocials from './Socials';
 
 export default function AdminDashboard() {
   const [unreadCount, setUnreadCount] = useState(0);
@@ -109,24 +113,48 @@ export default function AdminDashboard() {
             </Link>
           </div>
 
-          <div 
+          <div
             className={`mx-3 py-2 rounded-lg flex items-center justify-center  hover:text-black text-gray-500 cursor-pointer
               ${location.pathname.includes('/admin/nails') ? 'bg-gray-100' : 'bg-none'}
             `}
           >
-            <Link 
+            <Link
               to="/admin/nails"
             >
               <Sparkles size={20} />
             </Link>
           </div>
 
-          <div 
+          <div
+            className={`mx-3 py-2 rounded-lg flex items-center justify-center  hover:text-black text-gray-500 cursor-pointer
+              ${location.pathname.includes('/admin/media') ? 'bg-gray-100' : 'bg-none'}
+            `}
+          >
+            <Link
+              to="/admin/media"
+            >
+              <ImageIcon size={20} />
+            </Link>
+          </div>
+
+          <div
+            className={`mx-3 py-2 rounded-lg flex items-center justify-center  hover:text-black text-gray-500 cursor-pointer
+              ${location.pathname.includes('/admin/socials') ? 'bg-gray-100' : 'bg-none'}
+            `}
+          >
+            <Link
+              to="/admin/socials"
+            >
+              <Share2 size={20} />
+            </Link>
+          </div>
+
+          <div
             className={`mx-3 py-2 rounded-lg flex items-center justify-center  hover:text-black text-gray-500 cursor-pointer
               ${location.pathname.includes('/admin/notifications') ? 'bg-gray-100' : 'bg-none'}
             `}
           >
-            <Link 
+            <Link
               to="/admin/contacts"
             >
               <span className="ml-2 top-2 relative bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
@@ -146,7 +174,11 @@ export default function AdminDashboard() {
           <Route path="chambres" element={<Rooms />} />
           <Route path="reservations" element={<Reservations />} />
           <Route path="utilisateurs" element={<ListUsers />} />
+          <Route path="pub" element={<AdminPub />} />
+          <Route path="spa" element={<AdminSpa />} />
           <Route path="nails" element={<NailsServices />} />
+          <Route path="media" element={<AdminMedia />} />
+          <Route path="socials" element={<AdminSocials />} />
           <Route path="contacts" element={<Contacts />} />
         </Routes>
       </div>

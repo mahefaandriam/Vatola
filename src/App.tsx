@@ -27,6 +27,10 @@ import { ToastContainer } from 'react-toastify';
 import Contacts from './pages/admin/Contacts';
 import NotFoundPage from './pages/NotFoundPage';
 import { ReservationProvider } from "./context/ReservationContext";
+import AdminPub from './pages/admin/Pub';
+import AdminSpa from './pages/admin/Spa';
+import AdminMedia from './pages/admin/Media';
+import AdminSocials from './pages/admin/Socials';
 
 function App() {
   return (
@@ -51,7 +55,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                <Route path="/admin/*" 
+                <Route path="/admin/*"
                   element={
                     <ProtectedAdminRoute>
                       <AdminDashboard />
@@ -60,8 +64,12 @@ function App() {
                   <Route path="reservations" element={<Reservations />} />
                   <Route path="utilisateurs" element={<Users />} />
                   <Route path="chambres" element={<Rooms />} />
+                  <Route path="pub" element={<AdminPub />} />
+                  <Route path="spa" element={<AdminSpa />} />
                   <Route path="nails" element={<NailsServices />} />
-                  <Route path="contact" element={<Contacts />} />
+                  <Route path="media" element={<AdminMedia />} />
+                  <Route path="socials" element={<AdminSocials />} />
+                  <Route path="contacts" element={<Contacts />} />
                 </Route>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/rooms" element={<RoomsPage />} />
