@@ -321,10 +321,10 @@ export default function Reservations() {
                     )}
                     {r.status === 'processed' && (
                       <a
-                        href={`mailto:${r.contact}`}
+                        href={`tel:${r.contact}`}
                         className="bg-primary-800 text-white px-2 py-1 rounded hover:bg-primary-700"
                       >
-                        Envoyer un email
+                        Appeler
                       </a>
                     )}
                   </td>
