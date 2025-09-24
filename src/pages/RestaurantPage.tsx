@@ -1,14 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
+import { supabase } from '../lib/supabaseClient';
 
 import { restaurantHighlights } from  '../data/services';
 
 const RestaurantPage: React.FC = () => {
+  const [assets, setAssets] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
+
   useEffect(() => {
     document.title = 'Restaurant - Vatola Hotel';
+    const load = async () => {
+      const { data } = await supabase
+        .from('media_assets')
+        .select('id, url, type, category, published')
+        .eq('category', 'restaurant')
+        .order('created_at', { ascending: false });
+      setAssets((data as any[]) || []);
+    };
+    load();
   }, []);
+
+  const publishedAssets = assets.filter(a => a.published === true);
 
   return (
     <div className="overflow-hidden">
@@ -104,6 +118,27 @@ const RestaurantPage: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Galerie Restaurant" subtitle="Photos et vidéos publiées par l'administration" />
+          {publishedAssets.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {publishedAssets.map((m, idx) => (
+                <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
+                  {m.type === 'image' ? (
+                    <img src={m.url} alt="Media Restaurant" loading="lazy" className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
+                  ) : (
+                    <video src={m.url} controls className="w-full h-64 object-cover" />
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">Aucun média publié pour le moment.</p>
+          )}
         </div>
       </section>
 
