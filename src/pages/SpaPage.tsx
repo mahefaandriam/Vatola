@@ -1,13 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
 import { spaServices } from '../data/services';
+import { supabase } from '../lib/supabaseClient';
 
 const SpaPage: React.FC = () => {
+  const [media, setMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
+  const [tariffs, setTariffs] = useState<{ id: number; label: string; price: number; notes?: string | null; }[]>([]);
+
   useEffect(() => {
       document.title = "Spa & Bien-être - Vatola Hotel";
+      const load = async () => {
+        const [{ data: mediaData }, { data: tariffData }] = await Promise.all([
+          supabase.from('spa_media').select('id, url, type, published').order('created_at', { ascending: false }),
+          supabase.from('spa_tariffs').select('id, label, price, notes').order('created_at', { ascending: false })
+        ]);
+        setMedia((mediaData as any[]) || []);
+        setTariffs((tariffData as any[]) || []);
+      };
+      load();
     }, []);
+
+  const publishedMedia = media.filter(m => m.published === true);
+
   return (
     <div>
       <Hero
@@ -41,25 +57,25 @@ const SpaPage: React.FC = () => {
             
             <div className="grid grid-cols-2 gap-4">
               <img
-                src="/spa2.webp"
+                src={(publishedMedia[0]?.url) || "/spa2.webp"}
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="/spa3.webp"
+                src={(publishedMedia[1]?.url) || "/spa3.webp"}
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="/care2.webp"
+                src={(publishedMedia[2]?.url) || "/care2.webp"}
                 alt="Spa Bath"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src="spa4.webp"
+                src={(publishedMedia[3]?.url) || "spa4.webp"}
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
@@ -96,36 +112,51 @@ const SpaPage: React.FC = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle title="Tarifs Piscine & Spa" subtitle="Tarification en Ariary (AR). Bonnet obligatoire pour la piscine." />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
-              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Piscine</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li>Entrée piscine : 10 000 Ar / personne</li>
-                <li>Bonnet obligatoire (location 5 000 Ar · vente 10 000 Ar)</li>
-              </ul>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
-              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Spa</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li>Massage partiel (une seule partie du corps) : à partir de 30 000 Ar</li>
-                <li>Massage relaxant (60 min, tête aux pieds) : 60 000 Ar</li>
-                <li>Stone therapy (pierres chaudes, ~60 min) : 60 000 Ar</li>
-                <li>Massage holistique (90 min, ciblé sur une douleur) : 90 000 Ar</li>
-                <li>Sauna (vapeur sèche) : 35 000 Ar</li>
-                <li>Hammam (vapeur humide) : 25 000 Ar</li>
-                <li>Bains thermaux à l’eau de Ranovisy : 20 000 Ar</li>
-                <li>Jacuzzi (eau de Ranovisy ~42°) : 35 000 Ar / personne / heure</li>
-                <li>Séance de yoga : veuillez consulter les modalités d’inscription et de réservation</li>
-              </ul>
-              <div className="mt-4 text-gray-700">
-                <p className="font-semibold">Nos offres du moment</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Package holistique (≈2h) : 99 000 Ar — Massage relaxant (60 min), bain thermal (durée illimitée), sauna ou hammam au choix</li>
-                  <li>Bain + massage : 35 000 Ar — Massage pieds & tête pendant le bain (~15 min), bain durée illimitée</li>
+          {tariffs.length > 0 ? (
+            <div className="grid grid-cols-1 gap-8">
+              <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
+                <ul className="space-y-2 text-gray-700">
+                  {tariffs.map(t => (
+                    <li key={t.id} className="flex justify-between">
+                      <span>{t.label}{t.notes ? ` – ${t.notes}` : ''}</span>
+                      <span className="font-semibold text-primary-800">{t.price} Ar</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
+                <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Piscine</h3>
+                <ul className="space-y-2 text-gray-700">
+                  <li>Entrée piscine : 10 000 Ar / personne</li>
+                  <li>Bonnet obligatoire (location 5 000 Ar · vente 10 000 Ar)</li>
+                </ul>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
+                <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Spa</h3>
+                <ul className="space-y-2 text-gray-700">
+                  <li>Massage partiel (une seule partie du corps) : à partir de 30 000 Ar</li>
+                  <li>Massage relaxant (60 min, tête aux pieds) : 60 000 Ar</li>
+                  <li>Stone therapy (pierres chaudes, ~60 min) : 60 000 Ar</li>
+                  <li>Massage holistique (90 min, ciblé sur une douleur) : 90 000 Ar</li>
+                  <li>Sauna (vapeur sèche) : 35 000 Ar</li>
+                  <li>Hammam (vapeur humide) : 25 000 Ar</li>
+                  <li>Bains thermaux à l’eau de Ranovisy : 20 000 Ar</li>
+                  <li>Jacuzzi (eau de Ranovisy ~42°) : 35 000 Ar / personne / heure</li>
+                  <li>Séance de yoga : veuillez consulter les modalités d’inscription et de réservation</li>
+                </ul>
+                <div className="mt-4 text-gray-700">
+                  <p className="font-semibold">Nos offres du moment</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>Package holistique (≈2h) : 99 000 Ar — Massage relaxant (60 min), bain thermal (durée illimitée), sauna ou hammam au choix</li>
+                    <li>Bain + massage : 35 000 Ar — Massage pieds & tête pendant le bain (~15 min), bain durée illimitée</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
