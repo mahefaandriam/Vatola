@@ -15,6 +15,7 @@ interface SpaMediaItem {
   url: string;
   type: 'image' | 'video';
   caption?: string | null;
+  published?: boolean | null;
   created_at?: string;
 }
 
@@ -42,6 +43,17 @@ export default function AdminSpa() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const togglePublish = async (id: number, next: boolean) => {
+    try {
+      const { error } = await supabase.from('spa_media').update({ published: next }).eq('id', id);
+      if (error) throw error;
+      setMedia(prev => prev.map(m => m.id === id ? { ...m, published: next } : m));
+    } catch (e) {
+      console.error(e);
+      alert("Impossible de changer l'état de publication. Ajoutez une colonne 'published' boolean à 'spa_media'.");
+    }
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -171,17 +183,25 @@ export default function AdminSpa() {
                     )}
                     <div className="p-2 text-xs text-gray-600 flex items-center justify-between">
                       <span className="truncate">{m.caption || '—'}</span>
-                      <button
-                        onClick={async () => {
-                          if (!confirm('Supprimer ce média ?')) return;
-                          const { error } = await supabase.from('spa_media').delete().eq('id', m.id);
-                          if (error) alert('Suppression impossible.');
-                          else setMedia(media.filter(x => x.id !== m.id));
-                        }}
-                        className="text-red-600"
-                      >
-                        Supprimer
-                      </button>
+                      <div className="flex items-center gap-3">
+                        <span className={m.published ? 'px-2 py-0.5 rounded bg-green-100 text-green-700' : 'px-2 py-0.5 rounded bg-gray-100 text-gray-700'}>
+                          {m.published ? 'Publié' : 'Non publié'}
+                        </span>
+                        <button onClick={() => togglePublish(m.id, !m.published)} className="text-primary-800">
+                          {m.published ? 'Dépublier' : 'Publier'}
+                        </button>
+                        <button
+                          onClick={async () => {
+                            if (!confirm('Supprimer ce média ?')) return;
+                            const { error } = await supabase.from('spa_media').delete().eq('id', m.id);
+                            if (error) alert('Suppression impossible.');
+                            else setMedia(media.filter(x => x.id !== m.id));
+                          }}
+                          className="text-red-600"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
