@@ -5,22 +5,25 @@ import { supabase } from '../lib/supabaseClient';
 
 const PubPage: React.FC = () => {
   const [media, setMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
+  const [assetMedia, setAssetMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
   const [menu, setMenu] = useState<{ id: number; category: 'snack' | 'boisson'; title: string; price_min?: number | null; vegan?: boolean | null; low_fat?: boolean | null; }[]>([]);
 
   useEffect(() => {
     document.title = 'Pub & Bar - Vatola Hotel';
     const load = async () => {
-      const [{ data: mediaData }, { data: menuData }] = await Promise.all([
+      const [{ data: mediaData }, { data: menuData }, { data: assetsData }] = await Promise.all([
         supabase.from('pub_media').select('id, url, type, published').order('created_at', { ascending: false }),
-        supabase.from('pub_menu').select('id, category, title, price_min, vegan, low_fat').order('created_at', { ascending: false })
+        supabase.from('pub_menu').select('id, category, title, price_min, vegan, low_fat').order('created_at', { ascending: false }),
+        supabase.from('media_assets').select('id, url, type, category, published').eq('category', 'pub').order('created_at', { ascending: false })
       ]);
       setMedia((mediaData as any[]) || []);
       setMenu((menuData as any[]) || []);
+      setAssetMedia(((assetsData as any[]) || []).map(a => ({ id: a.id, url: a.url, type: a.type as 'image' | 'video', published: a.published })));
     };
     load();
   }, []);
 
-  const publishedMedia = media.filter(m => m.published === true);
+  const publishedMedia = [...media, ...assetMedia].filter(m => m.published === true);
   const snacks = menu.filter(m => m.category === 'snack');
   const drinks = menu.filter(m => m.category === 'boisson');
 
@@ -216,6 +219,27 @@ const PubPage: React.FC = () => {
               )}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Galerie du Pub" subtitle="Photos et vidéos publiées par l'administration" />
+          {publishedMedia.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {publishedMedia.map((m, idx) => (
+                <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
+                  {m.type === 'image' ? (
+                    <img src={m.url} alt="Media Pub" loading="lazy" className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
+                  ) : (
+                    <video src={m.url} controls className="w-full h-64 object-cover" />
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">Aucun média publié pour le moment.</p>
+          )}
         </div>
       </section>
 
