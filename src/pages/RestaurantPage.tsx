@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
+
 import { restaurantHighlights } from  '../data/services';
 
 const RestaurantPage: React.FC = () => {
