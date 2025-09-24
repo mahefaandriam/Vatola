@@ -21,7 +21,7 @@ const NailSalonPage: React.FC = () => {
   const displayServices = publishedServices.length > 0 ? publishedServices : (fallbackNailServices as any[]);
   const galleryImages = (publishedServices.length > 0 ? publishedServices.map((s: any) => s.image).filter(Boolean) : [
     '/nails.jpg', '/nails5.webp', 'nails3.jpg', 'nails2.webp'
-  ]).slice(0, 4);
+  ]).slice(0, 8);
 
   return (
     <div>
@@ -93,6 +93,23 @@ const NailSalonPage: React.FC = () => {
         </div>
       </section>
       
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Galerie Onglerie" subtitle="Photos des services publiés par l'administration" />
+          {galleryImages.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {galleryImages.map((src: string, idx: number) => (
+                <div key={idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
+                  <img src={src} alt="Onglerie" loading="lazy" className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">Aucun média publié pour le moment.</p>
+          )}
+        </div>
+      </section>
+
       <section className="py-20 bg-primary-800 text-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
