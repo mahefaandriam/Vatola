@@ -1,11 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
+import { supabase } from '../lib/supabaseClient';
 
 const PubPage: React.FC = () => {
+  const [media, setMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
+  const [menu, setMenu] = useState<{ id: number; category: 'snack' | 'boisson'; title: string; price_min?: number | null; vegan?: boolean | null; low_fat?: boolean | null; }[]>([]);
+
   useEffect(() => {
     document.title = 'Pub & Bar - Vatola Hotel';
+    const load = async () => {
+      const [{ data: mediaData }, { data: menuData }] = await Promise.all([
+        supabase.from('pub_media').select('id, url, type, published').order('created_at', { ascending: false }),
+        supabase.from('pub_menu').select('id, category, title, price_min, vegan, low_fat').order('created_at', { ascending: false })
+      ]);
+      setMedia((mediaData as any[]) || []);
+      setMenu((menuData as any[]) || []);
+    };
+    load();
   }, []);
+
+  const publishedMedia = media.filter(m => m.published === true);
+  const snacks = menu.filter(m => m.category === 'snack');
+  const drinks = menu.filter(m => m.category === 'boisson');
 
   return (
     <div className="overflow-hidden">
@@ -81,7 +98,7 @@ const PubPage: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:rotate-1">
                 <img
-                  src="/moto2.jpg"
+                  src={(publishedMedia[0]?.url) || "/moto2.jpg"}
                   alt="Cocktail and Glass"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -99,7 +116,7 @@ const PubPage: React.FC = () => {
               
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:-rotate-1 mt-8">
                 <img
-                  src="/billard2.jpg"
+                  src={(publishedMedia[1]?.url) || "/billard2.jpg"}
                   alt="Cocktail Preparation"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -114,7 +131,7 @@ const PubPage: React.FC = () => {
               
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:rotate-1">
                 <img
-                  src="/clients1.webp"
+                  src={(publishedMedia[2]?.url) || "/clients1.webp"}
                   alt="Craft Beer Selection"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -129,7 +146,7 @@ const PubPage: React.FC = () => {
               
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:-rotate-1 mt-8">
                 <img
-                  src="/pub4.jpg"
+                  src={(publishedMedia[3]?.url) || "/pub4.jpg"}
                   alt="Gourmet plat de poulet"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -152,25 +169,51 @@ const PubPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div className="bg-white rounded-2xl shadow-luxury border border-gray-100 p-6">
               <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Snacks</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li>Assiette variée (charcuterie, fromages)</li>
-                <li>Sandwichs & croques</li>
-                <li>Burger maison</li>
-                <li>Pizza/panini</li>
-                <li>Brochettes & tapas chauds</li>
-                <li>Frites, accompagnements</li>
-              </ul>
+              {snacks.length > 0 ? (
+                <ul className="space-y-2 text-gray-700">
+                  {snacks.map(s => (
+                    <li key={s.id} className="flex justify-between">
+                      <span>{s.title}</span>
+                      <span className="text-xs text-gray-500">{s.price_min ? `${s.price_min} Ar` : ''}</span>
+                      <span className="ml-2 space-x-1">
+                        {s.vegan ? <span className="text-xs bg-green-500/10 text-green-700 px-2 py-0.5 rounded">Vegan</span> : null}
+                        {s.low_fat ? <span className="text-xs bg-blue-500/10 text-blue-700 px-2 py-0.5 rounded">Sans MG</span> : null}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="space-y-2 text-gray-700">
+                  <li>Assiette variée (charcuterie, fromages)</li>
+                  <li>Sandwichs & croques</li>
+                  <li>Burger maison</li>
+                  <li>Pizza/panini</li>
+                  <li>Brochettes & tapas chauds</li>
+                  <li>Frites, accompagnements</li>
+                </ul>
+              )}
             </div>
             <div className="bg-white rounded-2xl shadow-luxury border border-gray-100 p-6">
               <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Boissons</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li>Cocktails signature & classiques</li>
-                <li>Bières pression & bouteilles</li>
-                <li>Vins & spiritueux</li>
-                <li>Jus frais & softs</li>
-                <li>Mocktails sans alcool</li>
-                <li>Café, thé, infusions</li>
-              </ul>
+              {drinks.length > 0 ? (
+                <ul className="space-y-2 text-gray-700">
+                  {drinks.map(d => (
+                    <li key={d.id} className="flex justify-between">
+                      <span>{d.title}</span>
+                      <span className="text-xs text-gray-500">{d.price_min ? `${d.price_min} Ar` : ''}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="space-y-2 text-gray-700">
+                  <li>Cocktails signature & classiques</li>
+                  <li>Bières pression & bouteilles</li>
+                  <li>Vins & spiritueux</li>
+                  <li>Jus frais & softs</li>
+                  <li>Mocktails sans alcool</li>
+                  <li>Café, thé, infusions</li>
+                </ul>
+              )}
             </div>
           </div>
         </div>
