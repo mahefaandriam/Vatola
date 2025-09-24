@@ -39,6 +39,7 @@ const QuickReservationForm: React.FC = () => {
         room_type: form.roomType,
         people: form.people,
         extra_service: form.extraService.trim(),
+        status: 'pending',
         created_at: new Date().toISOString(),
       };
       const { error } = await supabase.from('web_reservations').insert([payload]);
