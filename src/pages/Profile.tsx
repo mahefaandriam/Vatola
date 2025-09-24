@@ -185,7 +185,7 @@ export default function Profile() {
                   <th className="p-2 text-left">Fin</th>
                   <th className="p-2 text-left">Prix</th>
                   <th className="p-2 text-left">Statut</th>
-                  <th className="p-2 text-left">Action</th>
+                  {/* <th className="p-2 text-left">Action</th> */}
                 </tr>
               </thead>
               <tbody>
