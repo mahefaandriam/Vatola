@@ -8,6 +8,7 @@ interface MediaAsset {
   type: 'image' | 'video';
   title?: string | null;
   url: string;
+  published?: boolean | null;
   created_at?: string;
 }
 
@@ -35,6 +36,17 @@ export default function AdminMedia() {
   useEffect(() => {
     load();
   }, []);
+
+  const togglePublish = async (id: number, next: boolean) => {
+    try {
+      const { error } = await supabase.from('media_assets').update({ published: next }).eq('id', id);
+      if (error) throw error;
+      setAssets(prev => prev.map(a => a.id === id ? { ...a, published: next } : a));
+    } catch (e: any) {
+      console.error(e);
+      alert("Impossible de changer l'état de publication. Assurez-vous que la colonne 'published' (boolean) existe dans la table 'media_assets'.");
+    }
+  };
 
   const onFile = async (file: File) => {
     setUploading(true);
@@ -94,7 +106,15 @@ export default function AdminMedia() {
               <div key={a.id} className="border border-gray-200 rounded-lg overflow-hidden bg-white">
                 <div className="p-2 text-xs text-gray-600 flex items-center justify-between border-b border-gray-100">
                   <span className="truncate">{a.category} · {a.type} · {a.title || '—'}</span>
-                  <button onClick={() => remove(a.id)} className="text-red-600">Supprimer</button>
+                  <div className="flex items-center gap-3">
+                    <span className={a.published ? 'px-2 py-0.5 rounded bg-green-100 text-green-700' : 'px-2 py-0.5 rounded bg-gray-100 text-gray-700'}>
+                      {a.published ? 'Publié' : 'Non publié'}
+                    </span>
+                    <button onClick={() => togglePublish(a.id, !a.published)} className="text-primary-800">
+                      {a.published ? 'Dépublier' : 'Publier'}
+                    </button>
+                    <button onClick={() => remove(a.id)} className="text-red-600">Supprimer</button>
+                  </div>
                 </div>
                 {a.type === 'image' ? (
                   <img src={a.url} alt={a.title || ''} className="w-full h-40 object-cover" />
