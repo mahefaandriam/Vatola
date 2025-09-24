@@ -1,13 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
-import { nailServices } from '../data/services';
+import { nailServices as fallbackNailServices } from '../data/services';
+import { supabase } from '../lib/supabaseClient';
 
 const NailSalonPage: React.FC = () => {
+  const [services, setServices] = useState<any[]>([]);
+
   useEffect(() => {
       document.title = "Salon";
+      const load = async () => {
+        const { data } = await supabase.from('nails_services').select('*').order('created_at', { ascending: false });
+        setServices((data as any[]) || []);
+      };
+      load();
     }, []);
+
+  const publishedServices = services.filter((s: any) => s.published === true);
+  const displayServices = publishedServices.length > 0 ? publishedServices : (fallbackNailServices as any[]);
+  const galleryImages = (publishedServices.length > 0 ? publishedServices.map((s: any) => s.image).filter(Boolean) : [
+    '/nails.jpg', '/nails5.webp', 'nails3.jpg', 'nails2.webp'
+  ]).slice(0, 4);
+
   return (
     <div>
       <Hero
@@ -40,30 +55,15 @@ const NailSalonPage: React.FC = () => {
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <img
-                src="/nails.jpg"
-                alt="Manicure Service"
-                loading="lazy"
-                className="w-full h-64 object-cover rounded-lg shadow-luxury"
-              />
-              <img
-                src="/nails5.webp"
-                alt="Pedicure Service"
-                loading="lazy"
-                className="w-full h-64 object-cover rounded-lg shadow-luxury"
-              />
-              <img
-                src="nails3.jpg"
-                alt="Gel Nails"
-                loading="lazy"
-                className="w-full h-64 object-cover rounded-lg shadow-luxury"
-              />
-              <img
-                src="nails2.webp"
-                alt="Nail Art"
-                loading="lazy"
-                className="w-full h-64 object-cover rounded-lg shadow-luxury"
-              />
+              {galleryImages.map((src, idx) => (
+                <img
+                  key={idx}
+                  src={src}
+                  alt="Nail Gallery"
+                  loading="lazy"
+                  className="w-full h-64 object-cover rounded-lg shadow-luxury"
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@ const NailSalonPage: React.FC = () => {
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {nailServices.map((service) => (
+            {displayServices.map((service: any) => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
