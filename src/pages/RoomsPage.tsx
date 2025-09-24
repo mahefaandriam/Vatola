@@ -88,7 +88,7 @@ const RoomsPage: React.FC = () => {
             <div className="absolute -inset-1 bg-gradient-to-r from-primary-600 via-accent to-primary-800 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-x"></div>
             <div className="relative bg-white rounded-xl shadow-2xl p-8 border border-gray-100 hover:shadow-3xl transition-all duration-500">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-serif text-2xl font-bold bg-gradient-to-r from-primary-800 to-primary-600 bg-clip-text text-transparent">
+                <h3 className="font-serif text-5xl font-bold bg-gradient-to-r from-primary-800 to-primary-600 bg-clip-text text-transparent">
                   Tarifs & Services
                 </h3>
                 <div className="w-12 h-1 bg-gradient-to-r from-primary-600 to-accent rounded-full animate-pulse"></div>
@@ -127,10 +127,10 @@ const RoomsPage: React.FC = () => {
                 
                 <div className="bg-gradient-to-br from-primary-50 to-accent/5 rounded-lg p-6 border border-primary-100">
                   <h4 className="font-semibold text-primary-800 mb-4 flex items-center">
-                    <div className="w-3 h-3 bg-accent rounded-full mr-3 animate-pulse"></div>
-                    Services compris (selon les chambres)
+                    {/* <div className="w-3 h-3 bg-accent rounded-full mr-3 animate-pulse"></div> */}
+                    {/* Services compris (selon les chambres) */}
                   </h4>
-                  <ul className="space-y-3">
+                  <ul className="space-y-10">
                     {[
                       "Accès au parking intérieur sécurisé",
                       "Coffre-fort sécurisé",
@@ -185,14 +185,6 @@ const RoomsPage: React.FC = () => {
                 </div>
                 
                 <div className="flex items-end">
-                  <div className="w-full h-12 bg-gradient-to-r from-primary-100 to-accent/20 rounded-lg flex items-center justify-center">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                      <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                      <span className="text-primary-800 font-medium ml-3">Filtres disponibles</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
