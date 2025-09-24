@@ -94,3 +94,24 @@ export const nailServices: Service[] = [
     image: 'nails2.webp'
   }
 ];
+
+export const restaurantHighlights: Service[] = [
+  {
+    id: 'entrees-salades',
+    name: 'Entrées & salades',
+    description: 'Fraîcheur et saisonnalité, options légères disponibles.',
+    image: '/clients1.webp'
+  },
+  {
+    id: 'plats-specialites',
+    name: 'Plats & spécialités',
+    description: 'Saveurs locales et internationales, options vegan/allégé sur demande.',
+    image: '/plat3.webp'
+  },
+  {
+    id: 'desserts-boissons',
+    name: 'Desserts & boissons',
+    description: 'Gourmandises maison et sélection de boissons.',
+    image: '/une-verre2.webp'
+  }
+];
