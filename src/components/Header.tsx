@@ -159,6 +159,9 @@ const Header: React.FC = () => {
                 `}
               >
                 <div className="py-1">
+                  <Link to="/restaurant" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Restaurant
+                  </Link>
                   <Link to="/pub" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Pub & Bar
                   </Link>
@@ -239,6 +242,13 @@ const Header: React.FC = () => {
             className="text-xl font-medium hover:text-accent transition duration-200"
           >
             Chambres
+          </Link>
+          <Link
+            to="/restaurant"
+            onClick={closeMenu}
+            className="text-xl font-medium hover:text-accent transition duration-200"
+          >
+            Restaurant
           </Link>
           <Link
             to="/pub"

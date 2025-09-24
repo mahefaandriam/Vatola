@@ -8,6 +8,7 @@ import RoomCard from '../components/RoomCard';
 //import ServiceCard from '../components/ServiceCard';
 import TestimonialCard from '../components/TestimonialCard';
 import BookingForm from '../components/BookingForm';
+import QuickReservationForm from '../components/QuickReservationForm';
 //import { pubServices, spaServices, nailServices } from '../data/services';
 import { testimonials } from '../data/testimonials';
 import { useEffect } from 'react';
@@ -84,21 +85,7 @@ const HomePage: React.FC = () => {
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-                Plus qu’un hôtel, Vatola est une maison ouverte à tous ceux qui cherchent confort, convivialité et authenticité. Ici, chaque sourire compte : notre équipe estheureuse de vous accueillir et de rendre votre séjour unique, qu’il soit court ou long.
-              </p>
-              <p className="text-gray-600 mb-6">
-                Vous
-                trouverez des chambres confortables, un cadre accueillant et une atmosphère familiale où
-                l’on se sent immédiatement à l’aise.
-              </p>
-              <p className="text-gray-600 mb-6">
-                Que vous soyez en voyage d’affaires, en vacances ou
-                simplement de passage, l’Hôtel Vatola est l’endroit idéal pour vous reposer, partager et
-                profiter pleinement de votre expérience.
-              </p>
-              <p className="text-gray-600 mb-6">
-                Chez nous, l’hospitalité n’est pas un service, c’est
-                un état d’esprit.
+                « Plus qu’un hôtel, Vatola est une maison ouverte à tous ceux qui cherchent confort, convivialité et authenticité. Ici, chaque sourire compte : notre équipe est heureuse de vous accueillir et de rendre votre séjour unique, qu’il soit court ou long. Vous trouverez des chambres confortables, un cadre accueillant et une atmosphère familiale où l’on se sent immédiatement à l’aise. Que vous soyez en voyage d’affaires, en vacances ou simplement de passage, l’Hôtel Vatola est l’endroit idéal pour vous reposer, partager et profiter pleinement de votre expérience. Chez nous, l’hospitalité n’est pas un service, c’est un état d’esprit. »
               </p>
               <div>
                 <p className="text-gray-600 mb-6">Ce qui fait notre différence:</p>
@@ -176,6 +163,39 @@ const HomePage: React.FC = () => {
               )}
           </div>
 
+        </div>
+      </section>
+
+      {/* Services de l'hôtel */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle
+            title="Services de l’hôtel"
+            subtitle="Offerts sur place – certains compris dans les tarifs, d’autres disponibles en supplément"
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              'Accès wifi dans la chambre',
+              'Suites et chambres familiales',
+              'Bar avec billards et snooker',
+              'Service de blanchisserie',
+              'Spa relaxant à prix imbattables',
+              'Chambre pour chauffeur',
+              'Coffre‑fort sécurisé',
+              'Service 24/24 et 7j/7',
+              'Accès piscine',
+              'Télévision avec Canal +',
+              'Sanitaires privatifs, eau chaude',
+              'Berceau disponible à la demande (gratuit)'
+            ].map((s, i) => (
+              <div key={i} className="bg-gray-50 rounded-lg p-5 shadow-luxury border border-gray-100">
+                <div className="flex items-start">
+                  <span className="mr-3 text-accent">•</span>
+                  <span className="text-gray-700">{s}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -382,6 +402,9 @@ const HomePage: React.FC = () => {
 
           <div className="max-w-3xl mx-auto">
             <BookingForm />
+          </div>
+          <div className="max-w-3xl mx-auto mt-6">
+            <QuickReservationForm />
           </div>
         </div>
       </section>

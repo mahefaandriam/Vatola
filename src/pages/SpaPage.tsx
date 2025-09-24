@@ -92,7 +92,43 @@ const SpaPage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Tarifs Piscine & Spa" subtitle="Tarification en Ariary (AR). Bonnet obligatoire pour la piscine." />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
+              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Piscine</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li>Entrée piscine : 10 000 Ar / personne</li>
+                <li>Bonnet obligatoire (location 5 000 Ar · vente 10 000 Ar)</li>
+              </ul>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
+              <h3 className="font-serif text-xl font-semibold text-primary-800 mb-4">Spa</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li>Massage partiel (une seule partie du corps) : à partir de 30 000 Ar</li>
+                <li>Massage relaxant (60 min, tête aux pieds) : 60 000 Ar</li>
+                <li>Stone therapy (pierres chaudes, ~60 min) : 60 000 Ar</li>
+                <li>Massage holistique (90 min, ciblé sur une douleur) : 90 000 Ar</li>
+                <li>Sauna (vapeur sèche) : 35 000 Ar</li>
+                <li>Hammam (vapeur humide) : 25 000 Ar</li>
+                <li>Bains thermaux à l’eau de Ranovisy : 20 000 Ar</li>
+                <li>Jacuzzi (eau de Ranovisy ~42°) : 35 000 Ar / personne / heure</li>
+                <li>Séance de yoga : veuillez consulter les modalités d’inscription et de réservation</li>
+              </ul>
+              <div className="mt-4 text-gray-700">
+                <p className="font-semibold">Nos offres du moment</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Package holistique (≈2h) : 99 000 Ar — Massage relaxant (60 min), bain thermal (durée illimitée), sauna ou hammam au choix</li>
+                  <li>Bain + massage : 35 000 Ar — Massage pieds & tête pendant le bain (~15 min), bain durée illimitée</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/*
       <section className="py-20 bg-primary-800 text-white">
         <div className="container mx-auto px-4 md:px-6">

@@ -8,6 +8,7 @@ import PubPage from './pages/PubPage';
 import SpaPage from './pages/SpaPage';
 import NailSalonPage from './pages/NailSalonPage';
 import ContactPage from './pages/ContactPage';
+import RestaurantPage from './pages/RestaurantPage';
 import BookingPage from './pages/BookingPage';
 import Login from './pages/Login';
 import Register from './pages/Singup';
@@ -67,6 +68,7 @@ function App() {
                 <Route path="/rooms/:id" element={<RoomDetailPage />} />
                 <Route path="/pub" element={<PubPage />} />
                 <Route path="/spa" element={<SpaPage />} />
+                <Route path="/restaurant" element={<RestaurantPage />} />
                 <Route path="/nail-salon" element={<NailSalonPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/booking" element={<BookingPage />} />
