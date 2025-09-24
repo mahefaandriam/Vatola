@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabaseClient';
 
 const SpaPage: React.FC = () => {
   const [media, setMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
+  const [assetMedia, setAssetMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
   const [tariffs, setTariffs] = useState<{ id: number; label: string; price: number; notes?: string | null; }[]>([]);
 
   useEffect(() => {
@@ -18,17 +19,25 @@ const SpaPage: React.FC = () => {
         ]);
         setMedia((mediaData as any[]) || []);
         setTariffs((tariffData as any[]) || []);
+        try {
+          const { data: assetsData } = await supabase
+            .from('media_assets')
+            .select('id, url, type, category, published')
+            .eq('category', 'spa')
+            .order('created_at', { ascending: false });
+          setAssetMedia(((assetsData as any[]) || []).map(a => ({ id: a.id, url: a.url, type: a.type as 'image' | 'video', published: a.published })));
+        } catch (_) {}
       };
       load();
     }, []);
 
-  const publishedMedia = media.filter(m => m.published === true);
+  const publishedMedia = [...media, ...assetMedia].filter(m => m.published === true);
 
   return (
     <div>
       <Hero
         title="Spa & Bien-être"
-        subtitle="Offrez-vous un monde de détente et de revitalisation avec nos soins spa."
+        subtitle="Offrez-vous un monde de d��tente et de revitalisation avec nos soins spa."
         image="/care.webp"
         ctaText='Réservez votre séance dès maintenant'
         ctaLink='/contact'
@@ -106,6 +115,27 @@ const SpaPage: React.FC = () => {
               Réserver vos soins
             </a>
           </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Galerie Spa" subtitle="Photos et vidéos publiées par l'administration" />
+          {publishedMedia.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {publishedMedia.map((m, idx) => (
+                <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
+                  {m.type === 'image' ? (
+                    <img src={m.url} alt="Media Spa" loading="lazy" className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
+                  ) : (
+                    <video src={m.url} controls className="w-full h-64 object-cover" />
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">Aucun média publié pour le moment.</p>
+          )}
         </div>
       </section>
 
