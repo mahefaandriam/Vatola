@@ -182,6 +182,42 @@ const RestaurantPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Carte détaillée (aperçu) */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-luxury border border-gray-100 p-8">
+            <h3 className="font-serif text-2xl font-bold text-primary-800 mb-6 text-center">Aperçu de la carte</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-5 border border-green-100">
+                <h4 className="font-semibold text-primary-800 mb-3">Entrées & salades</h4>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex justify-between"><span>Salade fraîcheur (vegan)</span><span className="text-xs bg-green-500/10 text-green-700 px-2 py-0.5 rounded">Vegan</span></li>
+                  <li className="flex justify-between"><span>Bruschetta tomates-basilic</span><span className="text-xs bg-gray-200 px-2 py-0.5 rounded">Min. sur place</span></li>
+                  <li className="flex justify-between"><span>Soupe du jour (sans MG)</span><span className="text-xs bg-blue-500/10 text-blue-700 px-2 py-0.5 rounded">Sans MG</span></li>
+                </ul>
+              </div>
+              <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-5 border border-amber-100">
+                <h4 className="font-semibold text-primary-800 mb-3">Plats & spécialités</h4>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex justify-between"><span>Poulet sauce citronnelle</span><span className="text-xs bg-gray-200 px-2 py-0.5 rounded">Min. sur place</span></li>
+                  <li className="flex justify-between"><span>Poisson grillé, légumes</span><span className="text-xs bg-blue-500/10 text-blue-700 px-2 py-0.5 rounded">Sans MG</span></li>
+                  <li className="flex justify-between"><span>Curry de légumes (vegan)</span><span className="text-xs bg-green-500/10 text-green-700 px-2 py-0.5 rounded">Vegan</span></li>
+                </ul>
+              </div>
+              <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-5 border border-rose-100">
+                <h4 className="font-semibold text-primary-800 mb-3">Desserts & boissons</h4>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex justify-between"><span>Fruit bowl de saison</span><span className="text-xs bg-green-500/10 text-green-700 px-2 py-0.5 rounded">Vegan</span></li>
+                  <li className="flex justify-between"><span>Mousse légère cacao</span><span className="text-xs bg-blue-500/10 text-blue-700 px-2 py-0.5 rounded">Sans MG</span></li>
+                  <li className="flex justify-between"><span>Jus naturels & mocktails</span><span className="text-xs bg-gray-200 px-2 py-0.5 rounded">Min. sur place</span></li>
+                </ul>
+              </div>
+            </div>
+            <p className="text-sm text-gray-500 mt-6 text-center">Prix minimum affiché sur place. Options vegan et sans matières grasses disponibles sur demande.</p>
+          </div>
+        </div>
+      </section>
+
       {/* Section Cabaret avec design festif */}
       <section className="py-20 bg-gradient-to-br from-purple-900 via-pink-900 to-red-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/40"></div>

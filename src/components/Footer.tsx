@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
 
 const Footer: React.FC = () => {
+  const [sns, setSns] = useState<{ platform: string; url: string }[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from('social_links')
+      .select('platform, url')
+      .order('created_at', { ascending: false })
+      .then(({ data }) => setSns((data as any[]) || []));
+  }, []);
+
   return (
     <footer className="bg-grenat text-white pt-16 pb-8">
       <div className="container mx-auto px-4 md:px-6">
@@ -24,15 +35,29 @@ const Footer: React.FC = () => {
               Vivez une expérience unique au sein des hauts plateaux de Vakinankaratra.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                <Instagram size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                <Twitter size={20} />
-              </a>
+              {sns.length > 0 ? (
+                sns.map((l, i) => {
+                  const p = (l.platform || '').toLowerCase();
+                  const Icon = p.includes('insta') ? Instagram : p.includes('face') ? Facebook : Twitter;
+                  return (
+                    <a key={`${l.platform}-${i}`} href={l.url} target="_blank" rel="noreferrer" className="text-gray-300 hover:text-accent transition-colors duration-300">
+                      <Icon size={20} />
+                    </a>
+                  );
+                })
+              ) : (
+                <>
+                  <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
+                    <Facebook size={20} />
+                  </a>
+                  <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
+                    <Instagram size={20} />
+                  </a>
+                  <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
+                    <Twitter size={20} />
+                  </a>
+                </>
+              )}
             </div>
           </div>
 
