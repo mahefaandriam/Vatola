@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import SectionTitle from '../components/SectionTitle';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Register() {
 
@@ -18,15 +19,17 @@ export default function Register() {
     birthday: '',
   });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
 
   const handleRegister = async (e: { preventDefault: () => void; }) => {
     if (!isPasswordValid(form.password)) {
-      alert("Le mot de passe doit: Au moins 8 caractères, une majuscule, un caractère spécial");
+      toast.error("Le mot de passe doit: Au moins 8 caractères, une majuscule, un caractère spécial");
       e.preventDefault();
       return;
     }
 
     e.preventDefault();
+    setLoading(true);
 
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: form.email,
@@ -36,7 +39,7 @@ export default function Register() {
     
     if (signUpError) {
        if (signUpError.code === '23505' || signUpError.message.includes('already registered') || signUpError.message.includes('violates foreign key constraint')) {
-        alert('Cet email ou numéro de téléphone est déjà utilisé.');
+        toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
         return;
       }
       return;
@@ -47,7 +50,7 @@ export default function Register() {
 
     const user = signUpData.user;
     if (!user) {
-      alert('Veuillez vérifier votre email pour confirmer votre inscription.');
+      toast.error('Veuillez vérifier votre email pour confirmer votre inscription.');
       return;
     }
 
@@ -65,14 +68,15 @@ export default function Register() {
     if (profileError) {
       if (profileError) {
         if (profileError.message.includes('violates foreign key constraint')) {
-          alert('Cet email ou numéro de téléphone est déjà utilisé.');
+          toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
           return;
         }
       }
     } else {
-      alert('Inscription réussie !');
+      toast.success('Inscription réussie !');
       navigate('/login');
     }
+    setLoading(false);
   };
 
   const isPasswordValid = (password: string) => {
@@ -159,8 +163,20 @@ export default function Register() {
             className='w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent'
           />
         </div>
-
-        <button type='submit' className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">S'inscrire</button>
+        {loading ? (
+            <div className="col-span-2 flex items-center justify-center py-20">
+              <div className="relative">
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-accent border-t-transparent absolute top-0 left-0" style={{animationDuration: '0.8s'}}></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-3 h-3 bg-primary-600 rounded-full animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <button type='submit' className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">S'inscrire</button>
+          )
+        }
         &nbsp;
         <a href="/login" className="text-blue-500 hover:underline">
           Connexion

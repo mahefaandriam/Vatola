@@ -199,7 +199,7 @@ export default function Profile() {
                     <td className="p-2">{b.rooms?.type || '—'}</td>
                     <td className="p-2">{b.check_in}</td>
                     <td className="p-2">{b.check_out}</td>
-                    <td className="p-2">{b.total_price} $</td>
+                    <td className="p-2">{b.total_price} Ar</td>
                     <td className="p-2">{b.status}</td>
                     <td className="p-2">
                         {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (

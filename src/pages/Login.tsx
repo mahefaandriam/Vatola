@@ -6,6 +6,7 @@ import { Bounce, toast } from 'react-toastify';
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
 
   const notifyError = (error: any) =>   toast.error(error, {
@@ -51,6 +52,7 @@ export default function Login() {
 
   const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
@@ -82,6 +84,7 @@ export default function Login() {
         }
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -119,7 +122,20 @@ export default function Login() {
             />
           </div>
         </div>
-        <button type="submit" className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">Connexion</button>
+        {loading ? (
+            <div className="col-span-2 flex items-center justify-center py-20">
+              <div className="relative">
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-accent border-t-transparent absolute top-0 left-0" style={{animationDuration: '0.8s'}}></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-3 h-3 bg-primary-600 rounded-full animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <button type="submit" className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">Connexion</button>
+          )
+        }
         <a href="/singup" className="text-blue-500 hover:underline">
           Créer un compte ?
         </a>
