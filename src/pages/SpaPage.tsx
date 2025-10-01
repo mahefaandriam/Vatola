@@ -37,7 +37,7 @@ const SpaPage: React.FC = () => {
     <div>
       <Hero
         title="Spa & Bien-être"
-        subtitle="Offrez-vous un monde de d��tente et de revitalisation avec nos soins spa."
+        subtitle="Offrez-vous un monde de détente et de revitalisation avec nos soins spa."
         image="/care.webp"
         ctaText='Réservez votre séance dès maintenant'
         ctaLink='/contact'

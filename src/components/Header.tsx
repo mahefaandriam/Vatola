@@ -265,13 +265,6 @@ const Header: React.FC = () => {
             Spa & Bien-être
           </Link>
           <Link
-            to="/nail-salon"
-            onClick={closeMenu}
-            className="text-xl font-medium hover:text-accent transition duration-200"
-          >
-            Salon des Ongles
-          </Link>
-          <Link
             to="/contact"
             onClick={closeMenu}
             className="text-xl font-medium hover:text-accent transition duration-200"

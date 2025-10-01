@@ -13,6 +13,7 @@ import QuickReservationForm from '../components/QuickReservationForm';
 import { testimonials } from '../data/testimonials';
 import { useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { Star, UserRoundPen, X } from 'lucide-react';
 
 type Room = {
   id: string;
@@ -30,6 +31,7 @@ type Room = {
 const HomePage: React.FC = () => {
   const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
   const [loadingFeaturedRooms, setLoadingFeaturedRooms] = useState(true);
+  const [selectedTestimonial, setSelectedTestimonial] = useState<null | typeof testimonials[0]>(null);
 
   // Zoom effet section :Services & commodités exceptionnels
 
@@ -300,7 +302,7 @@ const HomePage: React.FC = () => {
 
       {/* Testimonials Section */}
       <section className="py-20 bg-grenat text-white">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="relative container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Expérience des clients"
             subtitle="Découvrez ce que nos clients ont à dire sur leur séjour à l’HÔTEL VATOLA."
@@ -314,26 +316,68 @@ const HomePage: React.FC = () => {
             pagination={{ clickable: true }}
             autoplay={{ delay: 5000 }}
             breakpoints={{
-              640: {
-                slidesPerView: 1,
-              },
-              768: {
-                slidesPerView: 2,
-              },
-              1024: {
-                slidesPerView: 3,
-              },
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
             }}
             className="testimonial-swiper"
           >
             {testimonials.map((testimonial) => (
               <SwiperSlide key={testimonial.id}>
-                <TestimonialCard testimonial={testimonial} />
+                <TestimonialCard
+                  testimonial={testimonial}
+                  onShow={setSelectedTestimonial}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </section>
+
+      {/* Modal for selected testimonial */}
+      {selectedTestimonial && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-accent/40"
+          onClick={() => setSelectedTestimonial(null)}
+        >
+          <div
+            className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full relative"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+              onClick={() => setSelectedTestimonial(null)}
+              aria-label="Fermer"
+            >
+              <X size={20} />
+            </button>
+            <div className="flex items-center mb-4">
+              {selectedTestimonial.image ? (
+                <img
+                  src={selectedTestimonial.image}
+                  alt={selectedTestimonial.name}
+                  className="w-10 h-10 rounded-full object-cover mr-3"
+                />
+              ) : (
+                <UserRoundPen className="text-accent fill-accent mr-3" />
+              )}
+              <div>
+                <p className="text-sm text-gray-500">{selectedTestimonial.date}</p>
+              </div>
+            </div>
+            <div className="flex mb-4">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  size={16}
+                  className={`${i < selectedTestimonial.rating ? 'text-accent fill-accent' : 'text-gray-300'} mr-1`}
+                />
+              ))}
+            </div>
+            <p className="text-gray-700 italic">"{selectedTestimonial.text}"</p>
+          </div>
+        </div>
+      )}
 
       {/* Promo Section
       <section className="py-20 relative overflow-hidden">

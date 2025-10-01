@@ -341,7 +341,7 @@ const ContactPage: React.FC = () => {
                     allowFullScreen={true}
                     loading="lazy" 
                     referrerPolicy="no-referrer-when-downgrade"
-                    className="rounded-xl transition-all duration-300 group-hover:scale-105"
+                    className="rounded-xl transition-all duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-xl pointer-events-none"></div>
                 </div>
