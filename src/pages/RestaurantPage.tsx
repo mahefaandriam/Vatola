@@ -10,7 +10,8 @@ import { Star } from 'lucide-react';
 
 const RestaurantPage: React.FC = () => {
   const [assets, setAssets] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
-
+  const [showPhotoViewer, setShowPhotoViewer] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   useEffect(() => {
     document.title = 'Restaurant - Vatola Hotel';
     const load = async () => {
@@ -25,10 +26,16 @@ const RestaurantPage: React.FC = () => {
   }, []);
 
   const imageUrls = [
-    '1760290414611.jpg', '1760290454540.jpg', 'bar.jpg', 'resto.webp', '1760290432809.jpg'
+    { src: '1760290414611.jpg', alt: '' }, { src: '1760290454540.jpg', alt: '' }, { src: 'bar.jpg', alt: '' }, { src: 'resto.webp', alt: '' }, { src: '1760290432809.jpg', alt: '' }
   ]
 
   const publishedAssets = assets.filter(a => a.published === true);
+
+
+  function openImage(i: number): void {
+    setCurrentPhotoIndex(i);
+    setShowPhotoViewer(true);
+  }
 
   return (
     <div className="overflow-hidden">
@@ -150,7 +157,21 @@ const RestaurantPage: React.FC = () => {
               ))}
             </div>
           ) : (
-            <><PhotoViewer images={imageUrls} /></>
+            <>
+              {showPhotoViewer ?
+                (<PhotoViewer images={imageUrls} onClose={() => setShowPhotoViewer(false)} startIndex={currentPhotoIndex} />) :
+                (
+                  
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+        {imageUrls.map((src, i) => (
+          <button key={i} onClick={() => openImage(i)} className="overflow-hidden rounded shadow-sm bg-gray-100 p-1" aria-label={`Ouvrir l'image ${i + 1}`}>
+            <img src={src.src} alt={`Image ${i + 1}`} className="w-full h-40 object-cover transform hover:scale-105 transition" />
+          </button>
+        ))}
+      </div>
+                )
+              }
+            </>
             /*<p className="text-gray-600">Aucun média publié pour le moment.</p>*/
           )}
         </div>

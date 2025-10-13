@@ -4,6 +4,7 @@ import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
 import { spaServices } from '../data/services';
 import { supabase } from '../lib/supabaseClient';
+import { Leaf, Phone } from 'lucide-react';
 
 const SpaPage: React.FC = () => {
   const [media, setMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
@@ -107,12 +108,14 @@ const SpaPage: React.FC = () => {
             ))}
           </div>
           
-          <div className="mt-12 text-center">
+          <div className="mt-12 text-center flex item-center justify-center">
             <a
               href="tel:+15551234567"
-              className="bg-accent hover:bg-gold-700 text-white font-medium px-8 py-3 rounded-md transition duration-300"
             >
-              Réserver vos soins
+              <div className='flex bg-accent text-white py-3 px-5 rounded-md'>
+                Réserver vos soins
+                <Phone size={18} className="ml-2 mt-1" />
+              </div>
             </a>
           </div>
         </div>
@@ -473,7 +476,7 @@ const SpaPage: React.FC = () => {
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-               🌿 Le Hammam, avec sa chaleur humide et enveloppante, nettoie la peau en profondeur, élimine les toxines et détend les muscles. Parfait pour relâcher les tensions et revitaliser le corps tout en douceur.
+               <Leaf /> Le Hammam, avec sa chaleur humide et enveloppante, nettoie la peau en profondeur, élimine les toxines et détend les muscles. Parfait pour relâcher les tensions et revitaliser le corps tout en douceur.
               </p>
               <p className="text-gray-600 mb-6">
                 Le Sauna, grâce à sa chaleur sèche, stimule la circulation sanguine, renforce le système immunitaire et procure une sensation immédiate de bien-être. Un véritable rituel nordique pour recharger les batteries.
