@@ -115,7 +115,7 @@ export default function PhotoViewer({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 flex flex-col bg-accent/40 text-black p-2 md:p-6"
+      className="fixed inset-0 z-50 flex flex-col bg-accent/80 text-black p-2 md:p-6"
       aria-modal="true"
       role="dialog"
     >
