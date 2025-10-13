@@ -3,23 +3,27 @@ import { supabase } from '../lib/supabaseClient';
 import SectionTitle from '../components/SectionTitle';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function Register() {
 
   useEffect(() => {
     document.title = "Inscription - Vatola Hotel";
   }, []);
-  
+
   const [form, setForm] = useState({
     email: '',
     password: '',
-    phone:'',
+    phone: '',
     name: '',
     surname: '',
     birthday: '',
   });
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
+  const [inputPasswordFocucs, setInputPasswordFocucs] = useState(false);
+  const [inputPasswordHover, setInputPasswordHover] = useState(false);
 
   const handleRegister = async (e: { preventDefault: () => void; }) => {
     if (!isPasswordValid(form.password)) {
@@ -36,9 +40,9 @@ export default function Register() {
       password: form.password,
       phone: form.phone // Si tu veux ajouter un téléphone
     });
-    
+
     if (signUpError) {
-       if (signUpError.code === '23505' || signUpError.message.includes('already registered') || signUpError.message.includes('violates foreign key constraint')) {
+      if (signUpError.code === '23505' || signUpError.message.includes('already registered') || signUpError.message.includes('violates foreign key constraint')) {
         toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
         return;
       }
@@ -46,7 +50,7 @@ export default function Register() {
     }
 
     // Handle specific Supabase sign up error codes
-   
+
 
     const user = signUpData.user;
     if (!user) {
@@ -63,7 +67,7 @@ export default function Register() {
         surname: form.surname,
         birthday: form.birthday,
       }]);
-      console.log(profileError);
+    console.log(profileError);
 
     if (profileError) {
       if (profileError) {
@@ -86,7 +90,7 @@ export default function Register() {
 
   return (
     <div className='mt-25 mb-5 mx-5 md:mx-30'>
-      
+
       <SectionTitle
         title="Création d'un compte"
         subtitle="Créez un compte en quelques clics."
@@ -128,13 +132,13 @@ export default function Register() {
           <label htmlFor="birthday" className="block text-gray-700 font-medium mb-2">
             Votre date de naissance*
           </label>
-          <input 
-            type="date" 
+          <input
+            type="date"
             id="birthday"
-            placeholder="Birthday" 
+            placeholder="Birthday"
             required
             max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]}
-            onChange={e => setForm({ ...form, birthday: e.target.value })} 
+            onChange={e => setForm({ ...form, birthday: e.target.value })}
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-700 focus:ring-accent"
           />
         </div>
@@ -154,28 +158,49 @@ export default function Register() {
           <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
             Créez un mot de passe*
           </label>
-          <input
-            type="password"
-            placeholder="Création de mot de passe"
-            required
-            title="Le mot de passe doit contenir au moins 8 caractères, une majuscule et un caractère spécial."
-            onChange={e => setForm({ ...form, password: e.target.value })}
-            className='w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent'
-          />
+          <div
+            className={`flex justify-between group w-full p-3 border border-gray-300 rounded-md ${inputPasswordFocucs ? 'ring-2 ring-accent' : 'ring-0'}`}
+            onMouseEnter={() => setInputPasswordHover(true)}
+            onMouseLeave={() => setInputPasswordHover(false)}
+          >
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              id="password"
+              name="Création de mot de passe"
+              title="Le mot de passe doit contenir au moins 8 caractères, une majuscule et un caractère spécial."
+              onChange={e => setForm({ ...form, password: e.target.value })}
+              required
+              className="outline-none w-full"
+              onFocus={() => setInputPasswordFocucs(true)}
+              onBlur={() => setInputPasswordFocucs(false)}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className=""
+            >
+              {showPassword ? (
+                <EyeOff className={`h-5 w-5 ${inputPasswordHover ? 'text-accent' : 'text-accent/80'} transition-colors duration-500`} aria-hidden="true" />
+              ) : (
+                <Eye className={`h-5 w-5 ${inputPasswordHover ? 'text-accent' : 'text-accent/80'} transition-colors duration-500`} aria-hidden="true" />
+              )}
+            </button>
+          </div>
         </div>
         {loading ? (
-            <div className="col-span-2 flex items-center justify-center py-20">
-              <div className="relative">
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200"></div>
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-accent border-t-transparent absolute top-0 left-0" style={{animationDuration: '0.8s'}}></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-3 h-3 bg-primary-600 rounded-full animate-pulse"></div>
-                </div>
+          <div className="col-span-2 flex items-center justify-center py-20">
+            <div className="relative">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-accent border-t-transparent absolute top-0 left-0" style={{ animationDuration: '0.8s' }}></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-3 h-3 bg-primary-600 rounded-full animate-pulse"></div>
               </div>
             </div>
-          ) : (
-            <button type='submit' className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">S'inscrire</button>
-          )
+          </div>
+        ) : (
+          <button type='submit' className="my-5 bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5">S'inscrire</button>
+        )
         }
         &nbsp;
         <a href="/login" className="text-blue-500 hover:underline">

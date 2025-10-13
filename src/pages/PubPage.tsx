@@ -57,23 +57,23 @@ const PubPage: React.FC = () => {
                 
                 {/* Features highlights avec vos couleurs */}
                 <div className="grid grid-cols-2 gap-4 mt-8">
-                  <div className="bg-gradient-to-br from-primary-50 to-primary-100 p-4 rounded-xl border border-primary-200 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
-                    <div className="text-2xl mb-2">🍸</div>
+                  <div className="p-4 rounded-xl border border-primary-200 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
+                    <div className="text-2xl mb-2"></div>
                     <h4 className="font-bold text-primary-800">Cocktails Premium</h4>
                     <p className="text-gray-600 text-sm">Créations exclusives</p>
                   </div>
-                  <div className="bg-gradient-to-br from-accent-50 to-accent-100 p-4 rounded-xl border border-accent-200 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
-                    <div className="text-2xl mb-2">🎵</div>
+                  <div className="p-4 rounded-xl border border-primary-200 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
+                    <div className="text-2xl mb-2"></div>
                     <h4 className="font-bold text-primary-800">Ambiance Live</h4>
                     <p className="text-gray-600 text-sm">Musique & spectacles</p>
                   </div>
-                  <div className="bg-gradient-to-br from-primary-100 to-accent-100 p-4 rounded-xl border border-primary-300 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
-                    <div className="text-2xl mb-2">🛋️</div>
+                  <div className="p-4 rounded-xl border border-primary-300 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
+                    <div className="text-2xl mb-2"></div>
                     <h4 className="font-bold text-primary-800">Lounge Confort</h4>
                     <p className="text-gray-600 text-sm">Espaces détente</p>
                   </div>
-                  <div className="bg-gradient-to-br from-accent-100 to-primary-100 p-4 rounded-xl border border-accent-300 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
-                    <div className="text-2xl mb-2">🌙</div>
+                  <div className=" p-4 rounded-xl border border-primary-300 transform transition-all duration-300 hover:scale-105 hover:shadow-luxury">
+                    <div className="text-2xl mb-2"></div>
                     <h4 className="font-bold text-primary-800">Soirées Uniques</h4>
                     <p className="text-gray-600 text-sm">Événements spéciaux</p>
                   </div>
@@ -82,15 +82,15 @@ const PubPage: React.FC = () => {
                 {/* Statistiques animées */}
                 <div className="grid grid-cols-3 gap-4 mt-8 p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl border border-primary-200">
                   <div className="text-center transform transition-all duration-300 hover:scale-105">
-                    <div className="text-2xl font-bold text-primary-800 animate-pulse">+50</div>
+                    <div className="text-2xl font-bold text-primary-800">+50</div>
                     <div className="text-sm text-gray-600">Cocktails</div>
                   </div>
                   <div className="text-center transform transition-all duration-300 hover:scale-105">
-                    <div className="text-2xl font-bold text-primary-800 animate-pulse">7j/7</div>
+                    <div className="text-2xl font-bold text-primary-800">7j/7</div>
                     <div className="text-sm text-gray-600">Ouvert</div>
                   </div>
                   <div className="text-center transform transition-all duration-300 hover:scale-105">
-                    <div className="text-2xl font-bold text-primary-800 animate-pulse">★★★★★</div>
+                    <div className="text-2xl font-bold text-primary-800">★★★★★</div>
                     <div className="text-sm text-gray-600">Ambiance</div>
                   </div>
                 </div>
@@ -244,8 +244,7 @@ const PubPage: React.FC = () => {
       </section>
 
       {/* Section événements avec vos couleurs */}
-      <section className="py-20 bg-primary-800 text-white relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-primary-900/50"></div>
+      <section className="py-20 bg-grenat text-white relative">
         
         <div className="container mx-auto px-4 md:px-6 relative">
           <SectionTitle
@@ -327,7 +326,7 @@ const PubPage: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-2xl shadow-luxury border border-gray-100 overflow-hidden">
               {/* Header avec vos couleurs */}
-              <div className="bg-gradient-to-r from-primary-800 to-accent p-6 text-white text-center">
+              <div className="bg-grenat p-6 text-white text-center">
                 <h2 className="text-2xl font-bold">Planning de la semaine</h2>
               </div>
               
@@ -390,7 +389,7 @@ const PubPage: React.FC = () => {
                 </div>
                 
                 {/* Contact et réservations avec vos couleurs */}
-                <div className="mt-8 p-6 bg-gradient-to-r from-primary-800 to-accent rounded-xl text-white text-center">
+                <div className="mt-8 p-6 bg-grenat rounded-xl text-white text-center ">
                   <h3 className="text-xl font-bold mb-4">Réservations & Événements Privés</h3>
                   <p className="text-gray-300 mb-4">
                     Pour les événements privés et les réservations, contactez-nous :
@@ -401,14 +400,14 @@ const PubPage: React.FC = () => {
                       href="tel:+261376607863" 
                       className="group flex items-center bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 transform transition-all duration-300 hover:scale-105 hover:bg-white/20"
                     >
-                      <span className="text-2xl mr-2">📞</span>
+                      <span className="text-2xl mr-2"></span>
                       <span className="text-white font-bold hover:text-accent">+261 37 66 078 63</span>
                     </a>
                     <a 
                       href="tel:+261341193777" 
                       className="group flex items-center bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 transform transition-all duration-300 hover:scale-105 hover:bg-white/20"
                     >
-                      <span className="text-2xl mr-2">📱</span>
+                      <span className="text-2xl mr-2"></span>
                       <span className="text-white font-bold hover:text-accent">+261 34 11 937 77</span>
                     </a>
                   </div>
@@ -420,14 +419,14 @@ const PubPage: React.FC = () => {
       </section>
 
       {/* Section finale avec vos couleurs */}
-      <section className="py-20 bg-gradient-to-br from-primary-800 via-primary-900 to-accent text-white relative overflow-hidden">
+      <section className="py-20 bg-grenat text-white relative overflow-hidden border-b border-accent">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-1/4 w-40 h-40 bg-accent rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-10 right-1/4 w-32 h-32 bg-primary-400 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
         </div>
         
         <div className="container mx-auto px-4 md:px-6 text-center relative">
-          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-white via-accent to-white bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold mb-6 ">
             L'expérience Vatola Pub vous attend
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
