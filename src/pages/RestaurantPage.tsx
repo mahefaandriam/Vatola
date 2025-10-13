@@ -26,7 +26,7 @@ const RestaurantPage: React.FC = () => {
   }, []);
 
   const imageUrls = [
-    { src: '1760290414611.jpg', alt: '' }, { src: '1760290454540.jpg', alt: '' }, { src: 'bar.jpg', alt: '' }, { src: 'resto.webp', alt: '' }, { src: '1760290432809.jpg', alt: '' }
+    { src: '1760290414611.jpg', alt: '' }, { src: 'bar.jpg', alt: '' }, { src: 'resto.webp', alt: '' }, { src: '1760290432809.jp', alt: '' }
   ]
 
   const publishedAssets = assets.filter(a => a.published === true);
@@ -161,14 +161,13 @@ const RestaurantPage: React.FC = () => {
               {showPhotoViewer ?
                 (<PhotoViewer images={imageUrls} onClose={() => setShowPhotoViewer(false)} startIndex={currentPhotoIndex} />) :
                 (
-                  
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-        {imageUrls.map((src, i) => (
-          <button key={i} onClick={() => openImage(i)} className="overflow-hidden rounded shadow-sm bg-gray-100 p-1" aria-label={`Ouvrir l'image ${i + 1}`}>
-            <img src={src.src} alt={`Image ${i + 1}`} className="w-full h-40 object-cover transform hover:scale-105 transition" />
-          </button>
-        ))}
-      </div>
+                    {imageUrls.map((src, i) => (
+                      <button key={i} onClick={() => openImage(i)} className="overflow-hidden rounded shadow-sm bg-gray-100 p-1" aria-label={`Ouvrir l'image ${i + 1}`}>
+                        <img src={src.src} alt={`Image ${i + 1}`} className="w-full h-40 object-cover transform hover:scale-105 transition" />
+                      </button>
+                    ))}
+                  </div>
                 )
               }
             </>
