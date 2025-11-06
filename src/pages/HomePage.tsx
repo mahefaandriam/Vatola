@@ -56,7 +56,7 @@ const HomePage: React.FC = () => {
     };
     fetchFeaturedRooms();
 
-    document.title = 'Accueil - Vatola Hotel';
+    document.title = 'Vatola Antsirabe - Votre havre à Antsirabe';
   }, []);
 
   return (
@@ -86,29 +86,9 @@ const HomePage: React.FC = () => {
                 subtitle=""
                 alignment="left"
               />
-              <h2 className="text-gray-600 mb-6">
-                « Plus qu’un hôtel,
-              </h2>
-              <h2 className="text-gray-600 mb-6">
-                Vatola est une maison ouverte à tous ceux qui cherchent confort, convivialité et authenticité.
-              </h2>
-              <h2 className="text-gray-600 mb-6">
-                Ici, chaque sourire compte : notre équipe est heureuse
-                de vous accueillir et de rendre votre séjour unique, qu’il soit court ou long.
-              </h2>
-              <h2 className="text-gray-600 mb-6">
-                Vous trouverez des chambres confortables, un cadre accueillant et une atmosphère
-                familiale où l’on se sent immédiatement à l’aise.
-              </h2>
-              <h2 className="text-gray-600 mb-6">
-                Que vous soyez en voyage d’affaires,
-                en vacances ou simplement de passage, l’Hôtel Vatola est l’endroit idéal pour vous reposer,
-                partager et profiter pleinement de votre expérience.
-              </h2>
-              <h2 className="text-gray-600 mb-6">
-                Chez nous, l’hospitalité n’est pas un
-                service, c’est un état d’esprit. »
-              </h2>
+              <p className="text-gray-600 mb-6">
+                « Plus qu’un hôtel, Vatola est une maison ouverte à tous ceux qui cherchent confort, convivialité et authenticité. Ici, chaque sourire compte : notre équipe est heureuse de vous accueillir et de rendre votre séjour unique, qu’il soit court ou long. Vous trouverez des chambres confortables, un cadre accueillant et une atmosphère familiale où l’on se sent immédiatement à l’aise. Que vous soyez en voyage d’affaires, en vacances ou simplement de passage, l’Hôtel Vatola est l’endroit idéal pour vous reposer, partager et profiter pleinement de votre expérience. Chez nous, l’hospitalité n’est pas un service, c’est un état d’esprit. »
+              </p>
               <div>
                 <p className="text-gray-600 mb-6">Ce qui fait notre différence:</p>
                 <ul className="list-disc text-gray-600 mb-6 ml-5">
