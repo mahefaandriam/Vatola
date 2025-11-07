@@ -7,9 +7,14 @@ type Booking = {
   check_in: string;
   check_out: string;
   status: string;
-  profiles?: { name?: string } | null;
+  profiles?: { 
+    name?: string; 
+    email?: string;  // ← ajouté ici
+  } | null;
   rooms?: { name?: string } | null;
 };
+
+
 
 type WebReservation = {
   id: number;
@@ -46,15 +51,18 @@ export default function Reservations() {
         check_in,
         check_out,
         status,
-        profiles (name),
+        profiles (name,email),
         rooms (name)
       `);
+      console.log(bookings);
 
     if (statusFilter !== 'all') {
       query = query.eq('status', statusFilter);
     }
 
     const { data, error } = await query;
+
+
 
     if (error) {
       console.error('Erreur chargement des réservations :', error.message);
@@ -184,77 +192,110 @@ export default function Reservations() {
         <LoadingComponents />
       ) : activeTab === 'bookings' ? (
         <div className='overflow-x-scroll'>
-          <table className="min-w-200 border border-gray-300 bg-white overflow-x-scroll text-sm">
-            <thead>
-              <tr className="bg-gray-100">
-                <th>Client</th>
-                <th>Chambre</th>
-                <th>Début</th>
-                <th>Fin</th>
-                <th>Statut</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map(booking => (
-                <tr key={booking.id} className="hover:bg-gray-50">
-                  <td style={{ position: 'sticky', left: 0, background: '#fff', zIndex: 2 }}>{booking.profiles?.name || '—'}</td>
-                  <td>{booking.rooms?.name || '—'}</td>
-                  <td>{booking.check_in}</td>
-                  <td>{booking.check_out}</td>
-                  <td>
-                    <span
-                      className={`px-2 py-1 text-sm rounded ${
-                        booking.status === 'confirmed'
-                          ? 'bg-green-200 text-green-800'
-                          : booking.status === 'canceled'
-                          ? 'bg-red-200 text-red-800'
-                          : 'bg-yellow-100 text-yellow-700'
-                      }`}
-                    >
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td>
-                    {booking.status === 'confirmed' && (
-                      <button
-                        onClick={() => {
-                          if (confirm("Es-tu sûr de vouloir annuler cette réservation ?")) {
-                            updateStatus(booking.id, 'canceled');
-                          }
-                        }}
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                      >
-                        Annuler
-                      </button>
-                    )}
+<table className="min-w-200 border border-gray-300 bg-white overflow-x-scroll text-sm">
+  <thead>
+    <tr className="bg-gray-100">
+      <th>Client</th>
+      <th>Email</th>
+      <th>Chambre</th>
+      <th>Début</th>
+      <th>Fin</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {bookings.map((booking) => (
+      <tr key={booking.id} className="hover:bg-gray-50">
+        {/* Nom du client */}
+        <td
+          style={{
+            position: "sticky",
+            left: 0,
+            background: "#fff",
+            zIndex: 2,
+          }}
+        >
+          {booking.profiles?.name || "—"}
+        </td>
 
-                    {booking.status === 'pending' && (
-                      <>
-                        <button
-                          onClick={() => updateStatus(booking.id, 'confirmed')}
-                          className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600"
-                        >
-                          Confirmer
-                        </button>
-                        <button
-                          onClick={() => {
-                            if (confirm("Es-tu sûr de vouloir annuler cette réservation ?")) {
-                              updateStatus(booking.id, 'canceled');
-                            }
-                          }}
-                          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                        >
-                          Annuler
-                        </button>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {/* Email du client */}
+       <td>{booking.profiles?.email || "—"}</td>
+
+
+        {/* Chambre */}
+        <td>{booking.rooms?.name || "—"}</td>
+
+        {/* Dates */}
+        <td>{booking.check_in}</td>
+        <td>{booking.check_out}</td>
+
+        {/* Statut */}
+        <td>
+          <span
+            className={`px-2 py-1 text-sm rounded ${
+              booking.status === "confirmed"
+                ? "bg-green-200 text-green-800"
+                : booking.status === "canceled"
+                ? "bg-red-200 text-red-800"
+                : "bg-yellow-100 text-yellow-700"
+            }`}
+          >
+            {booking.status === "confirmed"
+              ? "Confirmé"
+              : booking.status === "canceled"
+              ? "Annulé"
+              : "En attente"}
+          </span>
+        </td>
+
+        {/* Actions */}
+        <td>
+          {booking.status === "confirmed" && (
+            <button
+              onClick={() => {
+                if (
+                  confirm("Es-tu sûr de vouloir annuler cette réservation ?")
+                ) {
+                  updateStatus(booking.id, "canceled");
+                }
+              }}
+              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+            >
+              Annuler
+            </button>
+          )}
+
+          {booking.status === "pending" && (
+            <>
+              <button
+                onClick={() => updateStatus(booking.id, "confirmed")}
+                className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600"
+              >
+                Confirmer
+              </button>
+              <button
+                onClick={() => {
+                  if (
+                    confirm("Es-tu sûr de vouloir annuler cette réservation ?")
+                  ) {
+                    updateStatus(booking.id, "canceled");
+                  }
+                }}
+                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+              >
+                Annuler
+              </button>
+            </>
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+</div>
+
       ) : (
         <div className='overflow-x-scroll'>
           <table className="min-w-200 border border-gray-300 bg-white overflow-x-scroll text-sm">

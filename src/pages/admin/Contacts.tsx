@@ -13,7 +13,7 @@ type ContactMessage = {
 
 export default function AdminContacts() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
-
+const [isExpanded, setIsExpanded] = useState(false);
   useEffect(() => {
     const fetchContacts = async () => {
       const { data, error } = await supabase
@@ -34,60 +34,87 @@ export default function AdminContacts() {
     setMessages((prev) => prev.filter((msg) => msg.id !== id));
   };
 
-    const handleMarkAsRead = async (id: number) => {
-        await supabase.from('contacts').update({ read: true }).eq('id', id);
-        setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
-    };
+  const handleMarkAsRead = async (id: number) => {
+    await supabase.from('contacts').update({ read: true }).eq('id', id);
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m));
+  };
 
   return (
-    <section className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Messages de contact</h1>
-      <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 text-sm">
-          <thead className="bg-gray-100 text-left">
-            <tr>
-              <th className="p-2 border border-gray-300">Nom</th>
-              <th className="p-2 border border-gray-300">Email</th>
-              <th className="p-2 border border-gray-300">Sujet</th>
-              <th className="p-2 border border-gray-300">Message</th>
-              <th className="p-2 border border-gray-300">Date</th>
-              <th className="p-2 border border-gray-300">Lu</th>
-              <th className="p-2 border border-gray-300">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {messages.map((msg) => (
-              <tr key={msg.id}  
-              className={msg.read ? '' : 'bg-blue-50 hover:bg-blue-100 cursor-pointer'}
-                 onClick={() => handleMarkAsRead(msg.id)}>
-                <td className="p-2 border border-gray-300">{msg.name}</td>
-                <td className="p-2 border border-gray-300">{msg.email}</td>
-                <td className="p-2 border border-gray-300">{msg.subject}</td>
-                <td className="p-2 border border-gray-300 max-w-[300px] truncate">{msg.message}</td>
-                <td className="p-2 border border-gray-300">{new Date(msg.created_at).toLocaleString()}</td>
-                <td className="p-2 border border-gray-300 text-center">
-                    {msg.read ? '✅' : '🔵'}
-                </td>
-                <td className="p-2 border border-gray-300">
-                  <button
-                    onClick={() => handleDelete(msg.id)}
-                    className="text-red-600 hover:underline"
-                  >
-                    Supprimer
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {messages.length === 0 && (
-              <tr>
-                <td className="p-4 text-center text-gray-500">
-                  Aucun message
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </section>
+ <section className="p-8 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg">
+  <h1 className="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+    📬 Messages de contact
+  </h1>
+
+  <div className="overflow-x-auto rounded-xl shadow-md border border-gray-200 bg-white">
+    <table className="min-w-full text-sm text-gray-700">
+      <thead className="bg-gray-100 uppercase text-xs font-semibold text-gray-600">
+        <tr>
+          <th className="p-3 text-left border-b border-gray-200">Nom</th>
+          <th className="p-3 text-left border-b border-gray-200">Email</th>
+          <th className="p-3 text-left border-b border-gray-200">Sujet</th>
+          <th className="p-3 text-left border-b border-gray-200">Message</th>
+          <th className="p-3 text-left border-b border-gray-200">Date</th>
+          <th className="p-3 text-center border-b border-gray-200">Lu</th>
+          <th className="p-3 text-center border-b border-gray-200">Action</th>
+        </tr>
+      </thead>
+
+      <tbody className="divide-y divide-gray-100">
+        {messages.map((msg) => (
+          <tr
+            key={msg.id}
+            className={`transition-colors duration-300 ${
+              msg.read
+                ? "hover:bg-gray-50"
+                : "bg-blue-50 hover:bg-blue-100 cursor-pointer"
+            }`}
+            onClick={() => handleMarkAsRead(msg.id)}
+          >
+            <td className="p-3 font-medium">{msg.name}</td>
+            <td className="p-3">{msg.email}</td>
+            <td className="p-3">{msg.subject}</td>
+            <td
+              className={`p-3 max-w-[300px] cursor-pointer transition-all duration-300 ${
+                isExpanded
+                  ? "whitespace-normal break-words text-gray-800"
+                  : "truncate text-gray-600"
+              }`}
+              onClick={() => setIsExpanded(!isExpanded)}
+              title="Cliquez pour afficher le message complet"
+            >
+              {msg.message}
+            </td>
+            <td className="p-3 text-gray-500">
+              {new Date(msg.created_at).toLocaleString()}
+            </td>
+            <td className="p-3 text-center text-lg">
+              {msg.read ? "✅" : "🔵"}
+            </td>
+            <td className="p-3 text-center">
+              <button
+                onClick={() => handleDelete(msg.id)}
+                className="text-red-500 hover:text-red-700 font-medium transition-colors duration-300"
+              >
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        ))}
+
+        {messages.length === 0 && (
+          <tr>
+            <td
+              colSpan={7}
+              className="p-6 text-center text-gray-500 italic bg-gray-50"
+            >
+              Aucun message pour le moment
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</section>
+
   );
 }
