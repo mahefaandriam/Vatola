@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
                 })
               ) : (
                 <>
-                  <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
+                  <a href="https://www.facebook.com/profile.php?id=61577574614722" className="text-gray-300 hover:text-accent transition-colors duration-300">
                     <Facebook size={20} />
                   </a>
                   <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">

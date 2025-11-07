@@ -57,12 +57,11 @@ export default function Login() {
   const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setLoading(true);
+
     const { error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
     });
-
-
 
     if (error) {
       if (error.message.includes("Invalid login credentials")) {
@@ -73,18 +72,33 @@ export default function Login() {
         toast.error(error.message);
       }
     } else {
-      const searchParams = new URLSearchParams(window.location.search);
-      const redirect = searchParams.get('redirect');
-      const redirectSanitized = redirect ? redirect.replace(/;/g, '&') : null;
-      toast.success("Connexion")
-      if (redirectSanitized) {
-        navigate(redirectSanitized);
+      // RECHERCHE DU PROFIL DANS LA TABLE "profiles"
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('email', form.email)
+        .single();
+
+      if (profileError) {
+        console.error('Erreur lors de la récupération du profil:', profileError);
+        toast.error("Erreur lors de la récupération du profil utilisateur");
       } else {
-        if (form.email === '/admin') {
-          notifySucces("Wecolme Admin")
-          navigate('/admin'); // Redirect to admin dashboard if user is admin
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirect = searchParams.get('redirect');
+        const redirectSanitized = redirect ? redirect.replace(/;/g, '&') : null;
+
+        toast.success("Connexion réussie");
+
+        if (redirectSanitized) {
+          navigate(redirectSanitized);
         } else {
-          navigate('/profil'); // Redirect to user profile if not admin  
+          // VÉRIFICATION DU RÔLE
+          if (profile && profile.role === 'admin') {
+            notifySucces("Welcome Admin");
+            navigate('/admin');
+          } else {
+            navigate('/profil');
+          }
         }
       }
     }
@@ -117,8 +131,8 @@ export default function Login() {
             <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
               Votre Mot de passe*
             </label>
-            <div 
-              className={`flex justify-between group w-full p-3 border border-gray-300 rounded-md ${inputPasswordFocucs? 'ring-2 ring-accent' : 'ring-0'}`}
+            <div
+              className={`flex justify-between group w-full p-3 border border-gray-300 rounded-md ${inputPasswordFocucs ? 'ring-2 ring-accent' : 'ring-0'}`}
               onMouseEnter={() => setInputPasswordHover(true)}
               onMouseLeave={() => setInputPasswordHover(false)}
             >
