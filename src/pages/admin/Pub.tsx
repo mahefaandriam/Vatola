@@ -182,7 +182,7 @@ export default function AdminPub() {
                 <div>
                   <select className="border border-gray-300 px-3 py-2 rounded w-full" value={mediaType} onChange={(e) => setMediaType(e.target.value as any)}>
                     <option value="image">Image</option>
-                    <option value="video">Vidéo</option>
+                    <option value="video">Vidéo{'(short vidéo, > 50mo)'}</option>
                   </select>
                 </div>
                 <div className="md:col-span-1">

@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 // PhotoViewer
 // Default export React component. TailwindCSS assumed.
 // Props:
-// - images: array of { src: string, alt?: string }
+// - images: array of { src: string, alt?: string, type: 'image'}
 // - startIndex: number (optional)
 // - showThumbnails: boolean (optional, default true)
 // - onClose: function (optional)
@@ -77,7 +77,7 @@ export default function PhotoViewer({
 
   function downloadCurrent() {
     const a = document.createElement("a");
-    a.href = images[index].src;
+    a.href = images[index].url;
     const suggested = (images[index].alt || `photo-${index + 1}`).replace(/\s+/g, "-");
     a.download = suggested;
     document.body.appendChild(a);
@@ -173,9 +173,9 @@ export default function PhotoViewer({
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
-          <img
+          {current.type === 'image' && (<img
             ref={imgRef}
-            src={current.src}
+            src={current.url}
             alt={current.alt || `photo-${index + 1}`}
             loading="lazy"
             onTouchStart={onImageTouch}
@@ -188,7 +188,7 @@ export default function PhotoViewer({
               objectFit: "contain",
             }}
             className="select-none"
-          />
+          />)}
         </div>
 
         <button
@@ -203,7 +203,7 @@ export default function PhotoViewer({
       {/* Thumbnails */}
       {showThumbnails && (
         <div className="mt-3 overflow-x-auto flex gap-2 items-center">
-          {images.map((it, i) => (
+          {images.map((it, i) => (it.type === 'image' && (
             <button
               key={i}
               onClick={() => goTo(i)}
@@ -211,9 +211,9 @@ export default function PhotoViewer({
               style={{ width: 80, height: 60 }}
               aria-label={`Voir image ${i + 1}`}
             >
-              <img src={it.src} alt={it.alt || `mini-${i + 1}`} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src={it.url} alt={it.alt || `mini-${i + 1}`} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </button>
-          ))}
+          )))}
         </div>
       )}
 
@@ -221,7 +221,7 @@ export default function PhotoViewer({
       <div className="mt-3 flex items-center justify-between text-xs opacity-80">
         <div>Appuyez ← → pour naviguer · double-tapez pour zoom</div>
         <div>
-          <button onClick={() => { navigator.share && navigator.share({ title: current.alt || 'Photo', url: current.src }); }} className="px-2 py-1 rounded-md bg-white bg-opacity-5 hover:bg-opacity-20">Partager</button>
+          <button onClick={() => { navigator.share && navigator.share({ title: current.alt || 'Photo', url: current.url }); }} className="px-2 py-1 rounded-md bg-white bg-opacity-5 hover:bg-opacity-20">Partager</button>
         </div>
       </div>
     </div>

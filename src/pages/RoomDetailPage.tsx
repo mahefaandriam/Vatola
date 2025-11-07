@@ -247,7 +247,7 @@ const RoomDetailPage: React.FC = () => {
         >
           <div className="container mx-auto px-4 md:px-6 py-6">
             <div className="bg-gradient-to-r from-primary-50 via-white to-accent-50 rounded-xl p-6 border border-primary-100 shadow-inner">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-4 pt-30">
                 <div>
                   <h3 className="font-serif text-2xl font-bold bg-gradient-to-r from-primary-800 to-accent bg-clip-text text-transparent">
                     Récapitulatif de votre réservation
@@ -293,6 +293,19 @@ const RoomDetailPage: React.FC = () => {
                 ))}
               </div>
 
+              <div className='flex justify-end gap-3'>
+
+              <div className=" ">
+                <motion.button
+                  className="border-2 border-accent bg-white text-accent font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                  onClick={() => (setShowSummary(false))}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span>Annuler</span>
+                </motion.button>
+              </div>
+
               <div className="flex justify-end">
                 <motion.button
                   className="bg-gradient-to-r from-accent to-primary-600 hover:from-primary-600 hover:to-accent text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
@@ -304,13 +317,14 @@ const RoomDetailPage: React.FC = () => {
                   <span>Confirmer Réservation</span>
                 </motion.button>
               </div>
+              </div>
             </div>
           </div>
         </motion.div>
       )}
 
       {/* Enhanced Room Details Section */}
-      <div id='roomdetails' className={`${showSummary ? 'pt-8' : 'pt-20'} pb-16`}>
+      <div id='roomdetails' className={`${showSummary ? 'pt-20' : 'pt-34'} pb-16`}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
             

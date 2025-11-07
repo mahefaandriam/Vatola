@@ -3,11 +3,14 @@ import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import { supabase } from '../lib/supabaseClient';
 import { Quote } from 'lucide-react';
+import PhotoViewer from "../components/PhotoViewer";
 
 const PubPage: React.FC = () => {
   const [media, setMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
   const [assetMedia, setAssetMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
   const [menu, setMenu] = useState<{ id: number; category: 'snack' | 'boisson'; title: string; price_min?: number | null; vegan?: boolean | null; low_fat?: boolean | null; }[]>([]);
+  const [showPhotoViewer, setShowPhotoViewer] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   useEffect(() => {
     document.title = 'Pub & Bar - Vatola Hotel';
@@ -28,6 +31,10 @@ const PubPage: React.FC = () => {
   const snacks = menu.filter(m => m.category === 'snack');
   const drinks = menu.filter(m => m.category === 'boisson');
 
+  function openImage(i: number): void {
+    setCurrentPhotoIndex(i);
+    setShowPhotoViewer(true);
+  }
 
   return (
     <div className="overflow-hidden">
@@ -36,9 +43,9 @@ const PubPage: React.FC = () => {
         subtitle={
           <>Venez découvrir dès maintenant<br />
             <span className="flex items-center gap-2 justify-center mt-2 text-lg md:text-xl font-semibold text-accent">
-              <Quote className="relative -translate-y-2"  />
+              <Quote className="relative -translate-y-2" />
               <span>Où la convivialité et la fête se marient harmonieusement à Antsirabe</span>
-              <Quote className="relative -translate-y-2"  />
+              <Quote className="relative -translate-y-2" />
             </span>
           </>
         }
@@ -114,7 +121,7 @@ const PubPage: React.FC = () => {
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:rotate-1">
 
                 <img
-                  src={(publishedMedia[0]?.url) || "/moto2.jpg"}
+                  src={"/moto2.jpg"}
                   alt="Cocktail and Glass"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -136,7 +143,7 @@ const PubPage: React.FC = () => {
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:-rotate-1">
 
                 <img
-                  src={(publishedMedia[1]?.url) || "/billard2.jpg"}
+                  src={"/billard2.jpg"}
                   alt="Cocktail Preparation"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -154,7 +161,7 @@ const PubPage: React.FC = () => {
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:rotate-1">
 
                 <img
-                  src={(publishedMedia[2]?.url) || "/clients1.webp"}
+                  src={"/clients1.webp"}
                   alt="Craft Beer Selection"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -172,7 +179,7 @@ const PubPage: React.FC = () => {
               <div className="group relative overflow-hidden rounded-lg shadow-luxury transform transition-all duration-500 hover:scale-105 hover:-rotate-1">
 
                 <img
-                  src={(publishedMedia[3]?.url) || "/pub4.jpg"}
+                  src={"/pub4.jpg"}
                   alt="Gourmet plat de poulet"
                   loading="lazy"
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
@@ -189,6 +196,37 @@ const PubPage: React.FC = () => {
 
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Galerie du Pub" subtitle="Photos et vidéos publiées par l'administration" />
+          {publishedMedia.length > 0 ? (
+            <>
+              {showPhotoViewer ?
+                (<PhotoViewer images={publishedMedia} onClose={() => setShowPhotoViewer(false)} startIndex={currentPhotoIndex} />) :
+                (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                    {publishedMedia.map((src, i) => (src.type === 'image' && (
+                      <button key={i} onClick={() => openImage(i)} className="overflow-hidden rounded shadow-sm bg-gray-100 p-1" aria-label={`Ouvrir l'image ${i + 1}`}>
+                        <img src={src.url} alt={`Image ${i + 1}`} className="w-full h-40 object-cover transform hover:scale-105 transition" />
+                      </button>
+                    )))}
+                  </div>
+                )
+              }
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {publishedMedia.map((m, idx) => (m.type !== 'image' && (
+                  <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
+                    <video src={m.url} controls className="w-full h-64 object-fit" />
+                  </div>
+                )))}
+              </div>
+            </>
+          ) : (
+            <p className="text-gray-600">Aucun média publié pour le moment.</p>
+          )}
         </div>
       </section>
 
@@ -248,26 +286,6 @@ const PubPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <SectionTitle title="Galerie du Pub" subtitle="Photos et vidéos publiées par l'administration" />
-          {publishedMedia.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {publishedMedia.map((m, idx) => (
-                <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
-                  {m.type === 'image' ? (
-                    <img src={m.url} alt="Media Pub" loading="lazy" className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
-                  ) : (
-                    <video src={m.url} controls className="w-full h-64 object-cover" />
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-600">Aucun média publié pour le moment.</p>
-          )}
-        </div>
-      </section>
 
       {/* Section événements avec vos couleurs */}
       <section className="py-20 bg-grenat text-white relative">
@@ -284,7 +302,7 @@ const PubPage: React.FC = () => {
             <div className="group bg-accent/20 backdrop-blur-sm p-6 rounded-2xl border border-accent/30 transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:bg-accent/30">
               <div className="text-center">
                 <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl transform transition-transform duration-300 group-hover:rotate-12">
-                  🍹
+
                 </div>
                 <h3 className="font-bold text-xl mb-2 text-accent">Lundi</h3>
                 <h4 className="font-semibold mb-3 text-white">Cocktail Masterclass</h4>
@@ -296,7 +314,7 @@ const PubPage: React.FC = () => {
             <div className="group bg-accent/20 backdrop-blur-sm p-6 rounded-2xl border border-accent/30 transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:bg-accent/30">
               <div className="text-center">
                 <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl transform transition-transform duration-300 group-hover:rotate-12">
-                  🍷
+
                 </div>
                 <h3 className="font-bold text-xl mb-2 text-accent">Mercredi</h3>
                 <h4 className="font-semibold mb-3 text-white">Soirée Dégustation</h4>
@@ -308,7 +326,7 @@ const PubPage: React.FC = () => {
             <div className="group bg-accent/20 backdrop-blur-sm p-6 rounded-2xl border border-accent/30 transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:bg-accent/30">
               <div className="text-center">
                 <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl transform transition-transform duration-300 group-hover:rotate-12">
-                  🎷
+
                 </div>
                 <h3 className="font-bold text-xl mb-2 text-accent">Vendredi</h3>
                 <h4 className="font-semibold mb-3 text-white">Live Jazz Night</h4>
@@ -320,7 +338,7 @@ const PubPage: React.FC = () => {
             <div className="group bg-accent/20 backdrop-blur-sm p-6 rounded-2xl border border-accent/30 transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:bg-accent/30">
               <div className="text-center">
                 <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl transform transition-transform duration-300 group-hover:rotate-12">
-                  🎉
+
                 </div>
                 <h3 className="font-bold text-xl mb-2 text-accent">Samedi</h3>
                 <h4 className="font-semibold mb-3 text-white">Soirée Cocktail</h4>
@@ -361,7 +379,7 @@ const PubPage: React.FC = () => {
                   {/* Heures habituelles */}
                   <div className="bg-gradient-to-br from-primary-50 to-primary-100 p-6 rounded-xl border-l-4 border-primary-500">
                     <h3 className="font-serif text-xl font-semibold text-primary-800 mb-6 flex items-center">
-                      <span className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-sm mr-3">⏰</span>
+                      <span className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-sm mr-3"></span>
                       Heures habituelles
                     </h3>
 
@@ -384,7 +402,7 @@ const PubPage: React.FC = () => {
                   {/* Happy Hour */}
                   <div className="bg-gradient-to-br from-accent-50 to-accent-100 p-6 rounded-xl border-l-4 border-accent">
                     <h3 className="font-serif text-xl font-semibold text-primary-800 mb-6 flex items-center">
-                      <span className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-white text-sm mr-3">🍻</span>
+                      <span className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-white text-sm mr-3"></span>
                       Happy Hour
                     </h3>
 

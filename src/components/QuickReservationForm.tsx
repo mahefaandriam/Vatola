@@ -54,7 +54,7 @@ const QuickReservationForm: React.FC = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-luxury p-6">
-      <h3 className="font-serif text-xl md:text-2xl font-semibold text-primary-800 mb-4">Réservation rapide</h3>
+      <h3 className="font-serif text-xl md:text-2xl font-semibold text-primary-800 mb-4">Option Réservation rapide</h3>
       <p className="text-gray-600 mb-6">Laissez-nous vos coordonnées et vos préférences. Nous vous recontactons pour confirmer.</p>
       <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>

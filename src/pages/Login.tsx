@@ -110,7 +110,7 @@ export default function Login() {
 
       <SectionTitle
         title="Authentification"
-        subtitle="Heureux de vous revoir ! Entrez vos informations de connexion ci-dessous."
+        subtitle="Heureux de vous revoir ! Entrez vos informations de connexion ci-dessous. Ou créez un nouveau compte."
         alignment="left"
       />
 

@@ -215,7 +215,7 @@ const ContactPage: React.FC = () => {
                           <option value="" disabled>Sélectionner un sujet</option>
                           <option value="reservation">Réservation de chambres</option>
                           <option value="spa">Demande de renseignements sur le spa</option>
-                          <option value="spareservation">Réservation spa</option>
+                          <option value="spareservation">Réservation spa ou Piscine</option>
                           <option value="pub">Pub & Bar</option>
                           <option value="nailsalon">Salon de manucure</option>
                           <option value="feedback">Commentaire</option>

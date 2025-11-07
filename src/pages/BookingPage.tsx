@@ -9,9 +9,9 @@ const BookingPage: React.FC = () => {
       document.title = "Réservation - Vatola Hotel";
     }, []);
   return (
-    <div className="pt-20 md:pt-24">
-      <section className="bg-gray-200">
-        <div className="container mx-auto px-4 md:px-6">
+    <div className="pt-20 md:pt-24 bg-gray-200">
+      <section className="">
+        <div className="container mx-auto px-4 md:px-6 mt-10">
           {/*
           <SectionTitle
             title="Réservez Votre Séjour"
@@ -21,7 +21,7 @@ const BookingPage: React.FC = () => {
           <div className="max-w-3xl mx-auto">
             <BookingForm />
           </div>
-          <div className="max-w-3xl mx-auto mt-6">
+          <div className="max-w-3xl mx-auto mt-10 mb-10">
             <QuickReservationForm />
           </div>
         </div>

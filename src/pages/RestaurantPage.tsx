@@ -25,10 +25,6 @@ const RestaurantPage: React.FC = () => {
     load();
   }, []);
 
-  const imageUrls = [
-    { src: '1760290414611.jpg', alt: '' }, { src: 'bar.jpg', alt: '' }, { src: 'resto.webp', alt: '' }, { src: '1760290432809.jp', alt: '' }
-  ]
-
   const publishedAssets = assets.filter(a => a.published === true);
 
 
@@ -145,33 +141,29 @@ const RestaurantPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle title="Galerie Restaurant" subtitle="Photos et vidéos publiées par l'administration" />
           {publishedAssets.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {publishedAssets.map((m, idx) => (
-                <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
-                  {m.type === 'image' ? (
-                    <img src={m.url} alt="Media Restaurant" loading="lazy" className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
-                  ) : (
-                    <video src={m.url} controls className="w-full h-64 object-cover" />
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
             <>
               {showPhotoViewer ?
-                (<PhotoViewer images={imageUrls} onClose={() => setShowPhotoViewer(false)} startIndex={currentPhotoIndex} />) :
+                (<PhotoViewer images={publishedAssets} onClose={() => setShowPhotoViewer(false)} startIndex={currentPhotoIndex} />) :
                 (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                    {imageUrls.map((src, i) => (
+                    {publishedAssets.map((src, i) => (src.type === 'image' && (
                       <button key={i} onClick={() => openImage(i)} className="overflow-hidden rounded shadow-sm bg-gray-100 p-1" aria-label={`Ouvrir l'image ${i + 1}`}>
-                        <img src={src.src} alt={`Image ${i + 1}`} className="w-full h-40 object-cover transform hover:scale-105 transition" />
+                        <img src={src.url} alt={`Image ${i + 1}`} className="w-full h-40 object-cover transform hover:scale-105 transition" />
                       </button>
-                    ))}
+                    )))}
                   </div>
                 )
               }
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {publishedAssets.map((m, idx) => (m.type !== 'image' && (
+                  <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">                    
+                      <video src={m.url} controls className="w-full h-64 object-fit" />                   
+                  </div>
+                 )))}
+              </div>
             </>
-            /*<p className="text-gray-600">Aucun média publié pour le moment.</p>*/
+          ) : (
+            <p className="text-gray-600">Aucun média publié pour le moment.</p>
           )}
         </div>
       </section >

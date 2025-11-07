@@ -151,9 +151,10 @@ const BookingForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-luxury md:p-8">
+    <div className="bg-white rounded-lg shadow-luxury p-6 ">
       <h3 className="font-serif text-2xl font-semibold text-primary-800 mb-6">Réserver votre séjour en quelques clics</h3>
-      
+      <p className="text-gray-400 text-sm">Veuillez sélectionner une date correspondant à votre futur séjour chez nous.</p>
+     
       <form onSubmit={handleSubmit} className="space-y-6 my-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Check-in Date */}
@@ -288,7 +289,7 @@ const BookingForm: React.FC = () => {
                 ? (
                   <p className="text-gray-600 text-lg">Pour voir les chambres disponibles veilluez seletionnez une date.</p>
                 ) : (
-                  <p className="text-gray-600 text-lg">Pas de chambres correspondant à vos critères. S’il vous plaît ajuster vos filtres.</p>
+                  <p className="text-gray-600 text-lg">Les chambres ne sont pas disponibles à cette date. Vous pouvez nous contacter en cas de difficulté ou ajuster le filtre.</p>
                 )}
                 <p className="text-gray-400 text-sm">
                 En cas de difficultés à faire une réservation, n'hésitez pas à nous contacter au 
