@@ -64,7 +64,7 @@ export default function ForgotPassword() {
     setError(null);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://vatola.vercel.app/update-password',
+      redirectTo: 'https://www.hotelvatola.com/update-password',
     });
 
     if (error) {

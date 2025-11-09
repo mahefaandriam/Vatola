@@ -14,7 +14,8 @@ type Booking = {
   status: string;
   profiles?: {
     name?: string;
-    email?: string;  // ← ajouté ici
+    email?: string; 
+    phone?: string; // ← ajouté ici
   } | null;
   rooms?: { name?: string } | null;
 };
@@ -61,7 +62,8 @@ export default function Reservations() {
         night,
         created_at,
         status,
-        profiles (name,email),
+        profiles (name,email,phone),
+        user_info (name,email,phone),
         rooms (name)
       `);
 
@@ -94,6 +96,7 @@ export default function Reservations() {
     }));
 
     setBookings(formatted);
+    console.log(formatted)
 
     refreshCounts();
 
@@ -221,7 +224,7 @@ export default function Reservations() {
             <thead>
               <tr className="bg-gray-100">
                 <th>Client</th>
-                <th>Email</th>
+                <th>Email/Contact</th>
                 <th>Chambre</th>
                 <th>Début</th>
                 <th>Fin</th>
@@ -248,7 +251,7 @@ export default function Reservations() {
                   </td>
 
                   {/* Email du client */}
-                  <td>{booking.profiles?.email || "—"}</td>
+                  <td>{booking.profiles?.email + "/" + booking.profiles?.phone || "—"}</td>
 
 
                   {/* Chambre */}

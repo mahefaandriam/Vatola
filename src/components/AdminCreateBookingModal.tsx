@@ -78,7 +78,7 @@ export default function AdminCreateBookingModal({ open, onClose }: AdminCreateBo
       .from("user_info")
       .insert({
         name: clientName,
-        surname: clientName,
+        surname: clientSurName,
         birthday: formatDate(clientBirth),
         role: '',
         email: clientEmail,
@@ -99,7 +99,7 @@ export default function AdminCreateBookingModal({ open, onClose }: AdminCreateBo
 
     console.log("✅ Booking and user_info successfully linked!");
 
-    if (!bookingError && userInfoError && updateError) {
+    if (!bookingError && !userInfoError && !updateError) {
       alert("Réservation créée avec succès ✅");
       onClose();
       // Optionally reset form

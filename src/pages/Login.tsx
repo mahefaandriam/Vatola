@@ -51,6 +51,9 @@ export default function Login() {
 
   useEffect(() => {
     document.title = "Connexion - Vatola Hotel";
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirect = searchParams.get('redirect');
+    if (redirect) toast.warning("Pour pouvoir enregistrer votre réservation, veuillez vous connecter.")
   }, []);
 
 
@@ -68,8 +71,8 @@ export default function Login() {
         toast.error("Mauvais email ou mot de passe, veuillez réessayer ou créer un compte");
       } else if (error.message.includes("User not found")) {
         notifyError("Utilisateur non trouvé");
-      } else if (error.message.includes("Email not confirmed")){
-        toast.error("Adresse email non confirmée. Veuillez vérifier votre boîte mail");
+      } else if (error.message.includes("Email not confirmed")) {
+        toast.error("Adresse e-mail non confirmée. Veuillez vérifier votre boîte mail. Pensez également à consulter vos courriers indésirables (spam).");
       } else {
         toast.error("Erreur de connexion ou de réseau")
       }
@@ -97,7 +100,7 @@ export default function Login() {
           // VÉRIFICATION DU RÔLE
           if (profile && profile.role === 'admin') {
             notifySucces("Welcome Admin");
-            navigate('/admin');
+            navigate('/admin/chambres');
           } else {
             navigate('/profil');
           }

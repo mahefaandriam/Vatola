@@ -4,11 +4,30 @@ import { supabase } from '../lib/supabaseClient';
 import LogoutButton from '../components/LogoutButton';
 import { useAuth } from '../context/AuthContext';
 import SectionTitle from '../components/SectionTitle';
+import { toast } from 'react-toastify';
+
+type Booking = {
+  id: number;
+  check_in: string;
+  check_out: string;
+  people: string;
+  night: string;
+  created_at: string;
+  status: string;
+  total_price: string
+  profiles?: {
+    name?: string;
+    email?: string; 
+    phone?: string; // ← ajouté ici
+  } | null;
+  rooms?: { name?: string , type?: string} | null;
+};
+
 
 export default function Profile() {
   const { user } = useAuth();
   const [profile, setProfile] = useState({ name: '', surname: '', birthday: '' });
-  const [bookings, setBookings] = useState<any>([]);
+    const [bookings, setBookings] = useState<Booking[]>([]);
   // const [email, setEmail] = useState('');
 
   useEffect(() => {
@@ -35,10 +54,14 @@ export default function Profile() {
       .eq('user_id', userId)
       .order('check_in', { ascending: false });
     if (data && !error) {
-      const formatted = data.map((booking) => ({
+      const formatted = data.map((booking: any) => ({
         ...booking,
-        created_at: new Date(booking.created_at).toISOString().slice(0, 16).replace('T', ' ')
+        created_at: new Date(booking.created_at)
+          .toISOString()
+          .slice(0, 16)
+          .replace('T', ' ')
       }));
+
       setBookings(formatted)
     }
   };
@@ -57,15 +80,15 @@ export default function Profile() {
     if (!confirmation) return;
 
     const { error } = await supabase
-      .from('reservations')
+      .from('bookings')
       .update({ status: 'Annulée' })
       .eq('id', bookingId);
 
     if (!error) {
-      alert("Réservation annulée.");
+      toast.success("Réservation annulée.");
       loadBookings(user.id); // recharge les données
     } else {
-      alert("Erreur lors de l’annulation.");
+      toast.error("Erreur lors de l’annulation.");
     }
   };
 
@@ -85,7 +108,7 @@ export default function Profile() {
       .update(profile)
       .eq('id', user.id);
 
-    if (!error) alert("Profil mis à jour !");
+    if (!error) toast.success("Profil mis à jour !");
   };
 
   if (!user) return <p>Chargement...</p>;
@@ -201,48 +224,48 @@ export default function Profile() {
               </tr>
             </thead>
             <tbody>
-              {bookings.map((b: any) => {
+              {bookings.map((booking) => {
                 const now = new Date();
-                const start = new Date(b.check_in);
+                const start = new Date(booking.check_in);
                 const timeDiff = start.getTime() - now.getTime();
                 const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
 
                 return (
                   <tr
-                    key={b.id}
+                    key={booking.id}
                     className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200"
                   >
-                    <td className="p-3">{b.rooms?.type || '—'}</td>
-                    <td className="p-3">{b.check_in}</td>
-                    <td className="p-3">{b.check_out}</td>
-                    <td className="p-3">{b.people}</td>
-                    <td className="p-3">{b.night}</td>
-                    <td className="p-3 font-medium text-gray-800">{b.total_price} Ar</td>
+                    <td className="p-3">{booking.rooms?.type || '—'}</td>
+                    <td className="p-3">{booking.check_in}</td>
+                    <td className="p-3">{booking.check_out}</td>
+                    <td className="p-3">{booking.people}</td>
+                    <td className="p-3">{booking.night}</td>
+                    <td className="p-3 font-medium text-gray-800">{booking.total_price} Ar</td>
                     <td className="p-3">
                       <span
-                        className={`px-2 py-1 text-xs font-semibold rounded-full ${b.status === 'confirmed'
+                        className={`px-2 py-1 text-xs font-semibold rounded-full ${booking.status === 'confirmed'
                           ? 'bg-green-100 text-green-700'
-                          : b.status === 'pending'
+                          : booking.status === 'pending'
                             ? 'bg-yellow-100 text-yellow-700'
-                            : b.status === 'canceled'
+                            : booking.status === 'canceled'
                               ? 'bg-red-100 text-red-700'
                               : 'bg-gray-100 text-gray-600'
                           }`}
                       >
-                        {b.status === 'confirmed'
+                        {booking.status === 'confirmed'
                           ? 'Confirmé'
-                          : b.status === 'pending'
+                          : booking.status === 'pending'
                             ? 'En attente'
-                            : b.status === 'canceled'
+                            : booking.status === 'canceled'
                               ? 'Annulé'
-                              : b.status}
+                              : booking.status}
                       </span>
                     </td>
-                    <td className="p-3">{b.created_at}</td>
+                    <td className="p-3">{booking.created_at}</td>
                     <td className="p-3">
-                      {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
+                      {isMoreThan24h && (booking.status === 'confirmed' || booking.status === 'pending') && (
                         <button
-                          onClick={() => handleCancel(b.id)}
+                          onClick={() => handleCancel(booking.id)}
                           className="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition-colors duration-200 shadow-sm"
                         >
                           Annuler

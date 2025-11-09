@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useParams, Link , useSearchParams} from 'react-router-dom';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import SectionTitle from '../components/SectionTitle';
@@ -12,6 +12,7 @@ import { supabase } from '../lib/supabaseClient';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { useReservations } from '../context/ReservationContext';
+import { sendMessage } from '../lib/sendMessage';
 
 type Room = {
   id: string;
@@ -40,7 +41,7 @@ const RoomDetailPage: React.FC = () => {
   const checkIn = searchParams.get('check_in');
   const checkOut = searchParams.get('check_out');
   const adults = searchParams.get('adults');
-  const children = searchParams.get('children');  
+  const children = searchParams.get('children');
   const goto = searchParams.get('goto');
 
   const fetchReservationCount = async () => {
@@ -53,8 +54,8 @@ const RoomDetailPage: React.FC = () => {
       console.error('Erreur fetch reservations:', error.message);
       return 0;
     }
-    
-    if(!user){
+
+    if (!user) {
       return 0;
     }
 
@@ -64,8 +65,8 @@ const RoomDetailPage: React.FC = () => {
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
-    });    
-    
+    });
+
     document.title = room ? `${room.name} - Détails de la chambre` : 'Détails de la chambre';
   }, []);
 
@@ -116,15 +117,15 @@ const RoomDetailPage: React.FC = () => {
   }, [id]);
 
   const handleConfirmBooking = async () => {
-    if (!user) {    
+    if (!user) {
       // rediriger vers la page login
-      navigate(`/login?redirect=/rooms/${id}?check_in=${encodeURIComponent(checkIn || '')};check_out=${encodeURIComponent(checkOut|| ''
-                  )};adults=${adults ?? ''};children=${children ?? ''}`);
+      navigate(`/login?redirect=/rooms/${id}?check_in=${encodeURIComponent(checkIn || '')};check_out=${encodeURIComponent(checkOut || ''
+      )};adults=${adults ?? ''};children=${children ?? ''}`);
       return;
     }
 
     if (!room) {
-      alert("Aucune chambre sélectionnée pour la réservation.");
+      toast.warning("Aucune chambre sélectionnée pour la réservation.");
       return;
     }
 
@@ -156,28 +157,21 @@ const RoomDetailPage: React.FC = () => {
     if (!error) {
       toast.success("Merci, votre Réservation a été enregistrer avec succés, nous allons confirmer votre invitaion et vous repondre bientot !");
 
+      const formData = {
+        to: "fenoandriams@gmail.com",
+        name: user.name || '-',
+        email: user.email,
+        subject: `Nouvelle réservation`,
+        message: `Nouvelle réservation de ${user.name || '-'} pour ${room.name}`,
+      };
+      //sending email notification admin
+       await sendMessage(formData, (loading) => console.log("Loading:", loading));
+      
       const count = await fetchReservationCount();
       setCount(count ?? 0);
 
       setShowSummary(false);
       navigate(`/rooms/${id}`);
-      // Envoi de la notification
-      await supabase.from('notifications').insert([
-      {
-        type: 'booking',
-        message: `Nouvelle réservation de ${user.name} pour ${room.name}`,
-        data: {
-          user_id: user.id,
-          email: user.email,
-          checkIn,
-          checkOut,
-          adults: parseInt(adults ?? '0', 10),
-          children: parseInt(children ?? '0', 10),
-          totalPrice,
-          room: room.name,
-        },
-      },
-    ]);
     }
   };
 
@@ -195,13 +189,13 @@ const RoomDetailPage: React.FC = () => {
   if (!room) {
     return (
       <>
-        {loading 
+        {loading
           ? (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-accent-50">
               <div className="text-center">
                 <div className="relative">
                   <div className="animate-spin rounded-full h-20 w-20 border-4 border-primary-200 mx-auto"></div>
-                  <div className="animate-spin rounded-full h-20 w-20 border-4 border-accent border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2" style={{animationDuration: '0.8s'}}></div>
+                  <div className="animate-spin rounded-full h-20 w-20 border-4 border-accent border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2" style={{ animationDuration: '0.8s' }}></div>
                 </div>
                 <p className="text-primary-800 font-medium mt-4">Chargement des détails de la chambre...</p>
               </div>
@@ -209,7 +203,7 @@ const RoomDetailPage: React.FC = () => {
           )
           : (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-primary-50">
-              <motion.div 
+              <motion.div
                 className="text-center bg-white rounded-2xl p-12 shadow-2xl"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -233,12 +227,12 @@ const RoomDetailPage: React.FC = () => {
       </>
     );
   }
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Enhanced Booking Summary Section */}
       {showSummary && (
-        <motion.div 
+        <motion.div
           id='bookingSummary'
           className="sticky top-0 z-40 bg-white border-b-4 border-accent shadow-lg"
           initial={{ opacity: 0, y: -100 }}
@@ -261,11 +255,11 @@ const RoomDetailPage: React.FC = () => {
                 </div>
                 <div className="flex space-x-2">
                   <div className="w-3 h-3 bg-accent rounded-full animate-bounce"></div>
-                  <div className="w-3 h-3 bg-primary-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                  <div className="w-3 h-3 bg-accent rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  <div className="w-3 h-3 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-3 h-3 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 {[
                   { icon: <Star className="text-accent" size={20} />, label: 'Chambre', value: `${room.name} (${room.type})` },
@@ -295,28 +289,28 @@ const RoomDetailPage: React.FC = () => {
 
               <div className='flex justify-end gap-3'>
 
-              <div className=" ">
-                <motion.button
-                  className="border-2 border-accent bg-white text-accent font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
-                  onClick={() => (setShowSummary(false))}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <span>Annuler</span>
-                </motion.button>
-              </div>
+                <div className=" ">
+                  <motion.button
+                    className="border-2 border-accent bg-white text-accent font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                    onClick={() => (setShowSummary(false))}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span>Annuler</span>
+                  </motion.button>
+                </div>
 
-              <div className="flex justify-end">
-                <motion.button
-                  className="bg-gradient-to-r from-accent to-primary-600 hover:from-primary-600 hover:to-accent text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
-                  onClick={handleConfirmBooking}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <CheckCircle2 size={20} />
-                  <span>Confirmer Réservation</span>
-                </motion.button>
-              </div>
+                <div className="flex justify-end">
+                  <motion.button
+                    className="bg-gradient-to-r from-accent to-primary-600 hover:from-primary-600 hover:to-accent text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2"
+                    onClick={handleConfirmBooking}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <CheckCircle2 size={20} />
+                    <span>Confirmer Réservation</span>
+                  </motion.button>
+                </div>
               </div>
             </div>
           </div>
@@ -327,7 +321,7 @@ const RoomDetailPage: React.FC = () => {
       <div id='roomdetails' className={`${showSummary ? 'pt-20' : 'pt-34'} pb-16`}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
-            
+
             {/* Image Gallery - Enhanced */}
             <div className="xl:col-span-2">
               <motion.div
@@ -338,7 +332,7 @@ const RoomDetailPage: React.FC = () => {
               >
                 <Swiper
                   modules={[Pagination, Navigation]}
-                  pagination={{ 
+                  pagination={{
                     clickable: true,
                     bulletActiveClass: 'swiper-pagination-bullet-active bg-accent'
                   }}
@@ -363,7 +357,7 @@ const RoomDetailPage: React.FC = () => {
                     </SwiperSlide>
                   ))}
                 </Swiper>
-                
+
                 {/* Image Counter */}
                 <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium z-10">
                   {activeImageIndex + 1} / {room.images.length}
@@ -403,8 +397,8 @@ const RoomDetailPage: React.FC = () => {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {room.amenities.map((amenity, index) => (
-                    <motion.div 
-                      key={index} 
+                    <motion.div
+                      key={index}
                       className="flex items-center p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:translate-x-2 border border-gray-100"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -431,7 +425,7 @@ const RoomDetailPage: React.FC = () => {
                 {/* Room Info Card */}
                 <div className="bg-white rounded-xl shadow-2xl p-8 border border-gray-100 mb-6 relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-accent via-primary-600 to-accent"></div>
-                  
+
                   <div className="text-center mb-6">
                     <h1 className="font-serif text-3xl font-bold bg-gradient-to-r from-primary-800 to-accent bg-clip-text text-transparent mb-2">
                       {room.name}
@@ -528,8 +522,8 @@ const RoomDetailPage: React.FC = () => {
               subtitle="Découvrez le luxe et le confort de nos chambres en réservant votre séjour aujourd'hui."
             />
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl p-8 border border-gray-100"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}

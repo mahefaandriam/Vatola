@@ -3,6 +3,8 @@ import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import { toast } from 'react-toastify';
+import { sendMessage } from '../lib/sendMessage';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +21,7 @@ const ContactPage: React.FC = () => {
 
   const searchParams = new URLSearchParams(window.location.search);
   const subject = searchParams.get('subject') || '';
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -44,18 +46,28 @@ const ContactPage: React.FC = () => {
       }));
     }
   }, [subject]);
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       const { error } = await supabase.from('contacts').insert([formData]);
 
       if (error) {
-        alert("Erreur lors de l'envoi.");
+        toast.error("Erreur lors de l'envoi.");
       } else {
         setIsSubmitted(true);
+        toast.success("Message envoyé ")
+        const formD = {
+          to: "fenoandriams@gmail.com",
+          name: formData.name || '-',
+          email: formData.email,
+          subject: `Nouvelle message`,
+          message: `Nouvelle message de ${formData.name || '-'} pour ${formData.subject}`,
+        };
+        //sending email notification admin
+        await sendMessage(formD, (loading) => console.log("Loading:", loading));
         setTimeout(() => {
           setFormData({
             name: '',
@@ -68,7 +80,7 @@ const ContactPage: React.FC = () => {
         }, 3000);
       }
     } catch (error) {
-      alert("Erreur lors de l'envoi.");
+      toast.error("Erreur lors de l'envoi.");
     } finally {
       setIsSubmitting(false);
     }
@@ -115,7 +127,7 @@ const ContactPage: React.FC = () => {
       delay: "300ms"
     }
   ];
-  
+
   return (
     <div className="overflow-hidden">
       <Hero
@@ -125,7 +137,7 @@ const ContactPage: React.FC = () => {
         ctaText={undefined}
         height="h-[70vh]"
       />
-      
+
       {/* Section principale de contact */}
       <section className="py-20 bg-gradient-to-br from-white via-gray-50/30 to-white relative">
         {/* Éléments décoratifs de fond */}
@@ -137,18 +149,17 @@ const ContactPage: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
-              
+
               {/* Formulaire de contact */}
-              <div className={`xl:col-span-2 transform transition-all duration-1000 ${
-                isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-              }`}>
+              <div className={`xl:col-span-2 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                }`}>
                 <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-500 border border-gray-100">
                   <SectionTitle
                     title="Entrer en contact"
                     subtitle="Nous aimerions avoir de vos nouvelles. Veuillez remplir le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
                     alignment="left"
                   />
-                  
+
                   <form onSubmit={handleSubmit} className="space-y-8 mt-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="group">
@@ -166,7 +177,7 @@ const ContactPage: React.FC = () => {
                           placeholder="Votre nom complet"
                         />
                       </div>
-                      
+
                       <div className="group">
                         <label htmlFor="email" className="block text-gray-700 font-medium mb-3 transition-colors group-focus-within:text-accent">
                           Votre adresse Email*
@@ -183,7 +194,7 @@ const ContactPage: React.FC = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="group">
                         <label htmlFor="phone" className="block text-gray-700 font-medium mb-3 transition-colors group-focus-within:text-accent">
@@ -199,7 +210,7 @@ const ContactPage: React.FC = () => {
                           placeholder="+261 XX XXX XXX"
                         />
                       </div>
-                      
+
                       <div className="group">
                         <label htmlFor="subject" className="block text-gray-700 font-medium mb-3 transition-colors group-focus-within:text-accent">
                           Sujet*
@@ -223,7 +234,7 @@ const ContactPage: React.FC = () => {
                         </select>
                       </div>
                     </div>
-                    
+
                     <div className="group">
                       <label htmlFor="message" className="block text-gray-700 font-medium mb-3 transition-colors group-focus-within:text-accent">
                         Votre Message*
@@ -239,23 +250,22 @@ const ContactPage: React.FC = () => {
                         placeholder="Décrivez votre demande en détail..."
                       ></textarea>
                     </div>
-                    
+
                     <button
                       type="submit"
                       disabled={isSubmitting || isSubmitted}
-                      className={`group relative overflow-hidden font-medium py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent/20 ${
-                        isSubmitted 
-                          ? 'bg-green-500 text-white cursor-not-allowed' 
-                          : isSubmitting 
-                            ? 'bg-gray-400 text-white cursor-not-allowed' 
+                      className={`group relative overflow-hidden font-medium py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent/20 ${isSubmitted
+                          ? 'bg-green-500 text-white cursor-not-allowed'
+                          : isSubmitting
+                            ? 'bg-gray-400 text-white cursor-not-allowed'
                             : 'bg-accent hover:bg-gold-700 text-white hover:shadow-lg active:scale-95'
-                      }`}
+                        }`}
                     >
                       <span className="relative flex items-center justify-center space-x-2">
                         {isSubmitted ? (
                           <>
                             <CheckCircle size={20} />
-                            <span>Message envoyé ✅</span>
+                            <span>Message envoyé </span>
                           </>
                         ) : isSubmitting ? (
                           <>
@@ -273,19 +283,18 @@ const ContactPage: React.FC = () => {
                   </form>
                 </div>
               </div>
-              
+
               {/* Informations de contact */}
-              <div className={`transform transition-all duration-1000 delay-200 ${
-                isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-              }`}>
+              <div className={`transform transition-all duration-1000 delay-200 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                }`}>
                 <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 sticky top-8">
                   <h3 className="font-serif text-2xl font-bold text-primary-800 mb-8 text-center">
                     Nos Contacts
                   </h3>
-                  
+
                   <ul className="space-y-6">
                     {contactInfo.map((item, index) => (
-                      <li 
+                      <li
                         key={index}
                         className="group transform transition-all duration-500 hover:scale-105"
                         style={{ animationDelay: item.delay }}
@@ -312,34 +321,32 @@ const ContactPage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Section carte et directions */}
       <section id="map" className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className={`transform transition-all duration-1000 delay-300 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
+          <div className={`transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}>
             <SectionTitle
               title="Notre emplacement"
               subtitle="Idéalement situé pour votre commodité, avec un accès facile aux principales attractions."
             />
           </div>
-          
+
           <div className="max-w-6xl mx-auto">
             {/* Carte interactive */}
-            <div className={`transform transition-all duration-1000 delay-500 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}>
+            <div className={`transform transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+              }`}>
               <div className="bg-white rounded-2xl shadow-xl p-2 hover:shadow-2xl transition-all duration-500 group">
                 <div className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden relative">
-                  <iframe 
-                    title="Hôtel VATOLAHY Location" 
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5120.665207243884!2d47.030717!3d-19.859046!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21e50e5bedb8cd11%3A0x7bfd8f5b462bb3e5!2sHotel%20VATOLAHY!5e1!3m2!1sen!2smg!4v1751471802819!5m2!1sen!2smg" 
-                    width="100%" 
-                    height="400" 
+                  <iframe
+                    title="Hôtel VATOLAHY Location"
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5120.665207243884!2d47.030717!3d-19.859046!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21e50e5bedb8cd11%3A0x7bfd8f5b462bb3e5!2sHotel%20VATOLAHY!5e1!3m2!1sen!2smg!4v1751471802819!5m2!1sen!2smg"
+                    width="100%"
+                    height="400"
                     style={{ border: 0 }}
                     allowFullScreen={true}
-                    loading="lazy" 
+                    loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="rounded-xl transition-all duration-300"
                   />
@@ -347,11 +354,10 @@ const ContactPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Section directions améliorée */}
-            <div className={`mt-12 transform transition-all duration-1000 delay-700 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}>
+            <div className={`mt-12 transform transition-all duration-1000 delay-700 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+              }`}>
               <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-500 border border-gray-100">
                 <h3 className="font-serif text-2xl font-bold text-primary-800 mb-8 text-center">
                   Comment nous rejoindre
@@ -370,7 +376,7 @@ const ContactPage: React.FC = () => {
                       <p className="text-sm text-gray-500 mb-4">
                         Itinéraire et distance en temps réel via Google Maps.
                       </p>
-                      
+
                       <a
                         href="https://www.google.com/maps/dir/?api=1&origin=H%C3%B4tel+de+Ville+Antsirabe&destination=Hotel+VATOLAHY&travelmode=driving"
                         target="_blank"

@@ -81,9 +81,13 @@ export default function Register() {
           setLoading(false);
           return;
         }
+        
+          toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
       }
+      
+          toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
     } else {
-      toast.success('Inscription réussie !');
+      toast.success('Inscription réussie !. Veuillez consulter votre boîte e-mail.');
       navigate('/login');
     }
     setLoading(false);

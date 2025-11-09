@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Phone, Mail, User, ClipboardList, Send } from 'lucide-react';
+import { sendMessage } from '../lib/sendMessage';
+import { toast } from 'react-toastify';
 
 const QuickReservationForm: React.FC = () => {
   const [roomTypes, setRoomTypes] = useState<string[]>([]);
@@ -42,9 +44,19 @@ const QuickReservationForm: React.FC = () => {
       };
       const { error } = await supabase.from('web_reservations').insert([payload]);
       if (error) {
-        alert("Impossible d'enregistrer votre demande pour le moment. Veuillez nous contacter par téléphone ou email.");
+        toast.warning("Impossible d'enregistrer votre demande pour le moment. Veuillez nous contacter par téléphone ou email.");
       } else {
-        alert('Merci, votre demande a bien été envoyée. Notre équipe vous contactera rapidement.');
+        toast.success('Merci, votre demande a bien été envoyée. Notre équipe vous contactera rapidement.');
+        const formData = {
+          to: "fenoandriams@gmail.com",
+          name: form.name || "-",
+          email: "noUserEmailProdie@r.r",
+          subject: `Nouvelle réservation`,
+          message: `Nouvelle réservation rapide pour ${form.roomType || "-"}`,
+        };
+        //sending email notification admin
+        const result = await sendMessage(formData, (loading) => console.log("Loading:", loading));
+        console.log(result);
         setForm({ name: '', contact: '', roomType: '', people: 1, extraService: '' });
       }
     } finally {
@@ -53,7 +65,7 @@ const QuickReservationForm: React.FC = () => {
   };
 
   return (
-    <div  className="bg-white rounded-lg shadow-luxury p-6">
+    <div className="bg-white rounded-lg shadow-luxury p-6">
       <h3 className="font-serif text-xl md:text-2xl font-semibold text-primary-800 mb-4">Option Réservation rapide</h3>
       <p className="text-gray-600 mb-6">Laissez-nous vos coordonnées et vos préférences. Nous vous recontactons pour confirmer.</p>
       <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
