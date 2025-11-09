@@ -45,8 +45,10 @@ export default function Register() {
     if (signUpError) {
       if (signUpError.code === '23505' || signUpError.message.includes('already registered') || signUpError.message.includes('violates foreign key constraint')) {
         toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
+        setLoading(false);
         return;
       }
+      setLoading(false);
       return;
     }
 
@@ -56,6 +58,7 @@ export default function Register() {
     const user = signUpData.user;
     if (!user) {
       toast.error('Veuillez vérifier votre email pour confirmer votre inscription.');
+      setLoading(false);
       return;
     }
 
@@ -70,12 +73,12 @@ export default function Register() {
         phone: form.phone,
         birthday: form.birthday,
       }]);
-    console.log(profileError);
 
     if (profileError) {
       if (profileError) {
         if (profileError.message.includes('violates foreign key constraint')) {
           toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
+          setLoading(false);
           return;
         }
       }
@@ -198,7 +201,7 @@ export default function Register() {
           </div>
 
         </div>
-        
+
         {loading ? (
           <div className="col-span-2 flex items-center justify-center py-20">
             <div className="relative">

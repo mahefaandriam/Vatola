@@ -12,10 +12,12 @@ CREATE TABLE public.bookings (
   user_id uuid,
   night numeric,
   total_price numeric,
+  user_info_id bigint,
   CONSTRAINT bookings_pkey PRIMARY KEY (id),
   CONSTRAINT bookings_room_id_fkey FOREIGN KEY (room_id) REFERENCES public.rooms(id),
   CONSTRAINT bookings_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id),
-  CONSTRAINT bookings_user_id_fkey1 FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+  CONSTRAINT bookings_user_id_fkey1 FOREIGN KEY (user_id) REFERENCES public.profiles(id),
+  CONSTRAINT bookings_user_info_id_fkey FOREIGN KEY (user_info_id) REFERENCES public.user_info(id)
 );
 CREATE TABLE public.contacts (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -25,7 +27,7 @@ CREATE TABLE public.contacts (
   phone text,
   subject text,
   message text,
-  read bytea,
+  read boolean,
   CONSTRAINT contacts_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.media_assets (
@@ -152,6 +154,16 @@ CREATE TABLE public.spa_tariffs (
   notes text,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   CONSTRAINT spa_tariffs_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.user_info (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  surname text NOT NULL,
+  birthday date NOT NULL,
+  email text NOT NULL,
+  role text,
+  phone text NOT NULL,
+  CONSTRAINT user_info_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.web_reservations (
   id bigint NOT NULL DEFAULT nextval('web_reservations_id_seq'::regclass),

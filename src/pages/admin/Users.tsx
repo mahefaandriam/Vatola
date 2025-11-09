@@ -52,7 +52,7 @@ export default function ListUsers() {
           </div>
         </div>
       ) : (
-      <table className="w-full border border-gray-300 text-sm">
+      <table className="w-full border border-gray-300 text-xs">
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2 border border-gray-300">Nom</th>

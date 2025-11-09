@@ -1,20 +1,12 @@
 import React from "react";
 
 const LoadingComponents: React.FC = () => (
-    <div>
-        <div className="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
-            <div className="flex animate-pulse space-x-4">
-                <div className="size-10 rounded-full bg-gray-200"></div>
-                <div className="flex-1 space-y-6 py-1">
-                    <div className="h-2 rounded bg-gray-200"></div>
-                    <div className="space-y-3">
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="col-span-2 h-2 rounded bg-gray-200"></div>
-                            <div className="col-span-1 h-2 rounded bg-gray-200"></div>
-                        </div>
-                        <div className="h-2 rounded bg-gray-200"></div>
-                    </div>
-                </div>
+    <div className="col-span-2 flex items-center justify-center py-20">
+        <div className="relative">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-200"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-accent border-t-transparent absolute top-0 left-0" style={{ animationDuration: '0.8s' }}></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-3 h-3 bg-primary-600 rounded-full animate-pulse"></div>
             </div>
         </div>
     </div>

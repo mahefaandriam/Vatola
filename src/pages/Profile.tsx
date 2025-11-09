@@ -25,13 +25,22 @@ export default function Profile() {
         id,
         check_in,
         check_out,
+        people,
+        night,
         total_price,
         status,
+        created_at,
         rooms ( type )
       `)
       .eq('user_id', userId)
       .order('check_in', { ascending: false });
-    if (data && !error) setBookings(data);
+    if (data && !error) {
+      const formatted = data.map((booking) => ({
+        ...booking,
+        created_at: new Date(booking.created_at).toISOString().slice(0, 16).replace('T', ' ')
+      }));
+      setBookings(formatted)
+    }
   };
 
   const loadProfile = async (userId: any) => {
@@ -177,14 +186,17 @@ export default function Profile() {
         {bookings.length === 0 ? (
           <p>Aucune réservation pour le moment.</p>
         ) : (
-          <table className="w-full border border-accent/30 text-sm rounded-xl shadow-sm overflow-hidden">
+          <table className="w-full border border-accent/30 text-xs rounded-xl shadow-sm overflow-hidden">
             <thead>
               <tr className="bg-accent text-white">
                 <th className="p-3 text-left font-semibold">Chambre</th>
                 <th className="p-3 text-left font-semibold">Début</th>
                 <th className="p-3 text-left font-semibold">Fin</th>
+                <th className="p-3 text-left font-semibold">Personnes</th>
+                <th className="p-3 text-left font-semibold">Nuit</th>
                 <th className="p-3 text-left font-semibold">Prix</th>
                 <th className="p-3 text-left font-semibold">Statut</th>
+                <th className="p-3 text-left font-semibold">Créé le</th>
                 <th className="p-3 text-left font-semibold">Action</th>
               </tr>
             </thead>
@@ -203,16 +215,18 @@ export default function Profile() {
                     <td className="p-3">{b.rooms?.type || '—'}</td>
                     <td className="p-3">{b.check_in}</td>
                     <td className="p-3">{b.check_out}</td>
+                    <td className="p-3">{b.people}</td>
+                    <td className="p-3">{b.night}</td>
                     <td className="p-3 font-medium text-gray-800">{b.total_price} Ar</td>
                     <td className="p-3">
                       <span
                         className={`px-2 py-1 text-xs font-semibold rounded-full ${b.status === 'confirmed'
-                            ? 'bg-green-100 text-green-700'
-                            : b.status === 'pending'
-                              ? 'bg-yellow-100 text-yellow-700'
-                              : b.status === 'canceled'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-gray-100 text-gray-600'
+                          ? 'bg-green-100 text-green-700'
+                          : b.status === 'pending'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : b.status === 'canceled'
+                              ? 'bg-red-100 text-red-700'
+                              : 'bg-gray-100 text-gray-600'
                           }`}
                       >
                         {b.status === 'confirmed'
@@ -224,6 +238,7 @@ export default function Profile() {
                               : b.status}
                       </span>
                     </td>
+                    <td className="p-3">{b.created_at}</td>
                     <td className="p-3">
                       {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
                         <button

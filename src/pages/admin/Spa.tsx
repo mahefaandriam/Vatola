@@ -126,7 +126,7 @@ export default function AdminSpa() {
             </form>
 
             <div className="overflow-x-scroll mt-4">
-              <table className="min-w-200 border border-gray-300 bg-white text-sm">
+              <table className="min-w-200 border border-gray-300 bg-white text-xs">
                 <thead>
                   <tr className="bg-gray-100">
                     <th>Intitulé</th>

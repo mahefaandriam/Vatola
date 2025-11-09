@@ -200,7 +200,7 @@ const Rooms: React.FC = () => {
                     </form>
                 </div>
                 <div className='overflow-x-scroll'>
-                    <table className="min-w-200 w-full mt-6 text-sm">
+                    <table className="min-w-200 w-full mt-6 text-xs">
                         <thead>
                             <tr>
                                 <th >Nom</th>

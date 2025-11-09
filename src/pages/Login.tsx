@@ -65,11 +65,13 @@ export default function Login() {
 
     if (error) {
       if (error.message.includes("Invalid login credentials")) {
-        toast.error("Mauvais email ou mot de passe, veuillez réessayer ou créer un compte.");
+        toast.error("Mauvais email ou mot de passe, veuillez réessayer ou créer un compte");
       } else if (error.message.includes("User not found")) {
         notifyError("Utilisateur non trouvé");
+      } else if (error.message.includes("Email not confirmed")){
+        toast.error("Adresse email non confirmée. Veuillez vérifier votre boîte mail");
       } else {
-        toast.error(error.message);
+        toast.error("Erreur de connexion ou de réseau")
       }
     } else {
       // RECHERCHE DU PROFIL DANS LA TABLE "profiles"

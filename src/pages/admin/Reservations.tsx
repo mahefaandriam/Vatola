@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import LoadingComponents from '../../components/LoadingComponents';
+import { useUnread } from '../../context/UnreadContext';
+import AdminCreateBookingModal from '../../components/AdminCreateBookingModal';
 
 type Booking = {
   id: number;
   check_in: string;
   check_out: string;
+  people: string;
+  night: string;
+  created_at: string;
   status: string;
-  profiles?: { 
-    name?: string; 
+  profiles?: {
+    name?: string;
     email?: string;  // ← ajouté ici
   } | null;
   rooms?: { name?: string } | null;
@@ -34,6 +39,8 @@ export default function Reservations() {
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const { refreshCounts } = useUnread();
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (activeTab === 'bookings') fetchBookings();
@@ -50,19 +57,19 @@ export default function Reservations() {
         id,
         check_in,
         check_out,
+        people,
+        night,
+        created_at,
         status,
         profiles (name,email),
         rooms (name)
       `);
-      console.log(bookings);
 
     if (statusFilter !== 'all') {
       query = query.eq('status', statusFilter);
     }
 
     const { data, error } = await query;
-
-
 
     if (error) {
       console.error('Erreur chargement des réservations :', error.message);
@@ -81,7 +88,15 @@ export default function Reservations() {
       (booking.profiles?.name || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    setBookings(filtered);
+    const formatted = filtered.map((booking) => ({
+      ...booking,
+      created_at: new Date(booking.created_at).toISOString().slice(0, 16).replace('T', ' ')
+    }));
+
+    setBookings(formatted);
+
+    refreshCounts();
+
     setLoading(false);
   };
 
@@ -147,17 +162,27 @@ export default function Reservations() {
       <div className="flex items-center gap-3 mb-4">
         <button
           onClick={() => setActiveTab('bookings')}
-          className={`px-4 py-2 rounded ${activeTab === 'bookings' ? 'bg-primary-800 text-white' : 'bg-gray-100 text-gray-700'}`}
+          className={`px-4 py-2 rounded ${activeTab === 'bookings' ? 'bg-primary-800 text-white' : 'bg-gray-100 text-accent border-2 border-accent'}`}
         >
           Réservations chambres
         </button>
         <button
           onClick={() => setActiveTab('web')}
-          className={`px-4 py-2 rounded ${activeTab === 'web' ? 'bg-primary-800 text-white' : 'bg-gray-100 text-gray-700'}`}
+          className={`px-4 py-2 rounded ${activeTab === 'web' ? 'bg-primary-800 text-white' : 'bg-gray-100 text-accent border-2 border-accent'}`}
         >
-          Réservations rapides (web)
+          Réservations rapides
+        </button>
+        <button
+          onClick={() => setOpenModal(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Créer une réservation
         </button>
       </div>
+      <AdminCreateBookingModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+      />
 
       <div className="mb-4 flex items-center gap-4 ">
         <div className="mb-4">
@@ -192,113 +217,118 @@ export default function Reservations() {
         <LoadingComponents />
       ) : activeTab === 'bookings' ? (
         <div className='overflow-x-scroll'>
-<table className="min-w-200 border border-gray-300 bg-white overflow-x-scroll text-sm">
-  <thead>
-    <tr className="bg-gray-100">
-      <th>Client</th>
-      <th>Email</th>
-      <th>Chambre</th>
-      <th>Début</th>
-      <th>Fin</th>
-      <th>Statut</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {bookings.map((booking) => (
-      <tr key={booking.id} className="hover:bg-gray-50">
-        {/* Nom du client */}
-        <td
-          style={{
-            position: "sticky",
-            left: 0,
-            background: "#fff",
-            zIndex: 2,
-          }}
-        >
-          {booking.profiles?.name || "—"}
-        </td>
+          <table className="min-w-200 border border-gray-300 bg-white overflow-x-scroll text-xs">
+            <thead>
+              <tr className="bg-gray-100">
+                <th>Client</th>
+                <th>Email</th>
+                <th>Chambre</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Personnes</th>
+                <th>Nuit</th>
+                <th>Créée le</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings.map((booking) => (
+                <tr key={booking.id} className="hover:bg-gray-50">
+                  {/* Nom du client */}
+                  <td
+                    style={{
+                      position: "sticky",
+                      left: 0,
+                      background: "#fff",
+                      zIndex: 2,
+                    }}
+                  >
+                    {booking.profiles?.name || "—"}
+                  </td>
 
-        {/* Email du client */}
-       <td>{booking.profiles?.email || "—"}</td>
+                  {/* Email du client */}
+                  <td>{booking.profiles?.email || "—"}</td>
 
 
-        {/* Chambre */}
-        <td>{booking.rooms?.name || "—"}</td>
+                  {/* Chambre */}
+                  <td>{booking.rooms?.name || "—"}</td>
 
-        {/* Dates */}
-        <td>{booking.check_in}</td>
-        <td>{booking.check_out}</td>
+                  {/* Dates */}
+                  <td>{booking.check_in}</td>
+                  <td>{booking.check_out}</td>
+                  <td>{booking.people}</td>
+                  <td>{booking.night}</td>
+                  <td>{booking.created_at}</td>
 
-        {/* Statut */}
-        <td>
-          <span
-            className={`px-2 py-1 text-sm rounded ${
-              booking.status === "confirmed"
-                ? "bg-green-200 text-green-800"
-                : booking.status === "canceled"
-                ? "bg-red-200 text-red-800"
-                : "bg-yellow-100 text-yellow-700"
-            }`}
-          >
-            {booking.status === "confirmed"
-              ? "Confirmé"
-              : booking.status === "canceled"
-              ? "Annulé"
-              : "En attente"}
-          </span>
-        </td>
+                  {/* Statut */}
+                  <td>
+                    <span
+                      className={`px-2 py-1 text-sm rounded ${booking.status === "confirmed"
+                        ? "bg-green-200 text-green-800"
+                        : booking.status === "canceled"
+                          ? "bg-red-200 text-red-800"
+                          : "bg-yellow-100 text-yellow-700"
+                        }`}
+                    >
+                      {booking.status === "confirmed"
+                        ? "Confirmé"
+                        : booking.status === "canceled"
+                          ? "Annulé"
+                          : "En attente"}
+                    </span>
+                  </td>
 
-        {/* Actions */}
-        <td>
-          {booking.status === "confirmed" && (
-            <button
-              onClick={() => {
-                if (
-                  confirm("Es-tu sûr de vouloir annuler cette réservation ?")
-                ) {
-                  updateStatus(booking.id, "canceled");
-                }
-              }}
-              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-            >
-              Annuler
-            </button>
-          )}
+                  {/* Actions */}
+                  <td>
+                    {booking.status === "confirmed" && (
+                      <button
+                        onClick={() => {
+                          if (
+                            confirm("Es-tu sûr de vouloir annuler cette réservation ?")
+                          ) {
+                            updateStatus(booking.id, "canceled");
+                          }
+                        }}
+                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                      >
+                        Annuler
+                      </button>
+                    )}
 
-          {booking.status === "pending" && (
-            <>
-              <button
-                onClick={() => updateStatus(booking.id, "confirmed")}
-                className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600"
-              >
-                Confirmer
-              </button>
-              <button
-                onClick={() => {
-                  if (
-                    confirm("Es-tu sûr de vouloir annuler cette réservation ?")
-                  ) {
-                    updateStatus(booking.id, "canceled");
-                  }
-                }}
-                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-              >
-                Annuler
-              </button>
-            </>
-          )}
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+                    {booking.status === "pending" && (
+                      <>
+                        <button
+                          onClick={() => updateStatus(booking.id, "confirmed")}
+                          className="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600"
+                        >
+                          Confirmer
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (
+                              confirm("Es-tu sûr de vouloir annuler cette réservation ?")
+                            ) {
+                              updateStatus(booking.id, "canceled");
+                            }
+                          }}
+                          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                        >
+                          Annuler
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-</div>
+        </div>
 
       ) : (
         <div className='overflow-x-scroll'>
-          <table className="min-w-200 border border-gray-300 bg-white overflow-x-scroll text-sm">
+          <table className="min-w-200 border border-gray-300 bg-white overflow-x-scroll text-xs">
             <thead>
               <tr className="bg-gray-100">
                 <th>Nom</th>
@@ -321,13 +351,12 @@ export default function Reservations() {
                   <td>{r.extra_service || '—'}</td>
                   <td>
                     <span
-                      className={`px-2 py-1 text-sm rounded ${
-                        r.status === 'processed'
-                          ? 'bg-green-200 text-green-800'
-                          : r.status === 'canceled'
+                      className={`px-2 py-1 text-sm rounded ${r.status === 'processed'
+                        ? 'bg-green-200 text-green-800'
+                        : r.status === 'canceled'
                           ? 'bg-red-200 text-red-800'
                           : 'bg-yellow-100 text-yellow-700'
-                      }`}
+                        }`}
                     >
                       {r.status || 'pending'}
                     </span>
