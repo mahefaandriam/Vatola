@@ -30,6 +30,13 @@ CREATE TABLE public.contacts (
   read boolean,
   CONSTRAINT contacts_pkey PRIMARY KEY (id)
 );
+CREATE TABLE public.email_notif (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  email text,
+  notify boolean,
+  CONSTRAINT email_notif_pkey PRIMARY KEY (id)
+);
 CREATE TABLE public.media_assets (
   id bigint NOT NULL DEFAULT nextval('media_assets_id_seq'::regclass),
   category text NOT NULL CHECK (category = ANY (ARRAY['hotel'::text, 'restaurant'::text, 'pub'::text, 'spa'::text])),
@@ -163,6 +170,7 @@ CREATE TABLE public.user_info (
   email text NOT NULL,
   role text,
   phone text NOT NULL,
+  name text,
   CONSTRAINT user_info_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.web_reservations (
