@@ -32,7 +32,7 @@ export default function ListUsers() {
 
   return (
     <div className="pl-5">
-      <h1 className="text-2xl font-bold mb-4">Utilisateurs</h1>
+      <h1 className="text-2xl font-bold mb-4">Clients</h1>
             {loading ? (
         <div>
            <div className="mx-auto w-full max-w-sm rounded-md border border-gray-300 border-gray-300-blue-300 p-4">
