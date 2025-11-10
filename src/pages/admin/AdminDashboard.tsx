@@ -1,8 +1,8 @@
 // pages/admin/AdminDashboard.jsx
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { Bed, Beer, House, Laugh, MessageCircle, Users, Image as ImageIcon, } from 'lucide-react';
+import { Bed, Beer, House, Laugh, MessageCircle, Users, Image as ImageIcon, Settings, } from 'lucide-react';
 import Reservations from './Reservations';
 import Rooms from './Rooms';
 import NailsServices from './NailsServieces';
@@ -13,6 +13,7 @@ import AdminSpa from './Spa';
 import AdminMedia from './Media';
 import AdminSocials from './Socials';
 import { useUnread } from '../../context/UnreadContext';
+import AdminParametre from './AdminParametre';
 
 export default function AdminDashboard() {
   const { msgUnreadCount, roomUnreadCount } = useUnread();
@@ -155,6 +156,19 @@ export default function AdminDashboard() {
             </Link>
           </div>
 
+          <div
+            className={`mx-3 py-2 rounded-lg flex items-center justify-center  hover:text-black text-gray-500 cursor-pointer
+              ${location.pathname.includes('/admin/parametre') ? 'bg-gray-300 text-gray-100' : 'bg-none'}
+            `}
+          >
+            <Link
+              to="/admin/parametre"
+            >
+              <Settings size={20} />
+            </Link>
+          </div>
+
+
         </div>
         <div>
           a
@@ -171,6 +185,7 @@ export default function AdminDashboard() {
           <Route path="media" element={<AdminMedia />} />
           <Route path="socials" element={<AdminSocials />} />
           <Route path="contacts" element={<Contacts />} />
+          <Route path="parametre" element={<AdminParametre />} />
         </Routes>
       </div>
     </>
