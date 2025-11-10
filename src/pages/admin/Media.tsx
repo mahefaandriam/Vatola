@@ -95,7 +95,7 @@ export default function AdminMedia() {
             </select>
             <select className="border border-gray-300 px-3 py-2 rounded" value={type} onChange={(e) => setType(e.target.value as any)}>
               <option value="image">Image</option>
-              <option value="video">Vidéo</option>
+              <option value="video">Vidéo{'(short vidéo, > 50mo)'}</option>
             </select>
             <input className="border border-gray-300 px-3 py-2 rounded md:col-span-2" placeholder="Titre (optionnel)" value={title} onChange={(e) => setTitle(e.target.value)} />
             <input type="file" accept="image/*,video/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); }} disabled={uploading} />

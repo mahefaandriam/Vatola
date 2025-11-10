@@ -26,6 +26,7 @@ export default function Register() {
   const [inputPasswordHover, setInputPasswordHover] = useState(false);
 
   const handleRegister = async (e: { preventDefault: () => void; }) => {
+
     if (!isPasswordValid(form.password)) {
       toast.error("Le mot de passe doit: Au moins 8 caractères, une majuscule, un caractère spécial");
       e.preventDefault();
@@ -44,8 +45,10 @@ export default function Register() {
     if (signUpError) {
       if (signUpError.code === '23505' || signUpError.message.includes('already registered') || signUpError.message.includes('violates foreign key constraint')) {
         toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
+        setLoading(false);
         return;
       }
+      setLoading(false);
       return;
     }
 
@@ -55,6 +58,7 @@ export default function Register() {
     const user = signUpData.user;
     if (!user) {
       toast.error('Veuillez vérifier votre email pour confirmer votre inscription.');
+      setLoading(false);
       return;
     }
 
@@ -65,19 +69,25 @@ export default function Register() {
         id: user.id,
         name: form.name,
         surname: form.surname,
+        email: form.email,
+        phone: form.phone,
         birthday: form.birthday,
       }]);
-    console.log(profileError);
 
     if (profileError) {
       if (profileError) {
         if (profileError.message.includes('violates foreign key constraint')) {
           toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
+          setLoading(false);
           return;
         }
+        
+          toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
       }
+      
+          toast.error('Cet email ou numéro de téléphone est déjà utilisé.');
     } else {
-      toast.success('Inscription réussie !');
+      toast.success('Inscription réussie !. Veuillez consulter votre boîte e-mail.');
       navigate('/login');
     }
     setLoading(false);
@@ -154,15 +164,19 @@ export default function Register() {
             className='w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent'
           />
         </div>
+
         <div>
+
           <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
             Créez un mot de passe*
           </label>
+
           <div
             className={`flex justify-between group w-full p-3 border border-gray-300 rounded-md ${inputPasswordFocucs ? 'ring-2 ring-accent' : 'ring-0'}`}
             onMouseEnter={() => setInputPasswordHover(true)}
             onMouseLeave={() => setInputPasswordHover(false)}
           >
+
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
@@ -175,6 +189,7 @@ export default function Register() {
               onFocus={() => setInputPasswordFocucs(true)}
               onBlur={() => setInputPasswordFocucs(false)}
             />
+
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -186,8 +201,11 @@ export default function Register() {
                 <Eye className={`h-5 w-5 ${inputPasswordHover ? 'text-accent' : 'text-accent/80'} transition-colors duration-500`} aria-hidden="true" />
               )}
             </button>
+
           </div>
+
         </div>
+
         {loading ? (
           <div className="col-span-2 flex items-center justify-center py-20">
             <div className="relative">

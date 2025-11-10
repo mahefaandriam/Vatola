@@ -5,32 +5,40 @@ import ServiceCard from '../components/ServiceCard';
 import { spaServices } from '../data/services';
 import { supabase } from '../lib/supabaseClient';
 import { Leaf, Phone } from 'lucide-react';
+import PhotoViewer from "../components/PhotoViewer";
 
 const SpaPage: React.FC = () => {
   const [media, setMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
   const [assetMedia, setAssetMedia] = useState<{ id: number; url: string; type: 'image' | 'video'; published?: boolean | null; }[]>([]);
   const [tariffs, setTariffs] = useState<{ id: number; label: string; price: number; notes?: string | null; }[]>([]);
+  const [showPhotoViewer, setShowPhotoViewer] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   useEffect(() => {
-      document.title = "Spa & Bien-être - Vatola Hotel";
-      const load = async () => {
-        const [{ data: mediaData }, { data: tariffData }] = await Promise.all([
-          supabase.from('spa_media').select('id, url, type, published').order('created_at', { ascending: false }),
-          supabase.from('spa_tariffs').select('id, label, price, notes').order('created_at', { ascending: false })
-        ]);
-        setMedia((mediaData as any[]) || []);
-        setTariffs((tariffData as any[]) || []);
-        try {
-          const { data: assetsData } = await supabase
-            .from('media_assets')
-            .select('id, url, type, category, published')
-            .eq('category', 'spa')
-            .order('created_at', { ascending: false });
-          setAssetMedia(((assetsData as any[]) || []).map(a => ({ id: a.id, url: a.url, type: a.type as 'image' | 'video', published: a.published })));
-        } catch (_) {}
-      };
-      load();
-    }, []);
+    document.title = "Spa & Bien-être - Vatola Hotel";
+    const load = async () => {
+      const [{ data: mediaData }, { data: tariffData }] = await Promise.all([
+        supabase.from('spa_media').select('id, url, type, published').order('created_at', { ascending: false }),
+        supabase.from('spa_tariffs').select('id, label, price, notes').order('created_at', { ascending: false })
+      ]);
+      setMedia((mediaData as any[]) || []);
+      setTariffs((tariffData as any[]) || []);
+      try {
+        const { data: assetsData } = await supabase
+          .from('media_assets')
+          .select('id, url, type, category, published')
+          .eq('category', 'spa')
+          .order('created_at', { ascending: false });
+        setAssetMedia(((assetsData as any[]) || []).map(a => ({ id: a.id, url: a.url, type: a.type as 'image' | 'video', published: a.published })));
+      } catch (_) { }
+    };
+    load();
+  }, []);
+
+  function openImage(i: number): void {
+    setCurrentPhotoIndex(i);
+    setShowPhotoViewer(true);
+  }
 
   const publishedMedia = [...media, ...assetMedia].filter(m => m.published === true);
 
@@ -44,7 +52,7 @@ const SpaPage: React.FC = () => {
         ctaLink='/contact'
         height="h-[70vh]"
       />
-      
+
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -64,7 +72,7 @@ const SpaPage: React.FC = () => {
                 Des massages revigorants aux soins du visage réparateurs, chaque soin est conçu pour favoriser le bien-être et la relaxation. Notre approche holistique garantit que vous quittez la maison rafraîchie, équilibrée et pleine de vitalité.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <img
                 src={(publishedMedia[0]?.url) || "/spa2.webp"}
@@ -94,20 +102,51 @@ const SpaPage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionTitle title="Galerie Spa" subtitle="Photos et vidéos publiées par l'administration" />
+          {publishedMedia.length > 0 ? (
+            <>
+              {showPhotoViewer ?
+                (<PhotoViewer images={publishedMedia} onClose={() => setShowPhotoViewer(false)} startIndex={currentPhotoIndex} />) :
+                (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                    {publishedMedia.map((src, i) => (src.type === 'image' && (
+                      <button key={i} onClick={() => openImage(i)} className="overflow-hidden rounded shadow-sm bg-gray-100 p-1" aria-label={`Ouvrir l'image ${i + 1}`}>
+                        <img src={src.url} alt={`Image ${i + 1}`} className="w-full h-40 object-cover transform hover:scale-105 transition" />
+                      </button>
+                    )))}
+                  </div>
+                )
+              }
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {publishedMedia.map((m, idx) => (m.type !== 'image' && (
+                  <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
+                    <video src={m.url} controls className="w-full h-64 object-fit" />
+                  </div>
+                )))}
+              </div>
+            </>
+          ) : (
+            <p className="text-gray-600">Aucun média publié pour le moment.</p>
+          )}
+        </div>
+      </section>
+
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle
             title="Nos traitements exclusifs"
             subtitle=""
           />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {spaServices.map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
-          
+
           <div className="mt-12 text-center flex item-center justify-center">
             <a
               href="tel:+15551234567"
@@ -121,30 +160,9 @@ const SpaPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-6">
-          <SectionTitle title="Galerie Spa" subtitle="Photos et vidéos publiées par l'administration" />
-          {publishedMedia.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {publishedMedia.map((m, idx) => (
-                <div key={m.id ?? idx} className="group relative overflow-hidden rounded-lg shadow-luxury">
-                  {m.type === 'image' ? (
-                    <img src={m.url} alt="Media Spa" loading="lazy" className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
-                  ) : (
-                    <video src={m.url} controls className="w-full h-64 object-cover" />
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-600">Aucun média publié pour le moment.</p>
-          )}
-        </div>
-      </section>
-
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionTitle title="Tarifs Piscine & Spa" subtitle="Tarification en Ariary (AR). Bonnet obligatoire pour la piscine." />
+          <SectionTitle title="Tarifs Piscine Ou Spa" subtitle="Tarification en Ariary (AR). Bonnet obligatoire pour la piscine." />
           {tariffs.length > 0 ? (
             <div className="grid grid-cols-1 gap-8">
               <div className="bg-gray-50 rounded-lg p-6 shadow-luxury">
@@ -358,7 +376,7 @@ const SpaPage: React.FC = () => {
         </div>
       </section>
       */}
-         
+
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -375,7 +393,7 @@ const SpaPage: React.FC = () => {
                 Onglerie : Manucures soignées, poses de vernis classiques ou semi-permanents, nail art… chaque geste est réalisé avec précision pour des mains impeccables et raffinées.
               </p>
               <p className="text-gray-600 mb-6">
-               Coiffure : Du simple brushing aux coupes tendances, en passant par les soins capillaires ou les coiffures événementielles, notre salon vous garantit des résultats à la hauteur de vos envies.
+                Coiffure : Du simple brushing aux coupes tendances, en passant par les soins capillaires ou les coiffures événementielles, notre salon vous garantit des résultats à la hauteur de vos envies.
               </p>
               <p className="text-gray-600 mb-6">
                 Pédicure : Accordez une attention particulière à vos pieds grâce à nos soins pédicure, alliant hygiène, confort et esthétisme, pour une sensation de légèreté absolue.
@@ -384,7 +402,7 @@ const SpaPage: React.FC = () => {
                 Nos salons sont conçus comme un véritable cocon de bien-être, où la beauté devient un art, et chaque client(e) une priorité.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <img
                 src="/nails.jpg"
@@ -414,8 +432,8 @@ const SpaPage: React.FC = () => {
           </div>
         </div>
       </section>
-      
-       <section className="py-20 bg-white">
+
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
@@ -439,7 +457,7 @@ const SpaPage: React.FC = () => {
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
-              
+
             </div>
 
             <div>
@@ -449,19 +467,19 @@ const SpaPage: React.FC = () => {
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-              Offrez-vous un moment de détente ultime dans notre jacuzzi exceptionnel, alimenté directement par la 
-              célèbre eau de source de Ranovisy, réputée pour sa pureté et ses vertus bienfaisantes. Niché dans un 
-              cadre naturel apaisant, notre jacuzzi combine les bienfaits de l’hydrothérapie avec ceux d’une eau
-               naturellement riche en minéraux, pour une expérience de bien-être revitalisante.
+                Offrez-vous un moment de détente ultime dans notre jacuzzi exceptionnel, alimenté directement par la
+                célèbre eau de source de Ranovisy, réputée pour sa pureté et ses vertus bienfaisantes. Niché dans un
+                cadre naturel apaisant, notre jacuzzi combine les bienfaits de l’hydrothérapie avec ceux d’une eau
+                naturellement riche en minéraux, pour une expérience de bien-être revitalisante.
               </p>
               <p className="text-gray-600 mb-6">
-                Laissez les bulles vous masser en douceur pendant que l’eau de source vous enveloppe, procurant une sensation de 
-                relaxation profonde. Que ce soit après une journée d’excursion ou simplement pour se reconnecter à soi-même, ce 
+                Laissez les bulles vous masser en douceur pendant que l’eau de source vous enveloppe, procurant une sensation de
+                relaxation profonde. Que ce soit après une journée d’excursion ou simplement pour se reconnecter à soi-même, ce
                 moment dans notre jacuzzi est un véritable rituel de ressourcement.
               </p>
             </div>
-            
-            
+
+
           </div>
         </div>
       </section>
@@ -476,7 +494,7 @@ const SpaPage: React.FC = () => {
                 alignment="left"
               />
               <p className="text-gray-600 mb-6">
-               <Leaf /> Le Hammam, avec sa chaleur humide et enveloppante, nettoie la peau en profondeur, élimine les toxines et détend les muscles. Parfait pour relâcher les tensions et revitaliser le corps tout en douceur.
+                <Leaf /> Le Hammam, avec sa chaleur humide et enveloppante, nettoie la peau en profondeur, élimine les toxines et détend les muscles. Parfait pour relâcher les tensions et revitaliser le corps tout en douceur.
               </p>
               <p className="text-gray-600 mb-6">
                 Le Sauna, grâce à sa chaleur sèche, stimule la circulation sanguine, renforce le système immunitaire et procure une sensation immédiate de bien-être. Un véritable rituel nordique pour recharger les batteries.
@@ -485,7 +503,7 @@ const SpaPage: React.FC = () => {
                 En combinant ces deux traditions, vous offrez à votre organisme un soin complet, alternant chaleur, repos et fraîcheur. Un voyage sensoriel qui allie santé, beauté et sérénité.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <img
                 src="/sauna.jpg"

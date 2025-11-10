@@ -177,9 +177,9 @@ const Header: React.FC = () => {
             {user ? (
               <Link to="/profil" className='p-2 relative rounded-full transition duration-200 bg-accent text-white'>
                 <User />
-                <span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
+                {count > 0 || reservationCount > 0 && (<span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
                   {count === 0 ? reservationCount : count} 
-                </span>
+                </span>)}
               </Link>
             ) : (
               <Link to="/login" className="bg-accent hover:bg-gold-700 text-white px-2 py-2 md:px-6 md:py-2 rounded-md transition duration-300">
@@ -193,9 +193,9 @@ const Header: React.FC = () => {
              {user ? (
               <Link to="/profil" className='mx-4 p-2 flex relative rounded-full transition duration-200 bg-accent text-white'>
                 <User />
-                <span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
-                  {reservationCount}
-                </span>
+                {count > 0 || reservationCount > 0 && (<span className="absolute top-3 -right-3 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">
+                  {count === 0 ? reservationCount : count} 
+                </span>)}
               </Link>
             ) : (
               <Link to="/login" className="mx-2 bg-accent hover:bg-gold-700 text-white px-2 py-2 md:px-6 md:py-2 rounded-md transition duration-300">

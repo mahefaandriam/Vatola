@@ -1,150 +1,178 @@
--- Supabase schema for VATOLA new features
--- Run in Supabase SQL editor. Adjust schema names if needed.
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
 
--- WEB RESERVATIONS (quick form)
-create table if not exists public.web_reservations (
-  id bigserial primary key,
-  name text not null,
-  contact text not null,
-  room_type text,
-  people int not null check (people > 0),
-  extra_service text,
-  status text not null default 'pending' check (status in ('pending','processed','canceled')),
-  created_at timestamptz not null default now()
+CREATE TABLE public.bookings (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  room_id bigint NOT NULL,
+  check_in date NOT NULL,
+  check_out date NOT NULL,
+  status text NOT NULL,
+  people numeric NOT NULL,
+  user_id uuid,
+  night numeric,
+  total_price numeric,
+  user_info_id bigint,
+  CONSTRAINT bookings_pkey PRIMARY KEY (id),
+  CONSTRAINT bookings_room_id_fkey FOREIGN KEY (room_id) REFERENCES public.rooms(id),
+  CONSTRAINT bookings_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id),
+  CONSTRAINT bookings_user_id_fkey1 FOREIGN KEY (user_id) REFERENCES public.profiles(id),
+  CONSTRAINT bookings_user_info_id_fkey FOREIGN KEY (user_info_id) REFERENCES public.user_info(id)
 );
-
-alter table public.web_reservations enable row level security;
-
-create policy "web_reservations_read_all" on public.web_reservations
-  for select using (true);
-
-create policy "web_reservations_insert_anon" on public.web_reservations
-  for insert with check (true);
-
-create policy "web_reservations_admin_write" on public.web_reservations
-  for all using (exists (
-    select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-  ));
-
-create index if not exists idx_web_res_created_at on public.web_reservations(created_at desc);
-
-
--- PUB MENU
-create table if not exists public.pub_menu (
-  id bigserial primary key,
-  category text not null check (category in ('snack','boisson')),
-  title text not null,
-  price_min numeric,
-  vegan boolean default false,
-  low_fat boolean default false,
-  created_at timestamptz not null default now()
+CREATE TABLE public.contacts (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  name text,
+  email text,
+  phone text,
+  subject text,
+  message text,
+  read boolean,
+  CONSTRAINT contacts_pkey PRIMARY KEY (id)
 );
-
-alter table public.pub_menu enable row level security;
-
-create policy "pub_menu_select_all" on public.pub_menu for select using (true);
-create policy "pub_menu_admin_write" on public.pub_menu for all using (exists (
-  select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-));
-
-create index if not exists idx_pub_menu_created_at on public.pub_menu(created_at desc);
-
-
--- PUB MEDIA (images/vidéos cabaret & ambiance)
-create table if not exists public.pub_media (
-  id bigserial primary key,
-  url text not null,
-  type text not null check (type in ('image','video')),
-  caption text,
-  created_at timestamptz not null default now()
-);
-
-alter table public.pub_media enable row level security;
-
-create policy "pub_media_select_all" on public.pub_media for select using (true);
-create policy "pub_media_admin_write" on public.pub_media for all using (exists (
-  select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-));
-
-create index if not exists idx_pub_media_created_at on public.pub_media(created_at desc);
-
-
--- SPA TARIFFS
-create table if not exists public.spa_tariffs (
-  id bigserial primary key,
-  label text not null,
-  price numeric not null check (price >= 0),
-  notes text,
-  created_at timestamptz not null default now()
-);
-
-alter table public.spa_tariffs enable row level security;
-
-create policy "spa_tariffs_select_all" on public.spa_tariffs for select using (true);
-create policy "spa_tariffs_admin_write" on public.spa_tariffs for all using (exists (
-  select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-));
-
-create index if not exists idx_spa_tariffs_created_at on public.spa_tariffs(created_at desc);
-
-
--- SPA MEDIA
-create table if not exists public.spa_media (
-  id bigserial primary key,
-  url text not null,
-  type text not null check (type in ('image','video')),
-  caption text,
-  created_at timestamptz not null default now()
-);
-
-alter table public.spa_media enable row level security;
-
-create policy "spa_media_select_all" on public.spa_media for select using (true);
-create policy "spa_media_admin_write" on public.spa_media for all using (exists (
-  select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-));
-
-create index if not exists idx_spa_media_created_at on public.spa_media(created_at desc);
-
-
--- GENERIC MEDIA ASSETS (website-wide)
-create table if not exists public.media_assets (
-  id bigserial primary key,
-  category text not null check (category in ('hotel','restaurant','pub','spa')),
-  type text not null check (type in ('image','video')),
+CREATE TABLE public.media_assets (
+  id bigint NOT NULL DEFAULT nextval('media_assets_id_seq'::regclass),
+  category text NOT NULL CHECK (category = ANY (ARRAY['hotel'::text, 'restaurant'::text, 'pub'::text, 'spa'::text])),
+  type text NOT NULL CHECK (type = ANY (ARRAY['image'::text, 'video'::text])),
   title text,
-  url text not null,
-  created_at timestamptz not null default now()
+  url text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  published boolean,
+  CONSTRAINT media_assets_pkey PRIMARY KEY (id)
 );
-
-alter table public.media_assets enable row level security;
-
-create policy "media_assets_select_all" on public.media_assets for select using (true);
-create policy "media_assets_admin_write" on public.media_assets for all using (exists (
-  select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-));
-
-create index if not exists idx_media_assets_created_at on public.media_assets(created_at desc);
-
-
--- SOCIAL LINKS (SNS)
-create table if not exists public.social_links (
-  id bigserial primary key,
-  platform text not null,
-  url text not null,
-  created_at timestamptz not null default now()
+CREATE TABLE public.nails_services (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  name text,
+  description text,
+  price numeric,
+  duration numeric,
+  image text,
+  published boolean,
+  CONSTRAINT nails_services_pkey PRIMARY KEY (id)
 );
-
-alter table public.social_links enable row level security;
-
-create policy "social_links_select_all" on public.social_links for select using (true);
-create policy "social_links_admin_write" on public.social_links for all using (exists (
-  select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'
-));
-
-create index if not exists idx_social_links_platform on public.social_links(platform);
-create index if not exists idx_social_links_created_at on public.social_links(created_at desc);
-
-
--- NOTE: Ensure a public storage bucket named 'room-images' exists (public read).
--- In Supabase UI: Storage > Create bucket 'room-images' (Public).
+CREATE TABLE public.notifications (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  type text,
+  message text,
+  data json,
+  is_read boolean,
+  CONSTRAINT notifications_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.profiles (
+  id uuid NOT NULL,
+  name text,
+  surname text,
+  birthday date,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
+  role text,
+  email character varying UNIQUE,
+  phone text,
+  CONSTRAINT profiles_pkey PRIMARY KEY (id),
+  CONSTRAINT profiles_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.profiles_odyss (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id uuid UNIQUE,
+  first_name text,
+  last_name text,
+  institution text,
+  user_type text,
+  phone text,
+  date_of_birth date,
+  address text,
+  city text,
+  postal_code text,
+  country text,
+  avatar_url text,
+  bio text,
+  current_level text,
+  specialization text,
+  grade_average numeric,
+  is_active boolean NOT NULL DEFAULT true,
+  email_notifications boolean NOT NULL DEFAULT true,
+  push_notifications boolean NOT NULL DEFAULT true,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT profiles_odyss_pkey PRIMARY KEY (id),
+  CONSTRAINT profiles_odyss_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.pub_media (
+  id bigint NOT NULL DEFAULT nextval('pub_media_id_seq'::regclass),
+  url text NOT NULL,
+  type text NOT NULL CHECK (type = ANY (ARRAY['image'::text, 'video'::text])),
+  caption text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  published boolean,
+  CONSTRAINT pub_media_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.pub_menu (
+  id bigint NOT NULL DEFAULT nextval('pub_menu_id_seq'::regclass),
+  category text NOT NULL CHECK (category = ANY (ARRAY['snack'::text, 'boisson'::text])),
+  title text NOT NULL,
+  price_min numeric,
+  vegan boolean DEFAULT false,
+  low_fat boolean DEFAULT false,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT pub_menu_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.rooms (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
+  name text,
+  type text,
+  description text,
+  price numeric,
+  size integer,
+  capacity integer,
+  amenities ARRAY,
+  images ARRAY,
+  featured boolean,
+  created_at timestamp with time zone,
+  CONSTRAINT rooms_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.social_links (
+  id bigint NOT NULL DEFAULT nextval('social_links_id_seq'::regclass),
+  platform text NOT NULL,
+  url text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT social_links_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.spa_media (
+  id bigint NOT NULL DEFAULT nextval('spa_media_id_seq'::regclass),
+  url text NOT NULL,
+  type text NOT NULL CHECK (type = ANY (ARRAY['image'::text, 'video'::text])),
+  caption text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  published boolean,
+  CONSTRAINT spa_media_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.spa_tariffs (
+  id bigint NOT NULL DEFAULT nextval('spa_tariffs_id_seq'::regclass),
+  label text NOT NULL,
+  price numeric NOT NULL CHECK (price >= 0::numeric),
+  notes text,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT spa_tariffs_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.user_info (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  surname text NOT NULL,
+  birthday date NOT NULL,
+  email text NOT NULL,
+  role text,
+  phone text NOT NULL,
+  CONSTRAINT user_info_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.web_reservations (
+  id bigint NOT NULL DEFAULT nextval('web_reservations_id_seq'::regclass),
+  name text NOT NULL,
+  contact text NOT NULL,
+  room_type text,
+  people integer NOT NULL DEFAULT 1,
+  extra_service text,
+  created_at timestamp with time zone DEFAULT now(),
+  status text,
+  CONSTRAINT web_reservations_pkey PRIMARY KEY (id)
+);

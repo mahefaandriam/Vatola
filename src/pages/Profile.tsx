@@ -4,18 +4,37 @@ import { supabase } from '../lib/supabaseClient';
 import LogoutButton from '../components/LogoutButton';
 import { useAuth } from '../context/AuthContext';
 import SectionTitle from '../components/SectionTitle';
+import { toast } from 'react-toastify';
+
+type Booking = {
+  id: number;
+  check_in: string;
+  check_out: string;
+  people: string;
+  night: string;
+  created_at: string;
+  status: string;
+  total_price: string
+  profiles?: {
+    name?: string;
+    email?: string; 
+    phone?: string; // ← ajouté ici
+  } | null;
+  rooms?: { name?: string , type?: string} | null;
+};
+
 
 export default function Profile() {
   const { user } = useAuth();
   const [profile, setProfile] = useState({ name: '', surname: '', birthday: '' });
-  const [bookings, setBookings] = useState<any>([]);
- // const [email, setEmail] = useState('');
+    const [bookings, setBookings] = useState<Booking[]>([]);
+  // const [email, setEmail] = useState('');
 
   useEffect(() => {
-      loadProfile(user.id);
-      loadBookings(user.id);  
-      
-      document.title = 'Mon Profil - Vatola Hotel';
+    loadProfile(user.id);
+    loadBookings(user.id);
+
+    document.title = 'Mon Profil - Vatola Hotel';
   }, []);
 
   const loadBookings = async (userId: any) => {
@@ -25,13 +44,26 @@ export default function Profile() {
         id,
         check_in,
         check_out,
+        people,
+        night,
         total_price,
         status,
+        created_at,
         rooms ( type )
       `)
       .eq('user_id', userId)
       .order('check_in', { ascending: false });
-    if (data && !error) setBookings(data);
+    if (data && !error) {
+      const formatted = data.map((booking: any) => ({
+        ...booking,
+        created_at: new Date(booking.created_at)
+          .toISOString()
+          .slice(0, 16)
+          .replace('T', ' ')
+      }));
+
+      setBookings(formatted)
+    }
   };
 
   const loadProfile = async (userId: any) => {
@@ -48,15 +80,15 @@ export default function Profile() {
     if (!confirmation) return;
 
     const { error } = await supabase
-      .from('reservations')
+      .from('bookings')
       .update({ status: 'Annulée' })
       .eq('id', bookingId);
 
     if (!error) {
-      alert("Réservation annulée.");
+      toast.success("Réservation annulée.");
       loadBookings(user.id); // recharge les données
     } else {
-      alert("Erreur lors de l’annulation.");
+      toast.error("Erreur lors de l’annulation.");
     }
   };
 
@@ -71,25 +103,25 @@ export default function Profile() {
     }*/
 
     // Full name update
-   const { error } = await supabase
+    const { error } = await supabase
       .from('profiles')
       .update(profile)
       .eq('id', user.id);
 
-    if (!error) alert("Profil mis à jour !");
+    if (!error) toast.success("Profil mis à jour !");
   };
 
   if (!user) return <p>Chargement...</p>;
 
   return (
     <div className="md:mx-10 p-6 mt-25 ">
-       <SectionTitle
-          title="Informations du compte"
-          subtitle="Nous aimerions avoir de vos nouvelles. Veuillez remplir le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
-          alignment="left"
-        />
-       <div >
-        <div  className="space-y-6">
+      <SectionTitle
+        title="Informations du compte"
+        subtitle="Nous aimerions avoir de vos nouvelles. Veuillez remplir le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
+        alignment="left"
+      />
+      <div >
+        <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
@@ -104,7 +136,7 @@ export default function Profile() {
                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
-            
+
             <div>
               <label htmlFor="prenom" className="block text-gray-700 font-medium mb-2">
                 Votre Prénom*
@@ -113,12 +145,12 @@ export default function Profile() {
                 type="prenom"
                 id="prenom"
                 name="prenom"
-                value={profile.surname} onChange={e => setProfile({ ...profile, surname: e.target.value })}                    
+                value={profile.surname} onChange={e => setProfile({ ...profile, surname: e.target.value })}
                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -131,21 +163,21 @@ export default function Profile() {
                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent cursor-not-allowed"
               />
             </div>
-            
+
             <div>
               <label htmlFor="naissance" className="block text-gray-700 font-medium mb-2">
                 Date de naissance
               </label>
-                <input
+              <input
                 id="naissance"
                 name="naissance"
                 type="date"
-                  value={profile.birthday} onChange={e => setProfile({ ...profile, birthday: e.target.value })} 
+                value={profile.birthday} onChange={e => setProfile({ ...profile, birthday: e.target.value })}
                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
           </div>
-          
+
           <div>
             <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
               Mot de passe*
@@ -162,7 +194,7 @@ export default function Profile() {
               Changer Mot de passe ?
             </a>
           </div>
-          
+
           <button
             onClick={handleSave}
             className="bg-accent hover:bg-gold-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mr-5"
@@ -174,50 +206,80 @@ export default function Profile() {
       </div>
       <div className='col-span-1 '>
         <h3 className="font-serif text-xl font-semibold text-primary-800 mb-6">Mes réservations</h3>
-          {bookings.length === 0 ? (
-            <p>Aucune réservation pour le moment.</p>
-          ) : (
-            <table className="w-full border-2 border-accent  text-sm rounded px-5">
-              <thead>
-                <tr className=" bg-accent">
-                  <th className="p-2 text-left">Chambre</th>
-                  <th className="p-2 text-left">Début</th>
-                  <th className="p-2 text-left">Fin</th>
-                  <th className="p-2 text-left">Prix</th>
-                  <th className="p-2 text-left">Statut</th>
-                  {/* <th className="p-2 text-left">Action</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((b: any) => {
-                  const now = new Date();
-                  const start = new Date(b.check_in);
-                  const timeDiff = start.getTime() - now.getTime();
-                  const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
-                  return(
-                  <tr key={b.id}>
-                    <td className="p-2">{b.rooms?.type || '—'}</td>
-                    <td className="p-2">{b.check_in}</td>
-                    <td className="p-2">{b.check_out}</td>
-                    <td className="p-2">{b.total_price} Ar</td>
-                    <td className="p-2">{b.status}</td>
-                    <td className="p-2">
-                        {isMoreThan24h && (b.status === 'confirmed' || b.status === 'pending') && (
+        {bookings.length === 0 ? (
+          <p>Aucune réservation pour le moment.</p>
+        ) : (
+          <table className="w-full border border-accent/30 text-xs rounded-xl shadow-sm overflow-hidden">
+            <thead>
+              <tr className="bg-accent text-white">
+                <th className="p-3 text-left font-semibold">Chambre</th>
+                <th className="p-3 text-left font-semibold">Début</th>
+                <th className="p-3 text-left font-semibold">Fin</th>
+                <th className="p-3 text-left font-semibold">Personnes</th>
+                <th className="p-3 text-left font-semibold">Nuit</th>
+                <th className="p-3 text-left font-semibold">Prix</th>
+                <th className="p-3 text-left font-semibold">Statut</th>
+                <th className="p-3 text-left font-semibold">Créé le</th>
+                <th className="p-3 text-left font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings.map((booking) => {
+                const now = new Date();
+                const start = new Date(booking.check_in);
+                const timeDiff = start.getTime() - now.getTime();
+                const isMoreThan24h = timeDiff > 24 * 60 * 60 * 1000;
+
+                return (
+                  <tr
+                    key={booking.id}
+                    className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    <td className="p-3">{booking.rooms?.type || '—'}</td>
+                    <td className="p-3">{booking.check_in}</td>
+                    <td className="p-3">{booking.check_out}</td>
+                    <td className="p-3">{booking.people}</td>
+                    <td className="p-3">{booking.night}</td>
+                    <td className="p-3 font-medium text-gray-800">{booking.total_price} Ar</td>
+                    <td className="p-3">
+                      <span
+                        className={`px-2 py-1 text-xs font-semibold rounded-full ${booking.status === 'confirmed'
+                          ? 'bg-green-100 text-green-700'
+                          : booking.status === 'pending'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : booking.status === 'canceled'
+                              ? 'bg-red-100 text-red-700'
+                              : 'bg-gray-100 text-gray-600'
+                          }`}
+                      >
+                        {booking.status === 'confirmed'
+                          ? 'Confirmé'
+                          : booking.status === 'pending'
+                            ? 'En attente'
+                            : booking.status === 'canceled'
+                              ? 'Annulé'
+                              : booking.status}
+                      </span>
+                    </td>
+                    <td className="p-3">{booking.created_at}</td>
+                    <td className="p-3">
+                      {isMoreThan24h && (booking.status === 'confirmed' || booking.status === 'pending') && (
                         <button
-                          onClick={() => handleCancel(b.id)}
-                          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                          onClick={() => handleCancel(booking.id)}
+                          className="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition-colors duration-200 shadow-sm"
                         >
                           Annuler
                         </button>
-                        )}
+                      )}
                     </td>
                   </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          )}
-        </div>
+                );
+              })}
+            </tbody>
+          </table>
+
+        )}
+      </div>
     </div>
   );
 }

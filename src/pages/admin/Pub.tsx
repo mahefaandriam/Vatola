@@ -137,7 +137,7 @@ export default function AdminPub() {
             </form>
 
             <div className="overflow-x-scroll mt-4">
-              <table className="min-w-200 border border-gray-300 bg-white text-sm">
+              <table className="min-w-200 border border-gray-300 bg-white text-xs">
                 <thead>
                   <tr className="bg-gray-100">
                     <th>Catégorie</th>
@@ -182,7 +182,7 @@ export default function AdminPub() {
                 <div>
                   <select className="border border-gray-300 px-3 py-2 rounded w-full" value={mediaType} onChange={(e) => setMediaType(e.target.value as any)}>
                     <option value="image">Image</option>
-                    <option value="video">Vidéo</option>
+                    <option value="video">Vidéo{'(short vidéo, > 50mo)'}</option>
                   </select>
                 </div>
                 <div className="md:col-span-1">

@@ -51,40 +51,59 @@ export default function Login() {
 
   useEffect(() => {
     document.title = "Connexion - Vatola Hotel";
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirect = searchParams.get('redirect');
+    if (redirect) toast.warning("Pour pouvoir enregistrer votre réservation, veuillez vous connecter.")
   }, []);
 
 
   const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setLoading(true);
+
     const { error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
     });
 
-
-
     if (error) {
       if (error.message.includes("Invalid login credentials")) {
-        toast.error("Mauvais email ou mot de passe, veuillez réessayer ou créer un compte.");
+        toast.error("Mauvais email ou mot de passe, veuillez réessayer ou créer un compte");
       } else if (error.message.includes("User not found")) {
         notifyError("Utilisateur non trouvé");
+      } else if (error.message.includes("Email not confirmed")) {
+        toast.error("Adresse e-mail non confirmée. Veuillez vérifier votre boîte mail. Pensez également à consulter vos courriers indésirables (spam).");
       } else {
-        toast.error(error.message);
+        toast.error("Erreur de connexion ou de réseau")
       }
     } else {
-      const searchParams = new URLSearchParams(window.location.search);
-      const redirect = searchParams.get('redirect');
-      const redirectSanitized = redirect ? redirect.replace(/;/g, '&') : null;
-      toast.success("Connexion")
-      if (redirectSanitized) {
-        navigate(redirectSanitized);
+      // RECHERCHE DU PROFIL DANS LA TABLE "profiles"
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('email', form.email)
+        .single();
+
+      if (profileError) {
+        console.error('Erreur lors de la récupération du profil:', profileError);
+        toast.error("Erreur lors de la récupération du profil utilisateur");
       } else {
-        if (form.email === '/admin') {
-          notifySucces("Wecolme Admin")
-          navigate('/admin'); // Redirect to admin dashboard if user is admin
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirect = searchParams.get('redirect');
+        const redirectSanitized = redirect ? redirect.replace(/;/g, '&') : null;
+
+        toast.success("Connexion réussie");
+
+        if (redirectSanitized) {
+          navigate(redirectSanitized);
         } else {
-          navigate('/profil'); // Redirect to user profile if not admin  
+          // VÉRIFICATION DU RÔLE
+          if (profile && profile.role === 'admin') {
+            notifySucces("Welcome Admin");
+            navigate('/admin/chambres');
+          } else {
+            navigate('/profil');
+          }
         }
       }
     }
@@ -96,7 +115,7 @@ export default function Login() {
 
       <SectionTitle
         title="Authentification"
-        subtitle="Heureux de vous revoir ! Entrez vos informations de connexion ci-dessous."
+        subtitle="Heureux de vous revoir ! Entrez vos informations de connexion ci-dessous. Ou créez un nouveau compte."
         alignment="left"
       />
 
@@ -117,8 +136,8 @@ export default function Login() {
             <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
               Votre Mot de passe*
             </label>
-            <div 
-              className={`flex justify-between group w-full p-3 border border-gray-300 rounded-md ${inputPasswordFocucs? 'ring-2 ring-accent' : 'ring-0'}`}
+            <div
+              className={`flex justify-between group w-full p-3 border border-gray-300 rounded-md ${inputPasswordFocucs ? 'ring-2 ring-accent' : 'ring-0'}`}
               onMouseEnter={() => setInputPasswordHover(true)}
               onMouseLeave={() => setInputPasswordHover(false)}
             >

@@ -4,6 +4,9 @@ import { supabase } from '../../lib/supabaseClient';
 type User = {
   id: string;
   name?: string;
+  surname?: string;
+  birthday: string;
+  phone: string;
   email: string;
   created_at: string;
 };
@@ -19,24 +22,12 @@ export default function ListUsers() {
   const fetchUsers = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (!error) setUsers(data);
     setLoading(false);
-  };
-
-  const handleDelete = async (id: string, email: string) => {
-    if (!window.confirm(`Supprimer l’utilisateur ${email} ?`)) return;
-
-    const { error } = await supabase.rpc('delete_user', { uid: id });
-    if (error) {
-      alert("Erreur lors de la suppression : " + error.message);
-    } else {
-      alert("Utilisateur supprimé !");
-      fetchUsers(); // refresh list
-    }
   };
 
   return (
@@ -61,34 +52,33 @@ export default function ListUsers() {
           </div>
         </div>
       ) : (
-      <table className="w-full border border-gray-300 text-sm">
+      <table className="w-full border border-gray-300 text-xs">
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2 border border-gray-300">Nom</th>
+            <th className="p-2 border border-gray-300">Prénom</th>
             <th className="p-2 border border-gray-300">Email</th>
-            <th className="p-2 border border-gray-300">Inscription</th>
-            <th className="p-2 border border-gray-300">Action</th>
+            <th className="p-2 border border-gray-300">Née le</th>
+            <th className="p-2 border border-gray-300">Téléphone</th>
+            <th className="p-2 border border-gray-300">Crée le</th>
           </tr>
         </thead>
+
         <tbody>
           {users.map((user) => (
             <tr key={user.id} className="border border-gray-300-t">
               <td className="p-2 border border-gray-300">{user.name || '—'}</td>
+              <td className="p-2 border border-gray-300">{user.surname || '-'}</td>
               <td className="p-2 border border-gray-300">{user.email}</td>
+              <td className="p-2 border border-gray-300">{user.birthday || '-'}</td>
+              <td className="p-2 border border-gray-300">{user.phone || '-'}</td>
               <td className="p-2 border border-gray-300">
                 {new Date(user.created_at).toLocaleDateString()}
-              </td>
-              <td className="p-2 border border-gray-300">
-                <button
-                  onClick={() => handleDelete(user.id, user.email)}
-                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                >
-                  Supprimer
-                </button>
               </td>
             </tr>
           ))}
         </tbody>
+
       </table>
       )}
     </div>

@@ -27,6 +27,7 @@ import { ToastContainer } from 'react-toastify';
 import Contacts from './pages/admin/Contacts';
 import NotFoundPage from './pages/NotFoundPage';
 import { ReservationProvider } from "./context/ReservationContext";
+import { UnreadProvider } from "./context/UnreadContext";
 import AdminPub from './pages/admin/Pub';
 import AdminSpa from './pages/admin/Spa';
 import AdminMedia from './pages/admin/Media';
@@ -41,46 +42,48 @@ function App() {
           <Header />
           <main className="flex-grow">
             <ScrollToTop />
-              <Routes>
-                <Route path="*" element={<NotFoundPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/singup" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/update-password" element={<UpdatePassword />} />
-                <Route
-                  path="/profil"
-                  element={
-                    <PrivateRoute>
-                      <Profile />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="/admin/*"
-                  element={
-                    <ProtectedAdminRoute>
+            <Routes>
+              <Route path="*" element={<NotFoundPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/singup" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/update-password" element={<UpdatePassword />} />
+              <Route
+                path="/profil"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/admin/*"
+                element={
+                  <ProtectedAdminRoute>
+                    < UnreadProvider >
                       <AdminDashboard />
-                    </ProtectedAdminRoute>
-                  }>
-                  <Route path="reservations" element={<Reservations />} />
-                  <Route path="utilisateurs" element={<Users />} />
-                  <Route path="chambres" element={<Rooms />} />
-                  <Route path="pub" element={<AdminPub />} />
-                  <Route path="spa" element={<AdminSpa />} />
-                  <Route path="nails" element={<NailsServices />} />
-                  <Route path="media" element={<AdminMedia />} />
-                  <Route path="socials" element={<AdminSocials />} />
-                  <Route path="contacts" element={<Contacts />} />
-                </Route>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/rooms" element={<RoomsPage />} />
-                <Route path="/rooms/:id" element={<RoomDetailPage />} />
-                <Route path="/pub" element={<PubPage />} />
-                <Route path="/spa" element={<SpaPage />} />
-                <Route path="/restaurant" element={<RestaurantPage />} />
-                <Route path="/nail-salon" element={<NailSalonPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/booking" element={<BookingPage />} />
-              </Routes>
+                    </UnreadProvider>
+                  </ProtectedAdminRoute>
+                }>
+                <Route path="reservations" element={<Reservations />} />
+                <Route path="utilisateurs" element={<Users />} />
+                <Route path="chambres" element={<Rooms />} />
+                <Route path="pub" element={<AdminPub />} />
+                <Route path="spa" element={<AdminSpa />} />
+                <Route path="nails" element={<NailsServices />} />
+                <Route path="media" element={<AdminMedia />} />
+                <Route path="socials" element={<AdminSocials />} />
+                <Route path="contacts" element={<Contacts />} />
+              </Route>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/rooms" element={<RoomsPage />} />
+              <Route path="/rooms/:id" element={<RoomDetailPage />} />
+              <Route path="/pub" element={<PubPage />} />
+              <Route path="/spa" element={<SpaPage />} />
+              <Route path="/restaurant" element={<RestaurantPage />} />
+              <Route path="/nail-salon" element={<NailSalonPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/booking" element={<BookingPage />} />
+            </Routes>
           </main>
           <Footer />
         </div>

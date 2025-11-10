@@ -35,19 +35,8 @@ const Footer: React.FC = () => {
               Vivez une expérience unique au sein des hauts plateaux de Vakinankaratra.
             </p>
             <div className="flex space-x-4">
-              {sns.length > 0 ? (
-                sns.map((l, i) => {
-                  const p = (l.platform || '').toLowerCase();
-                  const Icon = p.includes('insta') ? Instagram : p.includes('face') ? Facebook : Twitter;
-                  return (
-                    <a key={`${l.platform}-${i}`} href={l.url} target="_blank" rel="noreferrer" className="text-gray-300 hover:text-accent transition-colors duration-300">
-                      <Icon size={20} />
-                    </a>
-                  );
-                })
-              ) : (
                 <>
-                  <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
+                  <a href="https://www.facebook.com/profile.php?id=61577574614722" className="text-gray-300 hover:text-accent transition-colors duration-300">
                     <Facebook size={20} />
                   </a>
                   <a href="#" className="text-gray-300 hover:text-accent transition-colors duration-300">
@@ -57,7 +46,6 @@ const Footer: React.FC = () => {
                     <Twitter size={20} />
                   </a>
                 </>
-              )}
             </div>
           </div>
 

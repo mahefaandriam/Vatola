@@ -23,6 +23,7 @@ const BookingForm: React.FC = () => {
   const [roomNames, setRoomNames] = useState<{ type: string, price: string }[] | null>(null);
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(false);
+  const [firstCkeck, setFirstCkeck] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<BookingDetails>({
     checkIn: null,
     checkOut: null,
@@ -82,7 +83,7 @@ const BookingForm: React.FC = () => {
     const mm = String(date.getMonth() + 1).padStart(2, '0');
     const dd = String(date.getDate()).padStart(2, '0');
     const yyyy = date.getFullYear();
-    return `${mm}/${dd}/${yyyy}`;
+    return `${mm}-${dd}-${yyyy}`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,6 +97,7 @@ const BookingForm: React.FC = () => {
     );
     setAvailableRooms(rooms);
     setLoading(false);
+    setFirstCkeck(true);
   };
 
   const checkAvailability = async (
@@ -151,9 +153,10 @@ const BookingForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-luxury md:p-8">
+    <div className="bg-white rounded-lg shadow-luxury p-6 ">
       <h3 className="font-serif text-2xl font-semibold text-primary-800 mb-6">Réserver votre séjour en quelques clics</h3>
-      
+      <p className="text-gray-400 text-sm">Veuillez sélectionner une date correspondant à votre futur séjour chez nous.</p>
+     
       <form onSubmit={handleSubmit} className="space-y-6 my-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Check-in Date */}
@@ -284,11 +287,11 @@ const BookingForm: React.FC = () => {
                 ))
           ) : (
             <div className="col-span-full text-center py-12">
-                {!bookingDetails.checkIn || !bookingDetails.checkOut 
+                {!bookingDetails.checkIn || !bookingDetails.checkOut || !firstCkeck 
                 ? (
-                  <p className="text-gray-600 text-lg">Pour voir les chambres disponibles veilluez seletionnez une date.</p>
+                  <p className="text-gray-600 text-lg">Pour voir la/les chambre(s) disponible(s), veuillez sélectionner une date.</p>
                 ) : (
-                  <p className="text-gray-600 text-lg">Pas de chambres correspondant à vos critères. S’il vous plaît ajuster vos filtres.</p>
+                  <p className="text-gray-600 text-lg">Les chambres ne sont pas disponibles à cette date. Vous pouvez effectuer une réservation rapide <a href="#booking_quick" className='font-thin text-blue-700 underline underline-offset-1 '>ci-dessous</a> pour plus de rapidité.</p>
                 )}
                 <p className="text-gray-400 text-sm">
                 En cas de difficultés à faire une réservation, n'hésitez pas à nous contacter au 
@@ -302,7 +305,7 @@ const BookingForm: React.FC = () => {
                     +261 34 11 937 77
                   </a>
                   &nbsp;ou&nbsp;
-                  <a href="mailto:hotelvatola@outlook.com" className="hover:text-accent transition duration-300">
+                  <a id='booking_quick' href="mailto:hotelvatola@outlook.com" className="hover:text-accent transition duration-300">
                     hotelvatola@outlook.com
                   </a>
                 </div>                
