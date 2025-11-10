@@ -18,9 +18,30 @@ const ContactPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [adminEmail, setAdminEmail] = useState<string>('');
 
   const searchParams = new URLSearchParams(window.location.search);
   const subject = searchParams.get('subject') || '';
+
+  const fetchAdminEmail = async () => {
+    const { data, error } = await supabase
+      .from('email_notif')
+      .select('*')
+      .eq('notify_message', true)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    const first = data?.[0];
+
+    if (error) {
+      console.error('Error fetching admin email:', error);
+      return;
+    }
+
+    if (data) {
+      setAdminEmail(first.email);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -32,6 +53,8 @@ const ContactPage: React.FC = () => {
 
   useEffect(() => {
     document.title = "Contactez-nous - Vatola Hotel";
+
+    fetchAdminEmail(); // Add this line
     // Animation d'apparition au chargement
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
@@ -59,15 +82,18 @@ const ContactPage: React.FC = () => {
       } else {
         setIsSubmitted(true);
         toast.success("Message envoyé ")
-        const formD = {
-          to: "fenoandriams@gmail.com",
-          name: formData.name || '-',
-          email: formData.email,
-          subject: `Nouvelle message`,
-          message: `Nouvelle message de ${formData.name || '-'} pour ${formData.subject}`,
+        if (adminEmail) {
+          const formD = {
+            to: adminEmail,
+            name: formData.name || '-',
+            email: formData.email,
+            subject: `Nouvelle message`,
+            message: `Nouvelle message de ${formData.name || '-'} pour ${formData.subject}`,
+          };
+          //sending email notification admin
+          const resultta  = await sendMessage(formD, (loading) => console.log("Loading:", loading));
+          console.log(resultta)
         };
-        //sending email notification admin
-        await sendMessage(formD, (loading) => console.log("Loading:", loading));
         setTimeout(() => {
           setFormData({
             name: '',
@@ -255,10 +281,10 @@ const ContactPage: React.FC = () => {
                       type="submit"
                       disabled={isSubmitting || isSubmitted}
                       className={`group relative overflow-hidden font-medium py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent/20 ${isSubmitted
-                          ? 'bg-green-500 text-white cursor-not-allowed'
-                          : isSubmitting
-                            ? 'bg-gray-400 text-white cursor-not-allowed'
-                            : 'bg-accent hover:bg-gold-700 text-white hover:shadow-lg active:scale-95'
+                        ? 'bg-green-500 text-white cursor-not-allowed'
+                        : isSubmitting
+                          ? 'bg-gray-400 text-white cursor-not-allowed'
+                          : 'bg-accent hover:bg-gold-700 text-white hover:shadow-lg active:scale-95'
                         }`}
                     >
                       <span className="relative flex items-center justify-center space-x-2">

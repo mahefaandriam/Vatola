@@ -49,7 +49,7 @@ const RoomDetailPage: React.FC = () => {
     const { data, error } = await supabase
       .from('email_notif')
       .select('*')
-      .eq('notify', true)
+      .eq('notify_reservation', true)
       .order('created_at', { ascending: false })
       .limit(1);
 
@@ -64,18 +64,6 @@ const RoomDetailPage: React.FC = () => {
       setAdminEmail(first.email);
     }
   };
-
-  // Add this to the initial useEffect where other data is fetched
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-
-    fetchAdminEmail(); // Add this line
-
-    document.title = room ? `${room.name} - Détails de la chambre` : 'Détails de la chambre';
-  }, []);
-
 
   const fetchReservationCount = async () => {
     const { count, error } = await supabase
@@ -99,6 +87,8 @@ const RoomDetailPage: React.FC = () => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
     });
+    
+    fetchAdminEmail(); // Add this line
 
     document.title = room ? `${room.name} - Détails de la chambre` : 'Détails de la chambre';
   }, []);
