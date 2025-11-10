@@ -32,6 +32,7 @@ import AdminPub from './pages/admin/Pub';
 import AdminSpa from './pages/admin/Spa';
 import AdminMedia from './pages/admin/Media';
 import AdminSocials from './pages/admin/Socials';
+import AdminParametre from './pages/admin/AdminParametre';
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
                 <Route path="media" element={<AdminMedia />} />
                 <Route path="socials" element={<AdminSocials />} />
                 <Route path="contacts" element={<Contacts />} />
+                <Route path="parametre" element={<AdminParametre />} />
               </Route>
               <Route path="/" element={<HomePage />} />
               <Route path="/rooms" element={<RoomsPage />} />
