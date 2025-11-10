@@ -49,7 +49,7 @@ const SpaPage: React.FC = () => {
         subtitle="Offrez-vous un monde de détente et de revitalisation avec nos soins spa."
         image="/care.webp"
         ctaText='Réservez votre séance dès maintenant'
-        ctaLink='/contact'
+        ctaLink='/contact#contact'
         height="h-[70vh]"
       />
 
@@ -149,7 +149,7 @@ const SpaPage: React.FC = () => {
 
           <div className="mt-12 text-center flex item-center justify-center">
             <a
-              href="tel:+15551234567"
+              href="/contact#contact"
             >
               <div className='flex bg-accent text-white py-3 px-5 rounded-md'>
                 Réserver vos soins
