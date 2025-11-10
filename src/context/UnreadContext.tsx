@@ -17,7 +17,7 @@ export const UnreadProvider = ({ children }: { children: React.ReactNode }) => {
     const { count, error } = await supabase
       .from("contacts")
       .select("id", { count: "exact", head: true })
-      .eq("read", false);
+      .or("read.is.false,read.is.null");;
 
     if (!error) setMsgUnreadCount(count ?? 0);
   };
