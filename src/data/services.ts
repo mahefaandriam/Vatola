@@ -99,7 +99,7 @@ export const restaurantHighlights: Service[] = [
     id: 'entrees-salades',
     name: 'Entrées & salades',
     description: 'Fraîcheur et saisonnalité, options légères disponibles.',
-    image: '/clients1.webp'
+    image: '/1760290432809.jpg'
   },
   {
     id: 'plats-specialites',
