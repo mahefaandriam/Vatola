@@ -75,25 +75,25 @@ const SpaPage: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-4">
               <img
-                src={(publishedMedia[0]?.url) || "/spa2.webp"}
+                src={ "/spa2.webp"}
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src={(publishedMedia[1]?.url) || "/spa3.webp"}
+                src={ "/spa3.webp"}
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src={(publishedMedia[2]?.url) || "/care2.webp"}
+                src={ "/care2.webp"}
                 alt="Spa Bath"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
               />
               <img
-                src={(publishedMedia[3]?.url) || "spa4.webp"}
+                src={ "spa4.webp"}
                 alt="Spa Ambiance"
                 loading="lazy"
                 className="w-full h-64 object-cover rounded-lg shadow-luxury"
