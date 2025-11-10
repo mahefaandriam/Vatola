@@ -35,6 +35,7 @@ const RoomDetailPage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [showSummary, setShowSummary] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [adminEmail, setAdminEmail] = useState<string>('');
   const navigate = useNavigate();
   const { setCount } = useReservations();
 
@@ -43,6 +44,38 @@ const RoomDetailPage: React.FC = () => {
   const adults = searchParams.get('adults');
   const children = searchParams.get('children');
   const goto = searchParams.get('goto');
+
+  const fetchAdminEmail = async () => {
+    const { data, error } = await supabase
+      .from('email_notif')
+      .select('*')
+      .eq('notify', true)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    const first = data?.[0];
+
+    if (error) {
+      console.error('Error fetching admin email:', error);
+      return;
+    }
+
+    if (data) {
+      setAdminEmail(first.email);
+    }
+  };
+
+  // Add this to the initial useEffect where other data is fetched
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    fetchAdminEmail(); // Add this line
+
+    document.title = room ? `${room.name} - Détails de la chambre` : 'Détails de la chambre';
+  }, []);
+
 
   const fetchReservationCount = async () => {
     const { count, error } = await supabase
@@ -157,16 +190,17 @@ const RoomDetailPage: React.FC = () => {
     if (!error) {
       toast.success("Merci, votre Réservation a été enregistrer avec succés, nous allons confirmer votre invitaion et vous repondre bientot !");
 
-      const formData = {
-        to: "fenoandriams@gmail.com",
-        name: user.name || '-',
-        email: user.email,
-        subject: `Nouvelle réservation`,
-        message: `Nouvelle réservation de ${user.name || '-'} pour ${room.name}`,
-      };
-      //sending email notification admin
-       await sendMessage(formData, (loading) => console.log("Loading:", loading));
-      
+      if (adminEmail) {
+        const formData = {
+          to: adminEmail,
+          name: user.name || '-',
+          email: user.email,
+          subject: `Nouvelle réservation`,
+          message: `Nouvelle réservation de ${user.name || '-'} pour ${room.name}`,
+        };
+        //sending email notification admin
+        await sendMessage(formData, (loading) => console.log("Loading:", loading));
+      }
       const count = await fetchReservationCount();
       setCount(count ?? 0);
 

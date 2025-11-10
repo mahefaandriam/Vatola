@@ -26,7 +26,7 @@ export default function ProtectedAdminRoute({ children }: PropsWithChildren<{}>)
         .eq('id', user.id)
         .single();
 
-      if (error || !data || data.role !== 'admin' || user.email !== 'fenoandriams@gmail.com' ) {
+      if (error || !data || data.role !== 'admin' || user.email !== 'hotelvatola@outlook.com' ) {
         setUserRole(null);
       } else {
         setUserRole('admin');
