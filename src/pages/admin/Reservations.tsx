@@ -14,7 +14,12 @@ type Booking = {
   status: string;
   profiles?: {
     name?: string;
-    email?: string; 
+    email?: string;
+    phone?: string; // ← ajouté ici
+  } | null;
+  user_info?: {
+    name?: string;
+    email?: string;
     phone?: string; // ← ajouté ici
   } | null;
   rooms?: { name?: string } | null;
@@ -65,7 +70,7 @@ export default function Reservations() {
         profiles (name,email,phone),
         user_info (name,email,phone),
         rooms (name)
-      `);
+      `).order('created_at', { ascending: true });
 
     if (statusFilter !== 'all') {
       query = query.eq('status', statusFilter);
@@ -87,16 +92,18 @@ export default function Reservations() {
     }));
 
     const filtered = mapped.filter((booking: any) =>
-      (booking.profiles?.name || '').toLowerCase().includes(searchTerm.toLowerCase())
+      (booking.profiles?.email || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+      (booking.user_info?.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (booking.profiles?.phone || '').toLowerCase().includes(searchTerm.toLowerCase()) ||      
+      (booking.user_info?.phone || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
-
+    
     const formatted = filtered.map((booking) => ({
       ...booking,
       created_at: new Date(booking.created_at).toISOString().slice(0, 16).replace('T', ' ')
     }));
 
-    setBookings(formatted);
-    console.log(formatted)
+    setBookings(formatted as Booking[]);
 
     refreshCounts();
 
@@ -108,7 +115,7 @@ export default function Reservations() {
     let query = supabase
       .from('web_reservations')
       .select('id, name, contact, room_type, people, extra_service, status, created_at')
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: true });
 
     if (statusFilter !== 'all') {
       query = query.eq('status', statusFilter);
@@ -123,7 +130,7 @@ export default function Reservations() {
     }
 
     const filtered = (data || []).filter((r: any) =>
-      (r.name || '').toLowerCase().includes(searchTerm.toLowerCase())
+      (r.contact || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setWebReservations(filtered as WebReservation[]);
@@ -210,7 +217,7 @@ export default function Reservations() {
             id="searchTerm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Nom du client"
+            placeholder="Email du client ou téléphone"
             className="border border-gray-300 px-3 py-1 rounded"
           />
         </div>
@@ -247,11 +254,16 @@ export default function Reservations() {
                       zIndex: 2,
                     }}
                   >
-                    {booking.profiles?.name || "—"}
+                    {booking.profiles?.name || booking.user_info?.name || "—"}
                   </td>
 
                   {/* Email du client */}
-                  <td>{booking.profiles?.email + "/" + booking.profiles?.phone || "—"}</td>
+                  {booking.profiles?.email && booking.profiles?.phone ? (
+                    <td>{booking.profiles?.email + "/" + booking.profiles?.phone }</td>
+                  ) : (
+                    <td>{booking.user_info?.email + "/" + booking.user_info?.phone }</td>
+                  )}
+
 
 
                   {/* Chambre */}

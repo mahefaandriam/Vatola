@@ -444,12 +444,26 @@ const HomePage: React.FC = () => {
             subtitle="Réservez votre escapade luxueuse à l’HÔTEL VATOLA et profitez d’un confort et d’un service inégalés."
           />
 
-          <div className="max-w-3xl mx-auto">
+            <motion.div
+            className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl border border-gray-100"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             <BookingForm />
-          </div>
-          <div className="max-w-3xl mx-auto mt-6">
+          </motion.div> 
+          <motion.div
+            className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl border border-gray-100"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent via-primary-600 to-accent rounded-t-2xl"></div>
             <QuickReservationForm />
-          </div>
+          </motion.div>
+          
         </div>
       </section>
 

@@ -153,7 +153,7 @@ const BookingForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-luxury p-6 ">
+    <div className="bg-white rounded-lg shadow-luxury p-6 shadow shadow-xl border border-gray-100">
       <h3 className="font-serif text-2xl font-semibold text-primary-800 mb-6">Réserver votre séjour en quelques clics</h3>
       <p className="text-gray-400 text-sm">Veuillez sélectionner une date correspondant à votre futur séjour chez nous.</p>
      
