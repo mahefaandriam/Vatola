@@ -91,8 +91,7 @@ const ContactPage: React.FC = () => {
             message: `Nouvelle message de ${formData.name || '-'} pour ${formData.subject}`,
           };
           //sending email notification admin
-          const resultta  = await sendMessage(formD, (loading) => console.log("Loading:", loading));
-          console.log(resultta)
+          await sendMessage(formD, (loading) => console.log("Loading:", loading));
         };
         setTimeout(() => {
           setFormData({
@@ -165,7 +164,7 @@ const ContactPage: React.FC = () => {
       />
 
       {/* Section principale de contact */}
-      <section className="py-20 bg-gradient-to-br from-white via-gray-50/30 to-white relative">
+      <section id='contact' className="py-20 bg-gradient-to-br from-white via-gray-50/30 to-white relative">
         {/* Éléments décoratifs de fond */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl"></div>
