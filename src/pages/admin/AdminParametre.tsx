@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import LoadingComponents from '../../components/LoadingComponents';
+import { toast } from 'react-toastify';
 
 type NotificationSettings = {
   id: number;
@@ -30,13 +31,13 @@ export default function AdminParametre() {
         .single();
 
       if (error) {
-        console.error('Erreur lors du chargement des paramètres:', error);
+       // console.error('Erreur lors du chargement des paramètres:', error);
         return;
       }
 
       setSettings(data);
     } catch (error) {
-      console.error('Erreur:', error);
+      //console.error('Erreur:', error);
     } finally {
       setLoading(false);
     }
@@ -63,11 +64,11 @@ export default function AdminParametre() {
         throw error;
       }
 
-      setMessage('Paramètres mis à jour avec succès!');
+      toast.success('Paramètres mis à jour avec succès!');
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       console.error('Erreur lors de la mise à jour:', error);
-      setMessage('Erreur lors de la mise à jour');
+      toast.error('Erreur lors de la mise à jour');
     } finally {
       setSaving(false);
     }
