@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 const QuickReservationForm: React.FC = () => {
   const [roomTypes, setRoomTypes] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [adminEmail, setAdminEmail] = useState<string>('');
   const [form, setForm] = useState({
     name: '',
     contact: '',
@@ -24,6 +25,7 @@ const QuickReservationForm: React.FC = () => {
       }
     };
     loadRoomTypes();
+    fetchAdminEmail();
   }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -47,20 +49,42 @@ const QuickReservationForm: React.FC = () => {
         toast.warning("Impossible d'enregistrer votre demande pour le moment. Veuillez nous contacter par téléphone ou email.");
       } else {
         toast.success('Merci, votre demande a bien été envoyée. Notre équipe vous contactera rapidement.');
-        const formData = {
-          to: "fenoandriams@gmail.com",
-          name: form.name || "-",
-          email: "noUserEmailProdie@r.r",
-          subject: `Nouvelle réservation`,
-          message: `Nouvelle réservation rapide pour ${form.roomType || "-"}`,
+        if (adminEmail) {
+          const formData = {
+            to: adminEmail,
+            name: form.name || "-",
+            email: "noUserEmailProdie@r.r",
+            subject: `Nouvelle réservation`,
+            message: `Nouvelle réservation rapide pour ${form.roomType || "-"}`,
+          };
+          //sending email notification admin
+          await sendMessage(formData, (loading) => console.log("Loading:", loading));
+        
         };
-        //sending email notification admin
-        const result = await sendMessage(formData, (loading) => console.log("Loading:", loading));
-        console.log(result);
         setForm({ name: '', contact: '', roomType: '', people: 1, extraService: '' });
       }
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const fetchAdminEmail = async () => {
+    const { data, error } = await supabase
+      .from('email_notif')
+      .select('*')
+      .eq('notify_reservation', true)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    const first = data?.[0];
+
+    if (error) {
+      console.error('Error fetching admin email:', error);
+      return;
+    }
+
+    if (data) {
+      setAdminEmail(first.email);
     }
   };
 
