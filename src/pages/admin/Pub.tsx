@@ -174,10 +174,10 @@ export default function AdminPub() {
             <div className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
                 <div className="md:col-span-2">
-                  <input type="file" accept="image/*,video/*" onChange={(e) => {
+                  <input type="file"  accept="image/*,video/*" onChange={(e) => {
                     const f = e.target.files?.[0];
                     if (f) uploadMedia(f);
-                  }} disabled={uploading} className="block w-full text-sm" />
+                  }} disabled={uploading} className="block w-full bg-gray-100 text-accent border-2 border-accent rounded py-2 hover:bg-white cursor-pointer" />
                 </div>
                 <div>
                   <select className="border border-gray-300 px-3 py-2 rounded w-full" value={mediaType} onChange={(e) => setMediaType(e.target.value as any)}>

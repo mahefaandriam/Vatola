@@ -159,7 +159,7 @@ const Rooms: React.FC = () => {
     }
     return (
         <>        
-            <div className='pl-5'>
+            <div className='pl-5 mb-5'>
                 <h2 className="text-2xl font-bold mb-4">Liste des Chambres</h2>
                 <div>
                     <h2 className='my-2 text-gray-400 font-thin text-sm'>Ajouter une chambre &rsaquo;</h2>
