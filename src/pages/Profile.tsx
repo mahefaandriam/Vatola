@@ -81,7 +81,7 @@ export default function Profile() {
 
     const { error } = await supabase
       .from('bookings')
-      .update({ status: 'Annulée' })
+      .update({ status: 'canceled' })
       .eq('id', bookingId);
 
     if (!error) {
